@@ -1,277 +1,551 @@
+
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabase";
 
 export default function HomePage() {
-  const campañasData = [
-    {
-      nombre: "Jeans Mossa estilizadas",
-      red: "Meta Ads",
-      estado: "Activa",
-      mensajes: 405,
-      costoMensaje: "$ 234,10",
-      gastado: "$ 94.810,58",
-      alcance: "143.969",
-    },
-    {
-      nombre: "Jeans Elastizado Especiales",
-      red: "Meta Ads",
-      estado: "Activa",
-      mensajes: 90,
-      costoMensaje: "$ 170,98",
-      gastado: "$ 15.388,01",
-      alcance: "15.497",
-    },
-    {
-      nombre: "Short Pollera Bengalina",
-      red: "Meta Ads",
-      estado: "Activa",
-      mensajes: 91,
-      costoMensaje: "$ 164,16",
-      gastado: "$ 14.939,00",
-      alcance: "19.615",
-    },
-    {
-      nombre: "Jeans Elastizadas con Botones",
-      red: "Meta Ads",
-      estado: "Activa",
-      mensajes: 28,
-      costoMensaje: "$ 118,96",
-      gastado: "$ 3.330,84",
-      alcance: "4.278",
-    },
-    {
-      nombre: "Jeans Faja Elastizadas",
-      red: "Meta Ads",
-      estado: "Activa",
-      mensajes: 23,
-      costoMensaje: "$ 657,11",
-      gastado: "$ 15.113,57",
-      alcance: "17.947",
-    },
-  ];
+  const router = useRouter();
+
+  const [loading, setLoading] = useState(true);
+  const [usuario, setUsuario] = useState<string | null>(null);
+
+  useEffect(() => {
+    cargarUsuario();
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        setUsuario(
+          session.user.user_metadata?.nombre ||
+            session.user.email ||
+            "Usuario"
+        );
+      } else {
+        setUsuario(null);
+      }
+
+      setLoading(false);
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
+
+  async function cargarUsuario() {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (user) {
+      setUsuario(
+        user.user_metadata?.nombre ||
+          user.email ||
+          "Usuario"
+      );
+    } else {
+      setUsuario(null);
+    }
+
+    setLoading(false);
+  }
+
+  async function cerrarSesion() {
+    await supabase.auth.signOut();
+    setUsuario(null);
+    router.refresh();
+  }
 
   return (
-    <div className="flex min-h-screen bg-[#f5f6f8] text-[#1c1e21]">
-      {/* BARRA LATERAL (SIDEBAR) */}
-      <aside className="w-64 border-r border-[#e4e6eb] bg-white p-5 flex flex-col justify-between hidden md:flex">
-        <div>
-          <div className="mb-8">
-            <h1 className="text-xl font-black tracking-tight text-[#1877f2]">
-              MÍA ADS <span className="text-xs font-normal text-gray-500 block">Manager</span>
-            </h1>
-          </div>
+    <div className="min-h-screen bg-[#f0f2f5] text-[#1c1e21] font-sans">
 
-          <nav className="space-y-1 font-medium text-sm">
-            <Link href="/" className="flex items-center gap-3 rounded-xl bg-[#e7f3ff] px-3 py-2.5 text-[#1877f2] font-semibold">
-              <span>⌂</span> Inicio
-            </Link>
-            <Link href="/campanas" className="flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-[#f0f2f5] text-gray-700">
-              <span>▣</span> Campañas
-            </Link>
-            <Link href="/anuncios" className="flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-[#f0f2f5] text-gray-700">
-              <span>◈</span> Anuncios
-            </Link>
-            <Link href="/productos" className="flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-[#f0f2f5] text-gray-700">
-              <span>◇</span> Productos
-            </Link>
-            <Link href="/creativos" className="flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-[#f0f2f5] text-gray-700">
-              <span>✦</span> Creativos
-            </Link>
-            <Link href="/analitica" className="flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-[#f0f2f5] text-gray-700">
-              <span>▥</span> Analítica
-            </Link>
-            <Link href="/automatizaciones" className="flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-[#f0f2f5] text-gray-700">
-              <span>⚙</span> Automatizaciones
-            </Link>
-            <Link href="/alertas" className="flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-[#f0f2f5] text-gray-700">
-              <span>!</span> Alertas
-            </Link>
-            <Link href="/configuracion" className="flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-[#f0f2f5] text-gray-700">
-              <span>⚙</span> Configuración
-            </Link>
-          </nav>
-        </div>
+      {/* HEADER */}
+      <header className="sticky top-0 z-50 border-b border-[#e4e6eb] bg-white shadow-sm">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3.5">
 
-        {/* CUENTA / ESTADO */}
-        <div className="rounded-2xl border border-[#e4e6eb] bg-[#f8f9fa] p-3.5">
-          <span className="text-[10px] font-bold uppercase text-gray-400 tracking-wider">Cuenta</span>
-          <p className="text-sm font-bold text-gray-800">Mía Sofía Moda</p>
-          <div className="mt-1 flex items-center gap-1.5 text-xs font-semibold text-emerald-600">
-            <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            ● Conectada
-          </div>
-        </div>
-      </aside>
+          {/* LOGO */}
+          <Link href="/" className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#1877f2] text-xl font-black text-white">
+              M
+            </div>
 
-      {/* CONTENIDO PRINCIPAL */}
-      <main className="flex-1 p-6 lg:p-10">
-        <div className="mx-auto max-w-7xl">
-          {/* BARRA SUPERIOR / SALUDO */}
-          <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-[#1877f2]">
-                Panel principal
+              <span className="block text-base font-black leading-none tracking-tight text-[#1877f2]">
+                MÍA ADS
               </span>
-              <h1 className="text-2xl font-bold">Inicio</h1>
-            </div>
 
-            <div className="flex items-center gap-3">
-              <span className="rounded-xl border border-[#ccd0d5] bg-white px-3.5 py-1.5 text-xs font-semibold text-gray-600">
-                Últimos 30 días
+              <span className="text-[10px] font-bold uppercase tracking-wider text-[#65676b]">
+                Manager
               </span>
-              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white border border-[#ccd0d5] text-sm shadow-sm">
-                🔔
-              </div>
-              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#1877f2] font-bold text-white text-xs">
-                EM
-              </div>
             </div>
+          </Link>
+
+          {/* ACCESO */}
+          {!loading && (
+            <div className="flex items-center gap-2">
+
+              {usuario ? (
+                <>
+                  <div className="hidden rounded-xl border border-[#e4e6eb] bg-white px-4 py-2 text-right sm:block">
+                    <div className="text-[10px] font-bold uppercase tracking-wider text-[#65676b]">
+                      Sesión iniciada
+                    </div>
+
+                    <div className="max-w-[220px] truncate text-xs font-bold text-[#1c1e21]">
+                      {usuario}
+                    </div>
+                  </div>
+
+                  <Link
+                    href="/dashboard"
+                    className="rounded-xl bg-[#1877f2] px-4 py-2 text-xs font-bold text-white transition hover:bg-[#166fe5]"
+                  >
+                    Ir al sistema
+                  </Link>
+
+                  <button
+                    type="button"
+                    onClick={cerrarSesion}
+                    className="rounded-xl border border-[#ccd0d5] bg-white px-4 py-2 text-xs font-bold text-[#1c1e21] transition hover:bg-[#f7f8fa]"
+                  >
+                    Cerrar sesión
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    href="/login"
+                    className="rounded-xl border border-[#ccd0d5] bg-white px-4 py-2 text-xs font-bold text-[#1c1e21] transition hover:bg-[#f7f8fa]"
+                  >
+                    Ingresar
+                  </Link>
+
+                  <Link
+                    href="/registro"
+                    className="rounded-xl bg-[#1877f2] px-4 py-2 text-xs font-bold text-white transition hover:bg-[#166fe5]"
+                  >
+                    Registrarse gratis
+                  </Link>
+                </>
+              )}
+
+            </div>
+          )}
+        </div>
+      </header>
+
+      {/* CONTENIDO */}
+      <main className="mx-auto max-w-7xl px-6 py-10 lg:py-14">
+
+        {/* HERO */}
+        <section className="mx-auto max-w-5xl text-center">
+
+          <div className="inline-flex items-center gap-2 rounded-full border border-[#1877f2]/20 bg-[#e7f3ff] px-4 py-2 text-xs font-bold text-[#1877f2]">
+            <span className="h-2 w-2 rounded-full bg-[#1877f2]" />
+            PLATAFORMA DE PUBLICIDAD
           </div>
 
-          {/* TARJETA RESUMEN & BOTÓN */}
-          <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between rounded-2xl border border-[#e4e6eb] bg-white p-6 shadow-sm">
-            <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-gray-400">
-                Resumen publicitario
-              </span>
-              <h2 className="text-xl font-bold">Hola, Elias</h2>
-              <p className="text-sm text-gray-500">Acá tenés el rendimiento de tus campañas.</p>
-            </div>
+          <h1 className="mt-6 text-4xl font-black leading-tight tracking-tight text-[#1c1e21] sm:text-6xl">
+            Creá, organizá y gestioná
+            <br />
+            tus anuncios desde
+            <span className="text-[#1877f2]"> un solo lugar.</span>
+          </h1>
+
+          <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-[#65676b] sm:text-base">
+            MÍA ADS MANAGER centraliza tus productos, creativos,
+            campañas y rendimiento para que puedas trabajar tu
+            publicidad de forma más rápida y organizada.
+          </p>
+
+          <div className="mt-7 flex flex-wrap justify-center gap-3">
+
             <Link
-              href="/campanas"
-              className="inline-flex items-center justify-center rounded-xl bg-[#1877f2] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#166fe5]"
+              href={usuario ? "/dashboard" : "/registro"}
+              className="rounded-xl bg-[#1877f2] px-7 py-3.5 text-xs font-bold text-white shadow-md transition hover:bg-[#166fe5]"
             >
-              + Crear campaña
+              {usuario ? "Ir al panel" : "Comenzar gratis"}
             </Link>
+
+            <Link
+              href="/productos"
+              className="rounded-xl border border-[#ccd0d5] bg-white px-7 py-3.5 text-xs font-bold text-[#1c1e21] shadow-sm transition hover:bg-[#f7f8fa]"
+            >
+              Ver productos
+            </Link>
+
           </div>
+        </section>
 
-          {/* TARJETAS DE MÉTRICAS */}
-          <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <div className="rounded-2xl border border-[#e4e6eb] bg-white p-5 shadow-sm">
-              <div className="flex items-center justify-between text-xs font-semibold text-gray-500">
-                <span>Inversión</span>
-                <span>↗</span>
-              </div>
-              <p className="mt-2 text-2xl font-black text-gray-900">$ 143.582,00</p>
-              <span className="text-xs text-gray-400">Total gastado</span>
-            </div>
+        {/* IA DESTACADA */}
+        <section className="relative mt-14 overflow-hidden rounded-3xl border border-[#1877f2]/20 bg-white shadow-md">
 
-            <div className="rounded-2xl border border-[#e4e6eb] bg-white p-5 shadow-sm">
-              <div className="flex items-center justify-between text-xs font-semibold text-gray-500">
-                <span>Conversaciones</span>
-                <span>◉</span>
-              </div>
-              <p className="mt-2 text-2xl font-black text-gray-900">637</p>
-              <span className="text-xs text-gray-400">$ 225,40 promedio</span>
-            </div>
+          <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[#1877f2]/10 blur-3xl" />
+          <div className="absolute -bottom-32 -left-20 h-72 w-72 rounded-full bg-[#1877f2]/5 blur-3xl" />
 
-            <div className="rounded-2xl border border-[#e4e6eb] bg-white p-5 shadow-sm">
-              <div className="flex items-center justify-between text-xs font-semibold text-gray-500">
-                <span>Impresiones</span>
-                <span>◌</span>
-              </div>
-              <p className="mt-2 text-2xl font-black text-gray-900">386.713</p>
-              <span className="text-xs text-gray-400">Visualizaciones</span>
-            </div>
+          <div className="relative grid gap-8 p-7 md:grid-cols-[1.1fr_0.9fr] md:p-10 lg:p-14">
 
-            <div className="rounded-2xl border border-[#e4e6eb] bg-white p-5 shadow-sm">
-              <div className="flex items-center justify-between text-xs font-semibold text-gray-500">
-                <span>Alcance</span>
-                <span>◎</span>
-              </div>
-              <p className="mt-2 text-2xl font-black text-gray-900">201.306</p>
-              <span className="text-xs text-gray-400">Personas alcanzadas</span>
-            </div>
-          </div>
-
-          {/* SECCIÓN RENDIMIENTO */}
-          <div className="mb-8 rounded-2xl border border-[#e4e6eb] bg-white p-6 shadow-sm">
-            <div className="mb-4 flex items-center justify-between">
-              <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-gray-400">
-                  Rendimiento
-                </span>
-                <h3 className="text-base font-bold">Actividad de tus campañas</h3>
-              </div>
-              <div className="flex gap-4 text-xs font-semibold">
-                <span className="text-[#1877f2]">Inversión</span>
-                <span className="text-gray-400">Mensajes</span>
-              </div>
-            </div>
-            
-            {/* GRÁFICO SIMULADO */}
-            <div className="h-32 w-full rounded-xl bg-[#f8f9fa] border border-dashed border-[#ccd0d5] flex items-center justify-between px-6 text-xs text-gray-400">
-              <span>Hace 30 días</span>
-              <div className="h-1 flex-1 mx-4 bg-gradient-to-r from-blue-200 via-blue-500 to-[#1877f2] rounded-full"></div>
-              <span>Hoy</span>
-            </div>
-          </div>
-
-          {/* TABLA DE CAMPAÑAS ACTIVAS */}
-          <div className="mb-8 rounded-2xl border border-[#e4e6eb] bg-white p-6 shadow-sm">
-            <div className="mb-4 flex items-center justify-between">
-              <div>
-                <h3 className="text-base font-bold">Campañas activas</h3>
-                <p className="text-xs text-gray-500">Rendimiento de tus campañas actuales</p>
-              </div>
-              <Link href="/campanas" className="text-xs font-bold text-[#1877f2] hover:underline">
-                Ver todas →
-              </Link>
-            </div>
-
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-sm">
-                <thead>
-                  <tr className="border-b border-[#e4e6eb] text-xs text-gray-400 font-semibold uppercase">
-                    <th className="py-3 px-2">Campaña</th>
-                    <th className="py-3 px-2">Estado</th>
-                    <th className="py-3 px-2">Mensajes</th>
-                    <th className="py-3 px-2">Costo / mensaje</th>
-                    <th className="py-3 px-2">Gastado</th>
-                    <th className="py-3 px-2">Alcance</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-[#e4e6eb]">
-                  {campañasData.map((c, i) => (
-                    <tr key={i} className="hover:bg-[#f8f9fa] transition">
-                      <td className="py-3.5 px-2 font-bold">
-                        {c.nombre}
-                        <span className="block text-[11px] font-normal text-gray-400">{c.red}</span>
-                      </td>
-                      <td className="py-3.5 px-2">
-                        <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-semibold text-emerald-700 border border-emerald-200">
-                          ● {c.estado}
-                        </span>
-                      </td>
-                      <td className="py-3.5 px-2 font-semibold">{c.mensajes}</td>
-                      <td className="py-3.5 px-2 text-gray-600">{c.costoMensaje}</td>
-                      <td className="py-3.5 px-2 font-semibold">{c.gastado}</td>
-                      <td className="py-3.5 px-2 text-gray-600">{c.alcance}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          {/* NOTA DATOS DEMOSTRACIÓN */}
-          <div className="rounded-2xl border border-blue-100 bg-blue-50/50 p-4 text-xs text-gray-600 flex items-start gap-3">
-            <span className="text-base text-[#1877f2]">ⓘ</span>
+            {/* TEXTO IA */}
             <div>
-              <p className="font-bold text-gray-800">Datos de demostración</p>
-              <p>
-                Estos números están cargados como ejemplo utilizando campañas de Mía Sofía Moda. En una próxima etapa conectaremos la cuenta de Meta para obtener datos automáticamente.
+
+              <div className="inline-flex items-center gap-2 rounded-full bg-[#e7f3ff] px-3 py-1.5 text-[10px] font-black uppercase tracking-wider text-[#1877f2]">
+                <span>✦</span>
+                MÍA IA
+                <span className="rounded-full bg-[#1877f2] px-2 py-0.5 text-white">
+                  BETA
+                </span>
+              </div>
+
+              <h2 className="mt-5 text-3xl font-black leading-tight tracking-tight text-[#1c1e21] sm:text-4xl">
+                Creá hasta
+                <span className="text-[#1877f2]">
+                  {" "}50 anuncios
+                </span>
+                {" "}en minutos.
+              </h2>
+
+              <p className="mt-4 max-w-xl text-sm leading-7 text-[#65676b]">
+                Subí un producto y dejá que MÍA IA te ayude a crear
+                diferentes títulos, textos y descripciones para tus
+                publicaciones.
               </p>
+
+              <div className="mt-6 grid gap-3 sm:grid-cols-2">
+
+                <div className="rounded-xl border border-[#e4e6eb] bg-[#f7f8fa] p-4">
+                  <div className="text-lg font-black text-[#1877f2]">
+                    50
+                  </div>
+                  <div className="mt-1 text-xs font-bold text-[#1c1e21]">
+                    Variaciones
+                  </div>
+                  <div className="mt-1 text-[10px] text-[#65676b]">
+                    Generación en lote
+                  </div>
+                </div>
+
+                <div className="rounded-xl border border-[#e4e6eb] bg-[#f7f8fa] p-4">
+                  <div className="text-lg font-black text-[#1877f2]">
+                    IA
+                  </div>
+                  <div className="mt-1 text-xs font-bold text-[#1c1e21]">
+                    Copies automáticos
+                  </div>
+                  <div className="mt-1 text-[10px] text-[#65676b]">
+                    Títulos y descripciones
+                  </div>
+                </div>
+
+              </div>
+
+              <div className="mt-7 flex flex-wrap gap-3">
+
+                <Link
+                  href="/lanzador-ia"
+                  className="rounded-xl bg-[#1877f2] px-6 py-3.5 text-xs font-bold text-white shadow-sm transition hover:bg-[#166fe5]"
+                >
+                  Probar MÍA IA
+                </Link>
+
+                {!usuario && (
+                  <Link
+                    href="/registro"
+                    className="rounded-xl border border-[#ccd0d5] bg-white px-6 py-3.5 text-xs font-bold text-[#1c1e21] transition hover:bg-[#f7f8fa]"
+                  >
+                    Crear cuenta gratis
+                  </Link>
+                )}
+
+              </div>
+
+              <p className="mt-3 text-[10px] text-[#8a8d91]">
+                Prueba limitada. Se solicitará registro para continuar.
+              </p>
+
             </div>
+
+            {/* PREVISUALIZACIÓN */}
+            <div className="flex items-center justify-center">
+
+              <div className="w-full max-w-md rounded-2xl border border-[#d8dadf] bg-[#f7f8fa] p-4 shadow-sm">
+
+                <div className="mb-4 flex items-center justify-between">
+                  <div>
+                    <div className="text-[10px] font-bold uppercase tracking-wider text-[#65676b]">
+                      Generador IA
+                    </div>
+
+                    <div className="mt-1 text-sm font-bold text-[#1c1e21]">
+                      Anuncios generados
+                    </div>
+                  </div>
+
+                  <div className="rounded-full bg-[#e7f3ff] px-3 py-1 text-[10px] font-bold text-[#1877f2]">
+                    50 anuncios
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+
+                  <PreviewAd
+                    number="01"
+                    title="Nuevo modelo disponible"
+                  />
+
+                  <PreviewAd
+                    number="02"
+                    title="Descubrí tu próximo modelo"
+                  />
+
+                  <PreviewAd
+                    number="03"
+                    title="Una opción pensada para vos"
+                  />
+
+                  <div className="rounded-xl border border-dashed border-[#ccd0d5] bg-white p-4 text-center">
+                    <div className="text-xs font-bold text-[#1877f2]">
+                      + 47 variaciones
+                    </div>
+
+                    <div className="mt-1 text-[10px] text-[#65676b]">
+                      listas para revisar
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+        </section>
+
+        {/* CARACTERÍSTICAS */}
+        <section className="mt-12">
+
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
+
+            <Feature
+              title="Control de Stock"
+            />
+
+            <Feature
+              title="Banco de Creativos"
+            />
+
+            <Feature
+              title="Generación IA"
+            />
+
+            <Feature
+              title="Campañas Meta Ads"
+            />
+
+            <Feature
+              title="Analítica"
+            />
+
           </div>
 
-          {/* PIE DE PÁGINA */}
-          <footer className="mt-8 text-center text-xs text-gray-400">
-            MÍA ADS MANAGER · Panel de publicidad
-          </footer>
-        </div>
+        </section>
+
+        {/* SISTEMA */}
+        <section className="mt-20">
+
+          <div className="mb-9 text-center">
+
+            <div className="text-[10px] font-bold uppercase tracking-wider text-[#1877f2]">
+              Plataforma
+            </div>
+
+            <h2 className="mt-2 text-2xl font-black text-[#1c1e21]">
+              Todo tu sistema publicitario
+            </h2>
+
+            <p className="mt-2 text-xs text-[#65676b]">
+              Organizá tu negocio y tu publicidad desde un solo lugar.
+            </p>
+
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+
+            <SystemCard
+              href="/creativos"
+              icon="✦"
+              title="Banco de Creativos"
+              description="Guardá y organizá fotos y videos de tus productos."
+            />
+
+            <SystemCard
+              href="/productos"
+              icon="◇"
+              title="Catálogo de Productos"
+              description="Gestioná códigos, precios, stock y productos."
+            />
+
+            <SystemCard
+              href="/campanas"
+              icon="▣"
+              title="Campañas Publicitarias"
+              description="Administrá tus campañas y anuncios."
+            />
+
+            <SystemCard
+              href="/analitica"
+              icon="▥"
+              title="Analítica"
+              description="Visualizá el rendimiento de tu publicidad."
+            />
+
+          </div>
+
+        </section>
+
+        {/* LLAMADA FINAL */}
+        <section className="mt-16 rounded-2xl border border-[#d8dadf] bg-white p-8 text-center shadow-sm">
+
+          <div className="mx-auto max-w-2xl">
+
+            <div className="text-2xl font-black text-[#1c1e21]">
+              Probá MÍA ADS
+            </div>
+
+            <p className="mt-2 text-sm leading-6 text-[#65676b]">
+              Organizá tus productos, prepará tus anuncios y
+              descubrí cómo la inteligencia artificial puede
+              ayudarte a acelerar tu trabajo.
+            </p>
+
+            <div className="mt-5">
+
+              <Link
+                href="/lanzador-ia"
+                className="inline-flex rounded-xl bg-[#1877f2] px-7 py-3.5 text-xs font-bold text-white shadow-sm transition hover:bg-[#166fe5]"
+              >
+                Probar MÍA IA
+              </Link>
+
+            </div>
+
+          </div>
+
+        </section>
+
       </main>
+
+      {/* FOOTER */}
+      <footer className="mt-16 border-t border-[#e4e6eb] bg-white py-7 text-center text-xs text-[#65676b]">
+        <p>
+          © 2026 MÍA ADS MANAGER · Plataforma de Gestión Publicitaria
+        </p>
+      </footer>
+
     </div>
   );
 }
+
+/* ---------------------------------------------------------
+   COMPONENTE: PREVISUALIZACIÓN DE ANUNCIO
+--------------------------------------------------------- */
+
+function PreviewAd({
+  number,
+  title,
+}: {
+  number: string;
+  title: string;
+}) {
+  return (
+    <div className="rounded-xl border border-[#e4e6eb] bg-white p-3">
+
+      <div className="flex items-center gap-3">
+
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#e7f3ff] text-[10px] font-bold text-[#1877f2]">
+          {number}
+        </div>
+
+        <div className="min-w-0 flex-1">
+
+          <div className="truncate text-xs font-bold text-[#1c1e21]">
+            {title}
+          </div>
+
+          <div className="mt-1 h-2 w-3/4 rounded-full bg-[#e4e6eb]" />
+
+        </div>
+
+        <div className="rounded-full bg-[#eaf7ed] px-2 py-1 text-[9px] font-bold text-[#31a24c]">
+          Listo
+        </div>
+
+      </div>
+
+    </div>
+  );
+}
+
+/* ---------------------------------------------------------
+   COMPONENTE: CARACTERÍSTICA
+--------------------------------------------------------- */
+
+function Feature({
+  title,
+}: {
+  title: string;
+}) {
+  return (
+    <div className="rounded-xl border border-[#e4e6eb] bg-white p-4 text-center shadow-sm">
+      <div className="text-xs font-bold text-[#1c1e21]">
+        {title}
+      </div>
+    </div>
+  );
+}
+
+/* ---------------------------------------------------------
+   COMPONENTE: TARJETA DEL SISTEMA
+--------------------------------------------------------- */
+
+function SystemCard({
+  href,
+  icon,
+  title,
+  description,
+}: {
+  href: string;
+  icon: string;
+  title: string;
+  description: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className="group rounded-2xl border border-[#e4e6eb] bg-white p-5 shadow-sm transition hover:border-[#1877f2] hover:shadow-md"
+    >
+
+      <div className="mb-3 text-xl font-bold text-[#1877f2]">
+        {icon}
+      </div>
+
+      <h3 className="text-sm font-bold text-[#1c1e21] group-hover:text-[#1877f2]">
+        {title}
+      </h3>
+
+      <p className="mt-2 text-xs leading-5 text-[#65676b]">
+        {description}
+      </p>
+
+      <div className="mt-4 text-xs font-bold text-[#1877f2]">
+        Abrir módulo →
+      </div>
+
+    </Link>
+  );
+}
+
