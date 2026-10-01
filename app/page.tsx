@@ -1,477 +1,277 @@
-
 "use client";
 
-import { useState } from "react";
+import Link from "next/link";
 
-const campaigns = [
-  {
-    name: "Jeans Mossa estilizadas",
-    status: "Activa",
-    messages: 405,
-    cost: 234.1,
-    spent: 94810.58,
-    impressions: 306897,
-    reach: 143969,
-  },
-  {
-    name: "Jeans Elastizado Especiales",
-    status: "Activa",
-    messages: 90,
-    cost: 170.98,
-    spent: 15388.01,
-    impressions: 20238,
-    reach: 15497,
-  },
-  {
-    name: "Short Pollera Bengalina",
-    status: "Activa",
-    messages: 91,
-    cost: 164.16,
-    spent: 14939,
-    impressions: 28593,
-    reach: 19615,
-  },
-  {
-    name: "Jeans Elastizadas con Botones",
-    status: "Activa",
-    messages: 28,
-    cost: 118.96,
-    spent: 3330.84,
-    impressions: 4953,
-    reach: 4278,
-  },
-  {
-    name: "Jeans Faja Elastizadas",
-    status: "Activa",
-    messages: 23,
-    cost: 657.11,
-    spent: 15113.57,
-    impressions: 26032,
-    reach: 17947,
-  },
-];
-
-const menu = [
-  { name: "Inicio", icon: "⌂" },
-  { name: "Campañas", icon: "▣" },
-  { name: "Anuncios", icon: "◈" },
-  { name: "Productos", icon: "◇" },
-  { name: "Creativos", icon: "✦" },
-  { name: "Analítica", icon: "▥" },
-  { name: "Automatizaciones", icon: "⚙" },
-  { name: "Alertas", icon: "!" },
-];
-
-function money(value: number) {
-  return value.toLocaleString("es-AR", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-}
-
-function number(value: number) {
-  return value.toLocaleString("es-AR");
-}
-
-export default function Home() {
-  const [active, setActive] = useState("Inicio");
-  const [mobileMenu, setMobileMenu] = useState(false);
-
-  const totalSpent = campaigns.reduce((sum, campaign) => sum + campaign.spent, 0);
-  const totalMessages = campaigns.reduce(
-    (sum, campaign) => sum + campaign.messages,
-    0
-  );
-  const totalImpressions = campaigns.reduce(
-    (sum, campaign) => sum + campaign.impressions,
-    0
-  );
-  const totalReach = campaigns.reduce(
-    (sum, campaign) => sum + campaign.reach,
-    0
-  );
-
-  const averageCost = totalSpent / totalMessages;
+export default function HomePage() {
+  const campañasData = [
+    {
+      nombre: "Jeans Mossa estilizadas",
+      red: "Meta Ads",
+      estado: "Activa",
+      mensajes: 405,
+      costoMensaje: "$ 234,10",
+      gastado: "$ 94.810,58",
+      alcance: "143.969",
+    },
+    {
+      nombre: "Jeans Elastizado Especiales",
+      red: "Meta Ads",
+      estado: "Activa",
+      mensajes: 90,
+      costoMensaje: "$ 170,98",
+      gastado: "$ 15.388,01",
+      alcance: "15.497",
+    },
+    {
+      nombre: "Short Pollera Bengalina",
+      red: "Meta Ads",
+      estado: "Activa",
+      mensajes: 91,
+      costoMensaje: "$ 164,16",
+      gastado: "$ 14.939,00",
+      alcance: "19.615",
+    },
+    {
+      nombre: "Jeans Elastizadas con Botones",
+      red: "Meta Ads",
+      estado: "Activa",
+      mensajes: 28,
+      costoMensaje: "$ 118,96",
+      gastado: "$ 3.330,84",
+      alcance: "4.278",
+    },
+    {
+      nombre: "Jeans Faja Elastizadas",
+      red: "Meta Ads",
+      estado: "Activa",
+      mensajes: 23,
+      costoMensaje: "$ 657,11",
+      gastado: "$ 15.113,57",
+      alcance: "17.947",
+    },
+  ];
 
   return (
-    <main className="min-h-screen bg-[#090b0f] text-white">
-      <div className="flex min-h-screen">
-        {/* SIDEBAR */}
-        <aside
-          className={`fixed inset-y-0 left-0 z-50 w-64 border-r border-white/10 bg-[#0d1015] transition-transform duration-300 lg:static lg:translate-x-0 ${
-            mobileMenu ? "translate-x-0" : "-translate-x-full"
-          }`}
-        >
-          <div className="flex h-full flex-col">
-            {/* LOGO */}
-            <div className="flex h-20 items-center border-b border-white/10 px-6">
-              <div>
-                <div className="text-xl font-black tracking-wide">
-                  MÍA <span className="text-[#f0b90b]">ADS</span>
-                </div>
-                <div className="text-[10px] uppercase tracking-[0.25em] text-white/40">
-                  Manager
-                </div>
-              </div>
-            </div>
-
-            {/* MENU */}
-            <nav className="flex-1 space-y-1 p-4">
-              {menu.map((item) => (
-                <button
-                  key={item.name}
-                  onClick={() => {
-                    setActive(item.name);
-                    setMobileMenu(false);
-                  }}
-                  className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm transition ${
-                    active === item.name
-                      ? "bg-[#f0b90b] font-semibold text-black"
-                      : "text-white/60 hover:bg-white/5 hover:text-white"
-                  }`}
-                >
-                  <span className="w-5 text-center text-lg">{item.icon}</span>
-                  {item.name}
-                </button>
-              ))}
-            </nav>
-
-            {/* SETTINGS */}
-            <div className="border-t border-white/10 p-4">
-              <button
-                onClick={() => setActive("Configuración")}
-                className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm text-white/50 hover:bg-white/5 hover:text-white"
-              >
-                <span>⚙</span>
-                Configuración
-              </button>
-
-              <div className="mt-4 rounded-xl bg-white/[0.03] p-4">
-                <div className="text-xs text-white/40">Cuenta</div>
-                <div className="mt-1 truncate text-sm font-medium">
-                  Mía Sofía Moda
-                </div>
-                <div className="mt-1 text-xs text-green-400">
-                  ● Conectada
-                </div>
-              </div>
-            </div>
+    <div className="flex min-h-screen bg-[#f5f6f8] text-[#1c1e21]">
+      {/* BARRA LATERAL (SIDEBAR) */}
+      <aside className="w-64 border-r border-[#e4e6eb] bg-white p-5 flex flex-col justify-between hidden md:flex">
+        <div>
+          <div className="mb-8">
+            <h1 className="text-xl font-black tracking-tight text-[#1877f2]">
+              MÍA ADS <span className="text-xs font-normal text-gray-500 block">Manager</span>
+            </h1>
           </div>
-        </aside>
 
-        {/* OVERLAY MOBILE */}
-        {mobileMenu && (
-          <button
-            aria-label="Cerrar menú"
-            onClick={() => setMobileMenu(false)}
-            className="fixed inset-0 z-40 bg-black/60 lg:hidden"
-          />
-        )}
+          <nav className="space-y-1 font-medium text-sm">
+            <Link href="/" className="flex items-center gap-3 rounded-xl bg-[#e7f3ff] px-3 py-2.5 text-[#1877f2] font-semibold">
+              <span>⌂</span> Inicio
+            </Link>
+            <Link href="/campanas" className="flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-[#f0f2f5] text-gray-700">
+              <span>▣</span> Campañas
+            </Link>
+            <Link href="/anuncios" className="flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-[#f0f2f5] text-gray-700">
+              <span>◈</span> Anuncios
+            </Link>
+            <Link href="/productos" className="flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-[#f0f2f5] text-gray-700">
+              <span>◇</span> Productos
+            </Link>
+            <Link href="/creativos" className="flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-[#f0f2f5] text-gray-700">
+              <span>✦</span> Creativos
+            </Link>
+            <Link href="/analitica" className="flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-[#f0f2f5] text-gray-700">
+              <span>▥</span> Analítica
+            </Link>
+            <Link href="/automatizaciones" className="flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-[#f0f2f5] text-gray-700">
+              <span>⚙</span> Automatizaciones
+            </Link>
+            <Link href="/alertas" className="flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-[#f0f2f5] text-gray-700">
+              <span>!</span> Alertas
+            </Link>
+            <Link href="/configuracion" className="flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-[#f0f2f5] text-gray-700">
+              <span>⚙</span> Configuración
+            </Link>
+          </nav>
+        </div>
 
-        {/* CONTENT */}
-        <section className="min-w-0 flex-1">
-          {/* TOPBAR */}
-          <header className="flex h-20 items-center justify-between border-b border-white/10 bg-[#090b0f]/95 px-4 backdrop-blur md:px-8">
-            <div className="flex items-center gap-4">
-              <button
-                onClick={() => setMobileMenu(true)}
-                className="rounded-lg border border-white/10 px-3 py-2 text-white/70 lg:hidden"
-              >
-                ☰
-              </button>
+        {/* CUENTA / ESTADO */}
+        <div className="rounded-2xl border border-[#e4e6eb] bg-[#f8f9fa] p-3.5">
+          <span className="text-[10px] font-bold uppercase text-gray-400 tracking-wider">Cuenta</span>
+          <p className="text-sm font-bold text-gray-800">Mía Sofía Moda</p>
+          <div className="mt-1 flex items-center gap-1.5 text-xs font-semibold text-emerald-600">
+            <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            ● Conectada
+          </div>
+        </div>
+      </aside>
 
-              <div>
-                <div className="text-sm text-white/40">Panel principal</div>
-                <h1 className="text-xl font-bold">{active}</h1>
-              </div>
+      {/* CONTENIDO PRINCIPAL */}
+      <main className="flex-1 p-6 lg:p-10">
+        <div className="mx-auto max-w-7xl">
+          {/* BARRA SUPERIOR / SALUDO */}
+          <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <span className="text-xs font-bold uppercase tracking-wider text-[#1877f2]">
+                Panel principal
+              </span>
+              <h1 className="text-2xl font-bold">Inicio</h1>
             </div>
 
             <div className="flex items-center gap-3">
-              <button className="hidden rounded-xl border border-white/10 px-4 py-2 text-sm text-white/60 transition hover:bg-white/5 md:block">
+              <span className="rounded-xl border border-[#ccd0d5] bg-white px-3.5 py-1.5 text-xs font-semibold text-gray-600">
                 Últimos 30 días
-              </button>
-
-              <button className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5">
+              </span>
+              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white border border-[#ccd0d5] text-sm shadow-sm">
                 🔔
-              </button>
-
-              <div className="hidden h-10 w-10 items-center justify-center rounded-full bg-[#f0b90b] font-bold text-black sm:flex">
+              </div>
+              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#1877f2] font-bold text-white text-xs">
                 EM
               </div>
             </div>
-          </header>
-
-          {/* DASHBOARD */}
-          <div className="p-4 md:p-8">
-            {/* TITLE */}
-            <div className="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
-              <div>
-                <p className="mb-2 text-sm text-[#f0b90b]">
-                  Resumen publicitario
-                </p>
-                <h2 className="text-2xl font-bold md:text-3xl">
-                  Hola, Elias
-                </h2>
-                <p className="mt-2 text-sm text-white/40">
-                  Acá tenés el rendimiento de tus campañas.
-                </p>
-              </div>
-
-              <button className="w-full rounded-xl bg-[#f0b90b] px-5 py-3 font-bold text-black transition hover:bg-[#ffc928] md:w-auto">
-                + Crear campaña
-              </button>
-            </div>
-
-            {/* METRICS */}
-            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-              <Metric
-                title="Inversión"
-                value={`$ ${money(totalSpent)}`}
-                detail="Total gastado"
-                icon="↗"
-              />
-
-              <Metric
-                title="Conversaciones"
-                value={number(totalMessages)}
-                detail={`$ ${money(averageCost)} promedio`}
-                icon="◉"
-              />
-
-              <Metric
-                title="Impresiones"
-                value={number(totalImpressions)}
-                detail="Visualizaciones"
-                icon="◌"
-              />
-
-              <Metric
-                title="Alcance"
-                value={number(totalReach)}
-                detail="Personas alcanzadas"
-                icon="◎"
-              />
-            </div>
-
-            {/* CHART */}
-            <div className="mt-6 rounded-2xl border border-white/10 bg-[#0d1015] p-5 md:p-6">
-              <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
-                <div>
-                  <h3 className="font-bold">Rendimiento</h3>
-                  <p className="mt-1 text-xs text-white/40">
-                    Actividad de tus campañas
-                  </p>
-                </div>
-
-                <div className="flex gap-2">
-                  <span className="rounded-lg bg-[#f0b90b]/10 px-3 py-1 text-xs text-[#f0b90b]">
-                    Inversión
-                  </span>
-                  <span className="rounded-lg bg-white/5 px-3 py-1 text-xs text-white/40">
-                    Mensajes
-                  </span>
-                </div>
-              </div>
-
-              <div className="mt-8 flex h-48 items-end gap-2 overflow-hidden">
-                {[38, 52, 43, 67, 58, 76, 61, 83, 72, 91, 78, 96].map(
-                  (height, index) => (
-                    <div
-                      key={index}
-                      className="flex h-full flex-1 items-end"
-                    >
-                      <div
-                        className="w-full rounded-t-md bg-[#f0b90b]/80 transition hover:bg-[#f0b90b]"
-                        style={{ height: `${height}%` }}
-                      />
-                    </div>
-                  )
-                )}
-              </div>
-
-              <div className="mt-3 flex justify-between text-[10px] text-white/25">
-                <span>Hace 30 días</span>
-                <span>Hoy</span>
-              </div>
-            </div>
-
-            {/* CAMPAIGNS */}
-            <div className="mt-6 rounded-2xl border border-white/10 bg-[#0d1015]">
-              <div className="flex flex-col justify-between gap-3 border-b border-white/10 p-5 md:flex-row md:items-center md:p-6">
-                <div>
-                  <h3 className="font-bold">Campañas activas</h3>
-                  <p className="mt-1 text-xs text-white/40">
-                    Rendimiento de tus campañas actuales
-                  </p>
-                </div>
-
-                <button className="text-left text-sm text-[#f0b90b] hover:underline md:text-right">
-                  Ver todas →
-                </button>
-              </div>
-
-              {/* DESKTOP TABLE */}
-              <div className="hidden overflow-x-auto md:block">
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b border-white/5 text-left text-xs text-white/30">
-                      <th className="px-6 py-4 font-medium">Campaña</th>
-                      <th className="px-6 py-4 font-medium">Estado</th>
-                      <th className="px-6 py-4 font-medium">Mensajes</th>
-                      <th className="px-6 py-4 font-medium">Costo / mensaje</th>
-                      <th className="px-6 py-4 font-medium">Gastado</th>
-                      <th className="px-6 py-4 font-medium">Alcance</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    {campaigns.map((campaign) => (
-                      <tr
-                        key={campaign.name}
-                        className="border-b border-white/5 transition hover:bg-white/[0.025]"
-                      >
-                        <td className="px-6 py-5">
-                          <div className="font-medium">{campaign.name}</div>
-                          <div className="mt-1 text-xs text-white/30">
-                            Meta Ads
-                          </div>
-                        </td>
-
-                        <td className="px-6 py-5">
-                          <span className="rounded-full bg-green-400/10 px-3 py-1 text-xs text-green-400">
-                            ● {campaign.status}
-                          </span>
-                        </td>
-
-                        <td className="px-6 py-5 font-semibold">
-                          {number(campaign.messages)}
-                        </td>
-
-                        <td className="px-6 py-5">
-                          $ {money(campaign.cost)}
-                        </td>
-
-                        <td className="px-6 py-5">
-                          $ {money(campaign.spent)}
-                        </td>
-
-                        <td className="px-6 py-5">
-                          {number(campaign.reach)}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-
-              {/* MOBILE CARDS */}
-              <div className="space-y-3 p-4 md:hidden">
-                {campaigns.map((campaign) => (
-                  <div
-                    key={campaign.name}
-                    className="rounded-xl border border-white/10 bg-white/[0.02] p-4"
-                  >
-                    <div className="flex items-start justify-between gap-3">
-                      <div>
-                        <div className="font-medium">{campaign.name}</div>
-                        <div className="mt-1 text-xs text-white/30">
-                          Meta Ads
-                        </div>
-                      </div>
-
-                      <span className="whitespace-nowrap rounded-full bg-green-400/10 px-2 py-1 text-[10px] text-green-400">
-                        ● Activa
-                      </span>
-                    </div>
-
-                    <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
-                      <div>
-                        <div className="text-xs text-white/30">Mensajes</div>
-                        <div className="mt-1 font-semibold">
-                          {number(campaign.messages)}
-                        </div>
-                      </div>
-
-                      <div>
-                        <div className="text-xs text-white/30">
-                          Costo / mensaje
-                        </div>
-                        <div className="mt-1 font-semibold">
-                          $ {money(campaign.cost)}
-                        </div>
-                      </div>
-
-                      <div>
-                        <div className="text-xs text-white/30">Gastado</div>
-                        <div className="mt-1 font-semibold">
-                          $ {money(campaign.spent)}
-                        </div>
-                      </div>
-
-                      <div>
-                        <div className="text-xs text-white/30">Alcance</div>
-                        <div className="mt-1 font-semibold">
-                          {number(campaign.reach)}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* DEMO NOTICE */}
-            <div className="mt-6 rounded-2xl border border-[#f0b90b]/20 bg-[#f0b90b]/5 p-5">
-              <div className="flex gap-3">
-                <div className="text-xl">ⓘ</div>
-                <div>
-                  <div className="font-semibold text-[#f0b90b]">
-                    Datos de demostración
-                  </div>
-                  <p className="mt-1 text-sm leading-6 text-white/50">
-                    Estos números están cargados como ejemplo utilizando
-                    campañas de Mía Sofía Moda. En una próxima etapa
-                    conectaremos la cuenta de Meta para obtener datos
-                    automáticamente.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <footer className="py-8 text-center text-xs text-white/20">
-              MÍA ADS MANAGER · Panel de publicidad
-            </footer>
           </div>
-        </section>
-      </div>
-    </main>
-  );
-}
 
-function Metric({
-  title,
-  value,
-  detail,
-  icon,
-}: {
-  title: string;
-  value: string;
-  detail: string;
-  icon: string;
-}) {
-  return (
-    <div className="rounded-2xl border border-white/10 bg-[#0d1015] p-5 transition hover:border-[#f0b90b]/30">
-      <div className="flex items-center justify-between">
-        <span className="text-xs text-white/40">{title}</span>
-        <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#f0b90b]/10 text-[#f0b90b]">
-          {icon}
-        </span>
-      </div>
+          {/* TARJETA RESUMEN & BOTÓN */}
+          <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between rounded-2xl border border-[#e4e6eb] bg-white p-6 shadow-sm">
+            <div>
+              <span className="text-xs font-bold uppercase tracking-wider text-gray-400">
+                Resumen publicitario
+              </span>
+              <h2 className="text-xl font-bold">Hola, Elias</h2>
+              <p className="text-sm text-gray-500">Acá tenés el rendimiento de tus campañas.</p>
+            </div>
+            <Link
+              href="/campanas"
+              className="inline-flex items-center justify-center rounded-xl bg-[#1877f2] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#166fe5]"
+            >
+              + Crear campaña
+            </Link>
+          </div>
 
-      <div className="mt-5 text-2xl font-bold">{value}</div>
+          {/* TARJETAS DE MÉTRICAS */}
+          <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="rounded-2xl border border-[#e4e6eb] bg-white p-5 shadow-sm">
+              <div className="flex items-center justify-between text-xs font-semibold text-gray-500">
+                <span>Inversión</span>
+                <span>↗</span>
+              </div>
+              <p className="mt-2 text-2xl font-black text-gray-900">$ 143.582,00</p>
+              <span className="text-xs text-gray-400">Total gastado</span>
+            </div>
 
-      <div className="mt-2 text-xs text-white/30">{detail}</div>
+            <div className="rounded-2xl border border-[#e4e6eb] bg-white p-5 shadow-sm">
+              <div className="flex items-center justify-between text-xs font-semibold text-gray-500">
+                <span>Conversaciones</span>
+                <span>◉</span>
+              </div>
+              <p className="mt-2 text-2xl font-black text-gray-900">637</p>
+              <span className="text-xs text-gray-400">$ 225,40 promedio</span>
+            </div>
+
+            <div className="rounded-2xl border border-[#e4e6eb] bg-white p-5 shadow-sm">
+              <div className="flex items-center justify-between text-xs font-semibold text-gray-500">
+                <span>Impresiones</span>
+                <span>◌</span>
+              </div>
+              <p className="mt-2 text-2xl font-black text-gray-900">386.713</p>
+              <span className="text-xs text-gray-400">Visualizaciones</span>
+            </div>
+
+            <div className="rounded-2xl border border-[#e4e6eb] bg-white p-5 shadow-sm">
+              <div className="flex items-center justify-between text-xs font-semibold text-gray-500">
+                <span>Alcance</span>
+                <span>◎</span>
+              </div>
+              <p className="mt-2 text-2xl font-black text-gray-900">201.306</p>
+              <span className="text-xs text-gray-400">Personas alcanzadas</span>
+            </div>
+          </div>
+
+          {/* SECCIÓN RENDIMIENTO */}
+          <div className="mb-8 rounded-2xl border border-[#e4e6eb] bg-white p-6 shadow-sm">
+            <div className="mb-4 flex items-center justify-between">
+              <div>
+                <span className="text-xs font-bold uppercase tracking-wider text-gray-400">
+                  Rendimiento
+                </span>
+                <h3 className="text-base font-bold">Actividad de tus campañas</h3>
+              </div>
+              <div className="flex gap-4 text-xs font-semibold">
+                <span className="text-[#1877f2]">Inversión</span>
+                <span className="text-gray-400">Mensajes</span>
+              </div>
+            </div>
+            
+            {/* GRÁFICO SIMULADO */}
+            <div className="h-32 w-full rounded-xl bg-[#f8f9fa] border border-dashed border-[#ccd0d5] flex items-center justify-between px-6 text-xs text-gray-400">
+              <span>Hace 30 días</span>
+              <div className="h-1 flex-1 mx-4 bg-gradient-to-r from-blue-200 via-blue-500 to-[#1877f2] rounded-full"></div>
+              <span>Hoy</span>
+            </div>
+          </div>
+
+          {/* TABLA DE CAMPAÑAS ACTIVAS */}
+          <div className="mb-8 rounded-2xl border border-[#e4e6eb] bg-white p-6 shadow-sm">
+            <div className="mb-4 flex items-center justify-between">
+              <div>
+                <h3 className="text-base font-bold">Campañas activas</h3>
+                <p className="text-xs text-gray-500">Rendimiento de tus campañas actuales</p>
+              </div>
+              <Link href="/campanas" className="text-xs font-bold text-[#1877f2] hover:underline">
+                Ver todas →
+              </Link>
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-sm">
+                <thead>
+                  <tr className="border-b border-[#e4e6eb] text-xs text-gray-400 font-semibold uppercase">
+                    <th className="py-3 px-2">Campaña</th>
+                    <th className="py-3 px-2">Estado</th>
+                    <th className="py-3 px-2">Mensajes</th>
+                    <th className="py-3 px-2">Costo / mensaje</th>
+                    <th className="py-3 px-2">Gastado</th>
+                    <th className="py-3 px-2">Alcance</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[#e4e6eb]">
+                  {campañasData.map((c, i) => (
+                    <tr key={i} className="hover:bg-[#f8f9fa] transition">
+                      <td className="py-3.5 px-2 font-bold">
+                        {c.nombre}
+                        <span className="block text-[11px] font-normal text-gray-400">{c.red}</span>
+                      </td>
+                      <td className="py-3.5 px-2">
+                        <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-semibold text-emerald-700 border border-emerald-200">
+                          ● {c.estado}
+                        </span>
+                      </td>
+                      <td className="py-3.5 px-2 font-semibold">{c.mensajes}</td>
+                      <td className="py-3.5 px-2 text-gray-600">{c.costoMensaje}</td>
+                      <td className="py-3.5 px-2 font-semibold">{c.gastado}</td>
+                      <td className="py-3.5 px-2 text-gray-600">{c.alcance}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* NOTA DATOS DEMOSTRACIÓN */}
+          <div className="rounded-2xl border border-blue-100 bg-blue-50/50 p-4 text-xs text-gray-600 flex items-start gap-3">
+            <span className="text-base text-[#1877f2]">ⓘ</span>
+            <div>
+              <p className="font-bold text-gray-800">Datos de demostración</p>
+              <p>
+                Estos números están cargados como ejemplo utilizando campañas de Mía Sofía Moda. En una próxima etapa conectaremos la cuenta de Meta para obtener datos automáticamente.
+              </p>
+            </div>
+          </div>
+
+          {/* PIE DE PÁGINA */}
+          <footer className="mt-8 text-center text-xs text-gray-400">
+            MÍA ADS MANAGER · Panel de publicidad
+          </footer>
+        </div>
+      </main>
     </div>
   );
 }
-

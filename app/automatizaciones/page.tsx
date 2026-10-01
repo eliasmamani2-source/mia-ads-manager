@@ -1,719 +1,673 @@
-
 "use client";
 
-import { FormEvent, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabase";
 
-type Automation = {
-  id: number;
-  code: string;
-  name: string;
-  description: string;
-  active: boolean;
-  maxBudget: number | null;
-  dailyBudget: number | null;
-  maxCostPerMessage: number | null;
-  maxMessages: number | null;
-  alertPercentage: number | null;
-  action: string;
+type Business = {
+  id: string;
+  nombre: string;
 };
 
-const initialAutomations: Automation[] = [
+type Automation = {
+  id: string;
+  nombre: string;
+  descripcion: string;
+  tipo: string;
+  estado: "Activa" | "Pausada" | "Borrador";
+  frecuencia: string;
+  ultima_ejecucion: string | null;
+};
+
+const DEFAULT_AUTOMATIONS: Automation[] = [
   {
-    id: 1,
-    code: "AUTO-001",
-    name: "Control de presupuesto",
-    description: "Controla el gasto de las campañas activas.",
-    active: true,
-    maxBudget: 100000,
-    dailyBudget: null,
-    maxCostPerMessage: null,
-    maxMessages: null,
-    alertPercentage: 80,
-    action: "Pausar campaña",
+    id: "stock-bajo",
+    nombre: "Alerta de stock bajo",
+    descripcion:
+      "Detecta productos con poco stock para evitar que sigan publicándose sin disponibilidad.",
+    tipo: "Productos",
+    estado: "Activa",
+    frecuencia: "Diaria",
+    ultima_ejecucion: null,
+  },
+  {
+    id: "productos-sin-codigo",
+    nombre: "Productos sin código",
+    descripcion:
+      "Identifica productos que todavía no tienen un código asignado.",
+    tipo: "Productos",
+    estado: "Activa",
+    frecuencia: "Diaria",
+    ultima_ejecucion: null,
+  },
+  {
+    id: "campanas-borrador",
+    nombre: "Campañas en borrador",
+    descripcion:
+      "Detecta campañas que todavía no fueron activadas.",
+    tipo: "Campañas",
+    estado: "Activa",
+    frecuencia: "Diaria",
+    ultima_ejecucion: null,
+  },
+  {
+    id: "creativos-pendientes",
+    nombre: "Creativos pendientes",
+    descripcion:
+      "Detecta anuncios que todavía no tienen contenido visual asociado.",
+    tipo: "Creativos",
+    estado: "Activa",
+    frecuencia: "Diaria",
+    ultima_ejecucion: null,
   },
 ];
-
-const menu = [
-  { name: "Inicio", icon: "⌂", href: "/dashboard" },
-  { name: "Campañas", icon: "▣", href: "/campanas" },
-  { name: "Anuncios", icon: "◈", href: "/anuncios" },
-  { name: "Productos", icon: "◇", href: "/productos" },
-  { name: "Creativos", icon: "✦", href: "/creativos" },
-  { name: "Analítica", icon: "▥", href: "/analitica" },
-  {
-    name: "Automatizaciones",
-    icon: "⚙",
-    href: "/automatizaciones",
-  },
-  {
-    name: "Alertas",
-    icon: "!",
-    href: "/alertas",
-  },
-];
-
-function money(value: number | null) {
-  if (value === null) {
-    return "No configurado";
-  }
-
-  return `$ ${value.toLocaleString("es-AR")}`;
-}
-
-function number(value: number | null) {
-  if (value === null) {
-    return "No configurado";
-  }
-
-  return value.toLocaleString("es-AR");
-}
-
-function parseOptionalNumber(value: string) {
-  if (!value.trim()) {
-    return null;
-  }
-
-  const cleanValue = value
-    .replace(/\./g, "")
-    .replace(/,/g, ".")
-    .replace(/[^\d.-]/g, "");
-
-  const parsed = Number(cleanValue);
-
-  if (!Number.isFinite(parsed) || parsed <= 0) {
-    return null;
-  }
-
-  return parsed;
-}
-
-function generateAutomationCode(automations: Automation[]) {
-  const numbers = automations
-    .map((automation) => {
-      const match = automation.code.match(/^AUTO-(\d+)$/);
-
-      if (!match) {
-        return 0;
-      }
-
-      return Number(match[1]);
-    })
-    .filter((value) => Number.isFinite(value));
-
-  const nextNumber =
-    numbers.length > 0 ? Math.max(...numbers) + 1 : 1;
-
-  return `AUTO-${String(nextNumber).padStart(3, "0")}`;
-}
 
 export default function AutomatizacionesPage() {
   const router = useRouter();
 
+  const [business, setBusiness] = useState<Business | null>(null);
   const [automations, setAutomations] =
-    useState<Automation[]>(initialAutomations);
+    useState<Automation[]>(DEFAULT_AUTOMATIONS);
 
-  const [showForm, setShowForm] = useState(false);
-  const [showLimits, setShowLimits] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState("Todas");
 
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
+  useEffect(() => {
+    loadData();
+  }, []);
 
-  const [maxBudget, setMaxBudget] = useState("");
-  const [dailyBudget, setDailyBudget] = useState("");
-  const [maxCostPerMessage, setMaxCostPerMessage] =
-    useState("");
-  const [maxMessages, setMaxMessages] = useState("");
-  const [alertPercentage, setAlertPercentage] =
-    useState("");
+  async function loadData() {
+    try {
+      setLoading(true);
+      setError("");
 
-  const [action, setAction] =
-    useState("Pausar campaña");
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
 
-  function resetForm() {
-    setName("");
-    setDescription("");
-    setMaxBudget("");
-    setDailyBudget("");
-    setMaxCostPerMessage("");
-    setMaxMessages("");
-    setAlertPercentage("");
-    setAction("Pausar campaña");
-    setShowLimits(false);
+      if (!user) {
+        router.replace("/login");
+        return;
+      }
+
+      const { data: businessData, error: businessError } =
+        await supabase
+          .from("businesses")
+          .select("id, nombre")
+          .eq("owner_id", user.id)
+          .maybeSingle();
+
+      if (businessError) {
+        throw businessError;
+      }
+
+      if (!businessData) {
+        setError("No encontramos un negocio asociado a tu cuenta.");
+        return;
+      }
+
+      setBusiness(businessData);
+
+      /*
+       * Las automatizaciones inicialmente funcionan como reglas
+       * internas del administrador. No creamos una tabla nueva
+       * para evitar modificar tu estructura actual de Supabase.
+       */
+
+      setAutomations(DEFAULT_AUTOMATIONS);
+    } catch (err) {
+      console.error(err);
+
+      setError(
+        err instanceof Error
+          ? err.message
+          : "No se pudieron cargar las automatizaciones."
+      );
+    } finally {
+      setLoading(false);
+    }
   }
 
-  function toggleAutomation(id: number) {
+  async function logout() {
+    await supabase.auth.signOut();
+
+    router.replace("/login");
+    router.refresh();
+  }
+
+  function toggleAutomation(id: string) {
     setAutomations((current) =>
       current.map((automation) =>
         automation.id === id
           ? {
               ...automation,
-              active: !automation.active,
+              estado:
+                automation.estado === "Activa"
+                  ? "Pausada"
+                  : "Activa",
             }
           : automation
       )
     );
   }
 
-  function createAutomation(
-    event: FormEvent<HTMLFormElement>
-  ) {
-    event.preventDefault();
+  const activeCount = automations.filter(
+    (automation) => automation.estado === "Activa"
+  ).length;
 
-    if (!name.trim()) {
-      return;
-    }
+  const pausedCount = automations.filter(
+    (automation) => automation.estado === "Pausada"
+  ).length;
 
-    setAutomations((current) => {
-      const newAutomation: Automation = {
-        id: Date.now(),
-        code: generateAutomationCode(current),
-        name: name.trim(),
-        description:
-          description.trim() ||
-          "Automatización personalizada.",
-        active: true,
-        maxBudget: parseOptionalNumber(maxBudget),
-        dailyBudget:
-          parseOptionalNumber(dailyBudget),
-        maxCostPerMessage:
-          parseOptionalNumber(maxCostPerMessage),
-        maxMessages:
-          parseOptionalNumber(maxMessages),
-        alertPercentage:
-          parseOptionalNumber(alertPercentage),
-        action,
-      };
+  const draftCount = automations.filter(
+    (automation) => automation.estado === "Borrador"
+  ).length;
 
-      return [newAutomation, ...current];
+  const filteredAutomations = useMemo(() => {
+    const text = search.trim().toLowerCase();
+
+    return automations.filter((automation) => {
+      const matchesSearch =
+        !text ||
+        automation.nombre.toLowerCase().includes(text) ||
+        automation.descripcion.toLowerCase().includes(text) ||
+        automation.tipo.toLowerCase().includes(text);
+
+      const matchesFilter =
+        filter === "Todas" ||
+        automation.estado === filter;
+
+      return matchesSearch && matchesFilter;
     });
+  }, [automations, search, filter]);
 
-    resetForm();
-    setShowForm(false);
-  }
-
-  function deleteAutomation(id: number) {
-    const confirmed = window.confirm(
-      "¿Querés eliminar esta automatización?"
+  if (loading) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-[#f0f2f5] text-[#1c1e21]">
+        <div className="flex items-center gap-3 text-sm text-[#65676b]">
+          <div className="h-5 w-5 animate-spin rounded-full border-2 border-[#1877f2]/20 border-t-[#1877f2]" />
+          Cargando MÍA ADS...
+        </div>
+      </main>
     );
-
-    if (!confirmed) {
-      return;
-    }
-
-    setAutomations((current) =>
-      current.filter(
-        (automation) => automation.id !== id
-      )
-    );
-  }
-
-  function openNewAutomation() {
-    if (showForm) {
-      resetForm();
-      setShowForm(false);
-      return;
-    }
-
-    resetForm();
-    setShowForm(true);
   }
 
   return (
-    <main className="min-h-screen bg-[#090b0f] text-white">
+    <main className="min-h-screen bg-[#f0f2f5] text-[#1c1e21]">
       <div className="flex min-h-screen">
 
-        {/* SIDEBAR */}
-        <aside className="hidden w-64 flex-col border-r border-white/10 bg-[#0d1015] lg:flex">
-          <div className="flex h-full flex-col">
+        {/* =====================================================
+            SIDEBAR
+        ===================================================== */}
 
-            {/* LOGO */}
-            <div className="flex h-20 items-center border-b border-white/10 px-6">
+        <aside className="hidden w-64 shrink-0 flex-col border-r border-[#dddfe2] bg-white lg:flex">
+
+          <div className="border-b border-[#e4e6eb] p-5">
+
+            <div className="flex items-center gap-3">
+
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#1877f2] text-lg font-black text-white shadow-sm">
+                M
+              </div>
+
               <div>
-                <div className="text-xl font-black tracking-wide">
+
+                <div className="text-xl font-black tracking-tight text-[#1c1e21]">
                   MÍA{" "}
-                  <span className="text-[#f0b90b]">
+                  <span className="text-[#1877f2]">
                     ADS
                   </span>
                 </div>
 
-                <div className="text-[10px] uppercase tracking-[0.25em] text-white/40">
+                <div className="text-[9px] font-semibold uppercase tracking-[0.25em] text-[#65676b]">
                   Manager
                 </div>
+
               </div>
+
             </div>
 
-            {/* MENU */}
-            <nav className="flex-1 space-y-1 p-4">
-              {menu.map((item) => (
-                <button
-                  key={item.name}
-                  onClick={() =>
-                    router.push(item.href)
-                  }
-                  className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm transition ${
-                    item.name ===
-                    "Automatizaciones"
-                      ? "bg-[#f0b90b] font-semibold text-black"
-                      : "text-white/60 hover:bg-white/5 hover:text-white"
-                  }`}
-                >
-                  <span className="w-5 text-center text-lg">
-                    {item.icon}
-                  </span>
-
-                  {item.name}
-                </button>
-              ))}
-            </nav>
-
-            {/* CONFIGURACIÓN */}
-            <div className="border-t border-white/10 p-4">
-              <button
-                onClick={() =>
-                  router.push("/configuracion")
-                }
-                className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm text-white/50 transition hover:bg-white/5 hover:text-white"
-              >
-                <span>⚙</span>
-                Configuración
-              </button>
-
-              <div className="mt-4 rounded-xl bg-white/[0.03] p-4">
-                <div className="text-xs text-white/40">
-                  Cuenta
-                </div>
-
-                <div className="mt-1 truncate text-sm font-medium">
-                  Mía Sofía Moda
-                </div>
-
-                <div className="mt-1 text-xs text-green-400">
-                  ● Conectada
-                </div>
-              </div>
-            </div>
           </div>
-        </aside>
 
-        {/* CONTENIDO */}
-        <section className="min-w-0 flex-1">
+          <nav className="flex-1 p-3">
 
-          {/* HEADER */}
-          <header className="flex min-h-20 flex-col gap-4 border-b border-white/10 bg-[#0d1015] px-5 py-5 md:flex-row md:items-center md:justify-between md:px-8">
-            <div>
-              <div className="text-sm text-white/40">
-                Gestión publicitaria
+            <NavItem
+              icon="⌂"
+              label="Inicio"
+              href="/dashboard"
+            />
+
+            <NavItem
+              icon="▣"
+              label="Campañas"
+              href="/campanas"
+            />
+
+            <NavItem
+              icon="◈"
+              label="Anuncios"
+              href="/anuncios"
+            />
+
+            <NavItem
+              icon="◇"
+              label="Creativos"
+              href="/creativos"
+            />
+
+            <NavItem
+              icon="▧"
+              label="Productos"
+              href="/productos"
+            />
+
+            <NavItem
+              icon="◫"
+              label="Analítica"
+              href="/analitica"
+            />
+
+            <NavItem
+              icon="♢"
+              label="Alertas"
+              href="/alertas"
+            />
+
+            <NavItem
+              icon="↻"
+              label="Automatizaciones"
+              href="/automatizaciones"
+              active
+            />
+
+            <div className="my-4 border-t border-[#e4e6eb]" />
+
+            <NavItem
+              icon="⚙"
+              label="Configuración"
+              href="/configuracion"
+            />
+
+          </nav>
+
+          <div className="border-t border-[#e4e6eb] p-3">
+
+            <div className="mb-2 rounded-xl bg-[#f0f2f5] p-3">
+
+              <div className="text-[9px] font-bold uppercase tracking-wider text-[#65676b]">
+                Negocio
               </div>
 
-              <h1 className="mt-1 text-xl font-bold">
-                Automatizaciones
-              </h1>
+              <div className="mt-1 truncate text-sm font-semibold text-[#1c1e21]">
+                {business?.nombre || "Mi negocio"}
+              </div>
 
-              <p className="mt-1 text-xs text-white/30">
-                Controlá tus campañas con reglas y límites
-                personalizados.
-              </p>
             </div>
 
             <button
-              onClick={openNewAutomation}
-              className="rounded-xl bg-[#f0b90b] px-5 py-3 text-sm font-bold text-black transition hover:bg-[#ffc928]"
+              onClick={logout}
+              className="w-full rounded-xl px-4 py-3 text-left text-sm font-semibold text-[#65676b] transition hover:bg-[#f0f2f5] hover:text-[#1c1e21]"
             >
-              {showForm
-                ? "Cerrar"
-                : "+ Nueva automatización"}
+              Cerrar sesión
             </button>
+
+          </div>
+
+        </aside>
+
+        {/* =====================================================
+            CONTENIDO
+        ===================================================== */}
+
+        <section className="min-w-0 flex-1">
+
+          {/* HEADER */}
+
+          <header className="sticky top-0 z-20 flex flex-col gap-4 border-b border-[#dddfe2] bg-white px-5 py-4 shadow-sm md:flex-row md:items-center md:justify-between lg:px-8">
+
+            <div>
+
+              <div className="text-xs font-medium text-[#65676b]">
+                Gestión automática
+              </div>
+
+              <h1 className="mt-1 text-2xl font-bold tracking-tight text-[#1c1e21]">
+                Automatizaciones
+              </h1>
+
+              <p className="mt-1 text-xs text-[#65676b]">
+                Configurá reglas para que MÍA ADS controle tareas automáticamente.
+              </p>
+
+            </div>
+
+            <div className="flex items-center gap-2">
+
+              <div className="hidden items-center gap-2 rounded-full border border-[#31a24c]/20 bg-[#eaf7ed] px-4 py-2 text-xs font-semibold text-[#31a24c] sm:flex">
+
+                <span className="h-2 w-2 rounded-full bg-[#31a24c]" />
+
+                Sistema activo
+
+              </div>
+
+              <button
+                onClick={loadData}
+                className="rounded-lg border border-[#ccd0d5] bg-white px-4 py-2.5 text-xs font-semibold text-[#65676b] transition hover:bg-[#f0f2f5] hover:text-[#1c1e21]"
+              >
+                ↻ Actualizar
+              </button>
+
+              <button
+                onClick={() =>
+                  router.push("/alertas")
+                }
+                className="rounded-lg bg-[#1877f2] px-5 py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-[#166fe5]"
+              >
+                Ver alertas
+              </button>
+
+            </div>
+
           </header>
 
-          {/* BODY */}
-          <div className="p-5 md:p-8 lg:p-10">
+          <div className="p-5 lg:p-8">
 
-            {/* FORMULARIO */}
-            {showForm && (
-              <div className="mb-8 rounded-2xl border border-white/10 bg-[#0d1015] p-6">
+            {/* ERROR */}
 
-                <h2 className="text-lg font-bold">
-                  Nueva automatización
-                </h2>
-
-                <p className="mt-1 text-xs leading-5 text-white/30">
-                  Los límites son opcionales. Configurá
-                  solamente los que necesitás.
-                </p>
-
-                <form
-                  onSubmit={createAutomation}
-                  className="mt-6 space-y-5"
-                >
-
-                  {/* CÓDIGO */}
-                  <div>
-                    <label className="mb-2 block text-xs text-white/40">
-                      Código
-                    </label>
-
-                    <div className="rounded-xl border border-white/10 bg-[#090b0f] px-4 py-3 text-sm text-[#f0b90b]">
-                      Se asignará automáticamente
-                    </div>
-
-                    <p className="mt-2 text-[11px] text-white/20">
-                      El sistema genera automáticamente un
-                      código único como AUTO-001.
-                    </p>
-                  </div>
-
-                  {/* NOMBRE */}
-                  <div>
-                    <label className="mb-2 block text-xs text-white/40">
-                      Nombre
-                    </label>
-
-                    <input
-                      value={name}
-                      onChange={(event) =>
-                        setName(event.target.value)
-                      }
-                      placeholder="Ej: Control de presupuesto"
-                      required
-                      className="w-full rounded-xl border border-white/10 bg-[#090b0f] px-4 py-3 text-sm outline-none placeholder:text-white/20 focus:border-[#f0b90b]/60"
-                    />
-                  </div>
-
-                  {/* DESCRIPCIÓN */}
-                  <div>
-                    <label className="mb-2 block text-xs text-white/40">
-                      Descripción
-                    </label>
-
-                    <textarea
-                      value={description}
-                      onChange={(event) =>
-                        setDescription(
-                          event.target.value
-                        )
-                      }
-                      placeholder="Ej: Controlar cuánto gastan mis campañas."
-                      rows={3}
-                      className="w-full resize-none rounded-xl border border-white/10 bg-[#090b0f] px-4 py-3 text-sm outline-none placeholder:text-white/20 focus:border-[#f0b90b]/60"
-                    />
-                  </div>
-
-                  {/* LIMITES */}
-                  <div className="rounded-2xl border border-white/10 bg-[#090b0f] p-5">
-
-                    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-
-                      <div>
-                        <div className="font-semibold">
-                          Límites
-                        </div>
-
-                        <div className="mt-1 text-xs text-white/30">
-                          Todos los límites son opcionales.
-                        </div>
-                      </div>
-
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setShowLimits(
-                            (value) => !value
-                          )
-                        }
-                        className="rounded-xl border border-white/10 px-4 py-2 text-xs text-white/60 transition hover:bg-white/5 hover:text-white"
-                      >
-                        {showLimits
-                          ? "Ocultar límites"
-                          : "+ Agregar límites"}
-                      </button>
-                    </div>
-
-                    {showLimits && (
-                      <div className="mt-6 space-y-5">
-
-                        {/* PRESUPUESTO MAXIMO */}
-                        <div>
-                          <label className="mb-2 block text-xs text-white/40">
-                            Presupuesto máximo
-                            <span className="ml-2 text-white/20">
-                              opcional
-                            </span>
-                          </label>
-
-                          <div className="relative">
-                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-white/30">
-                              $
-                            </span>
-
-                            <input
-                              value={maxBudget}
-                              onChange={(event) =>
-                                setMaxBudget(
-                                  event.target.value
-                                )
-                              }
-                              inputMode="numeric"
-                              placeholder="Ej: 1.000.000"
-                              className="w-full rounded-xl border border-white/10 bg-[#0d1015] py-3 pl-9 pr-4 text-sm outline-none placeholder:text-white/20 focus:border-[#f0b90b]/60"
-                            />
-                          </div>
-
-                          <p className="mt-2 text-[11px] text-white/20">
-                            Monto máximo que querés gastar
-                            en la campaña.
-                          </p>
-                        </div>
-
-                        {/* GASTO DIARIO */}
-                        <div>
-                          <label className="mb-2 block text-xs text-white/40">
-                            Gasto diario máximo
-                            <span className="ml-2 text-white/20">
-                              opcional
-                            </span>
-                          </label>
-
-                          <div className="relative">
-                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-white/30">
-                              $
-                            </span>
-
-                            <input
-                              value={dailyBudget}
-                              onChange={(event) =>
-                                setDailyBudget(
-                                  event.target.value
-                                )
-                              }
-                              inputMode="numeric"
-                              placeholder="Ej: 10.000"
-                              className="w-full rounded-xl border border-white/10 bg-[#0d1015] py-3 pl-9 pr-4 text-sm outline-none placeholder:text-white/20 focus:border-[#f0b90b]/60"
-                            />
-                          </div>
-                        </div>
-
-                        {/* COSTO POR MENSAJE */}
-                        <div>
-                          <label className="mb-2 block text-xs text-white/40">
-                            Costo máximo por mensaje
-                            <span className="ml-2 text-white/20">
-                              opcional
-                            </span>
-                          </label>
-
-                          <div className="relative">
-                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-white/30">
-                              $
-                            </span>
-
-                            <input
-                              value={maxCostPerMessage}
-                              onChange={(event) =>
-                                setMaxCostPerMessage(
-                                  event.target.value
-                                )
-                              }
-                              inputMode="numeric"
-                              placeholder="Ej: 1.000"
-                              className="w-full rounded-xl border border-white/10 bg-[#0d1015] py-3 pl-9 pr-4 text-sm outline-none placeholder:text-white/20 focus:border-[#f0b90b]/60"
-                            />
-                          </div>
-                        </div>
-
-                        {/* MENSAJES */}
-                        <div>
-                          <label className="mb-2 block text-xs text-white/40">
-                            Cantidad máxima de mensajes
-                            <span className="ml-2 text-white/20">
-                              opcional
-                            </span>
-                          </label>
-
-                          <input
-                            value={maxMessages}
-                            onChange={(event) =>
-                              setMaxMessages(
-                                event.target.value
-                              )
-                            }
-                            inputMode="numeric"
-                            placeholder="Ej: 100"
-                            className="w-full rounded-xl border border-white/10 bg-[#0d1015] px-4 py-3 text-sm outline-none placeholder:text-white/20 focus:border-[#f0b90b]/60"
-                          />
-                        </div>
-
-                        {/* AVISO */}
-                        <div>
-                          <label className="mb-2 block text-xs text-white/40">
-                            Avisar antes del límite
-                            <span className="ml-2 text-white/20">
-                              opcional
-                            </span>
-                          </label>
-
-                          <div className="relative">
-                            <input
-                              value={alertPercentage}
-                              onChange={(event) =>
-                                setAlertPercentage(
-                                  event.target.value
-                                )
-                              }
-                              inputMode="numeric"
-                              placeholder="Ej: 80"
-                              min="1"
-                              max="100"
-                              className="w-full rounded-xl border border-white/10 bg-[#0d1015] px-4 py-3 pr-10 text-sm outline-none placeholder:text-white/20 focus:border-[#f0b90b]/60"
-                            />
-
-                            <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-white/30">
-                              %
-                            </span>
-                          </div>
-
-                          <p className="mt-2 text-[11px] text-white/20">
-                            Por ejemplo, 80% avisa antes de
-                            alcanzar el límite.
-                          </p>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* ACCIÓN */}
-                  <div>
-                    <label className="mb-2 block text-xs text-white/40">
-                      Acción al alcanzar el límite
-                    </label>
-
-                    <select
-                      value={action}
-                      onChange={(event) =>
-                        setAction(event.target.value)
-                      }
-                      className="w-full rounded-xl border border-white/10 bg-[#090b0f] px-4 py-3 text-sm outline-none focus:border-[#f0b90b]/60"
-                    >
-                      <option>
-                        Pausar campaña
-                      </option>
-
-                      <option>
-                        Pausar anuncio
-                      </option>
-
-                      <option>
-                        Enviar alerta
-                      </option>
-                    </select>
-                  </div>
-
-                  {/* BOTÓN */}
-                  <div className="flex justify-end pt-2">
-                    <button
-                      type="submit"
-                      className="rounded-xl bg-[#f0b90b] px-6 py-3 text-sm font-bold text-black transition hover:bg-[#ffc928]"
-                    >
-                      Crear automatización
-                    </button>
-                  </div>
-                </form>
+            {error && (
+              <div className="mb-6 rounded-xl border border-red-200 bg-red-50 px-5 py-4 text-sm text-red-600">
+                {error}
               </div>
             )}
 
-            {/* RESUMEN */}
-            <div className="mb-6 grid gap-4 sm:grid-cols-3">
+            {/* =================================================
+                HERO
+            ================================================= */}
 
-              <SummaryCard
-                label="Total"
-                value={automations.length.toString()}
-              />
+            <section className="relative overflow-hidden rounded-2xl border border-[#d8dadf] bg-white p-7 shadow-sm lg:p-9">
 
-              <SummaryCard
-                label="Activas"
-                value={automations
-                  .filter(
-                    (automation) =>
-                      automation.active
-                  )
-                  .length.toString()}
-              />
+              <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-[#1877f2]/5 blur-3xl" />
 
-              <SummaryCard
-                label="Pausadas"
-                value={automations
-                  .filter(
-                    (automation) =>
-                      !automation.active
-                  )
-                  .length.toString()}
-              />
-            </div>
+              <div className="relative">
 
-            {/* LISTA */}
-            <div className="space-y-4">
+                <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#1877f2]/20 bg-[#e7f3ff] px-4 py-2 text-xs font-bold text-[#1877f2]">
 
-              {automations.length === 0 ? (
-                <div className="rounded-2xl border border-white/10 bg-[#0d1015] p-12 text-center">
+                  <span className="h-2 w-2 rounded-full bg-[#1877f2]" />
 
-                  <div className="text-4xl text-white/10">
-                    ⚙
-                  </div>
+                  MÍA ADS AUTOMATION
 
-                  <div className="mt-4 text-sm text-white/40">
-                    Todavía no tenés automatizaciones.
-                  </div>
-
-                  <p className="mt-2 text-xs text-white/20">
-                    Creá tu primera regla automática.
-                  </p>
                 </div>
-              ) : (
-                automations.map((automation) => (
 
-                  <div
-                    key={automation.id}
-                    className="rounded-2xl border border-white/10 bg-[#0d1015] p-5 transition hover:border-white/15 md:p-6"
+                <h2 className="text-3xl font-black tracking-tight text-[#1c1e21] md:text-4xl">
+
+                  Automatizá tu{" "}
+                  <span className="text-[#1877f2]">
+                    negocio.
+                  </span>
+
+                </h2>
+
+                <p className="mt-4 max-w-2xl text-sm leading-7 text-[#65676b] md:text-base">
+                  Creá reglas para detectar problemas,
+                  organizar tus productos y mantener tus
+                  campañas preparadas sin tener que revisar
+                  todo manualmente.
+                </p>
+
+              </div>
+
+            </section>
+
+            {/* =================================================
+                MÉTRICAS
+            ================================================= */}
+
+            <section className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+
+              <MetricCard
+                title="Automatizaciones"
+                value={automations.length.toString()}
+                subtitle="Reglas configuradas"
+                icon="↻"
+              />
+
+              <MetricCard
+                title="Activas"
+                value={activeCount.toString()}
+                subtitle="Funcionando actualmente"
+                icon="✓"
+              />
+
+              <MetricCard
+                title="Pausadas"
+                value={pausedCount.toString()}
+                subtitle="Reglas detenidas"
+                icon="Ⅱ"
+              />
+
+              <MetricCard
+                title="Borradores"
+                value={draftCount.toString()}
+                subtitle="Pendientes de activar"
+                icon="✎"
+              />
+
+            </section>
+
+            {/* =================================================
+                FILTROS
+            ================================================= */}
+
+            <section className="mt-6 rounded-2xl border border-[#d8dadf] bg-white p-5 shadow-sm">
+
+              <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+
+                <div>
+
+                  <div className="text-xs font-bold uppercase tracking-wider text-[#1877f2]">
+                    Administrador
+                  </div>
+
+                  <h3 className="mt-1 text-xl font-bold text-[#1c1e21]">
+                    Reglas automáticas
+                  </h3>
+
+                </div>
+
+                <div className="flex flex-col gap-3 sm:flex-row">
+
+                  <div className="relative">
+
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-[#8a8d91]">
+                      ⌕
+                    </span>
+
+                    <input
+                      value={search}
+                      onChange={(event) =>
+                        setSearch(event.target.value)
+                      }
+                      placeholder="Buscar automatización..."
+                      className="w-full rounded-lg border border-[#ccd0d5] bg-white py-2.5 pl-9 pr-4 text-sm text-[#1c1e21] outline-none transition placeholder:text-[#8a8d91] focus:border-[#1877f2] focus:ring-2 focus:ring-[#1877f2]/10 sm:w-72"
+                    />
+
+                  </div>
+
+                  <select
+                    value={filter}
+                    onChange={(event) =>
+                      setFilter(event.target.value)
+                    }
+                    className="rounded-lg border border-[#ccd0d5] bg-white px-4 py-2.5 text-sm font-medium text-[#1c1e21] outline-none focus:border-[#1877f2]"
                   >
+                    <option value="Todas">
+                      Todos los estados
+                    </option>
 
-                    <div className="flex flex-col gap-5">
+                    <option value="Activa">
+                      Activas
+                    </option>
 
-                      {/* TITULO */}
-                      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                    <option value="Pausada">
+                      Pausadas
+                    </option>
 
-                        <div>
+                    <option value="Borrador">
+                      Borradores
+                    </option>
+                  </select>
 
-                          <div className="mb-2 flex flex-wrap items-center gap-3">
+                </div>
 
-                            {/* CODIGO */}
-                            <span className="rounded-lg border border-[#f0b90b]/20 bg-[#f0b90b]/10 px-3 py-1 font-mono text-xs font-semibold text-[#f0b90b]">
-                              {automation.code}
-                            </span>
+              </div>
 
-                            {/* ESTADO */}
-                            <span
-                              className={`rounded-full px-3 py-1 text-xs ${
-                                automation.active
-                                  ? "bg-green-400/10 text-green-400"
-                                  : "bg-white/5 text-white/30"
-                              }`}
-                            >
-                              {automation.active
-                                ? "● Activa"
-                                : "Pausada"}
-                            </span>
+            </section>
+
+            {/* =================================================
+                LISTADO
+            ================================================= */}
+
+            <section className="mt-6 overflow-hidden rounded-2xl border border-[#d8dadf] bg-white shadow-sm">
+
+              <div className="border-b border-[#e4e6eb] px-5 py-4">
+
+                <div className="flex items-center justify-between">
+
+                  <div>
+
+                    <div className="text-sm font-bold text-[#1c1e21]">
+                      Automatizaciones
+                    </div>
+
+                    <div className="mt-1 text-xs text-[#65676b]">
+                      {filteredAutomations.length} regla
+                      {filteredAutomations.length === 1
+                        ? ""
+                        : "s"}
+                    </div>
+
+                  </div>
+
+                  <div className="rounded-lg bg-[#e7f3ff] px-3 py-2 text-xs font-bold text-[#1877f2]">
+                    Reglas inteligentes
+                  </div>
+
+                </div>
+
+              </div>
+
+              {filteredAutomations.length === 0 ? (
+
+                <div className="p-12 text-center">
+
+                  <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[#e7f3ff] text-2xl font-bold text-[#1877f2]">
+                    ↻
+                  </div>
+
+                  <h3 className="mt-5 text-lg font-bold text-[#1c1e21]">
+                    No encontramos automatizaciones
+                  </h3>
+
+                  <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[#65676b]">
+                    Probá cambiar la búsqueda o el filtro
+                    seleccionado.
+                  </p>
+
+                </div>
+
+              ) : (
+
+                <div className="divide-y divide-[#e4e6eb]">
+
+                  {filteredAutomations.map(
+                    (automation) => (
+
+                      <div
+                        key={automation.id}
+                        className="group px-5 py-5 transition hover:bg-[#f7f8fa]"
+                      >
+
+                        <div className="flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
+
+                          {/* INFORMACIÓN */}
+
+                          <div className="flex min-w-0 items-start gap-4">
+
+                            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#e7f3ff] text-lg font-bold text-[#1877f2]">
+                              ↻
+                            </div>
+
+                            <div className="min-w-0">
+
+                              <div className="flex flex-wrap items-center gap-2">
+
+                                <h4 className="text-sm font-bold text-[#1c1e21]">
+                                  {automation.nombre}
+                                </h4>
+
+                                <StatusBadge
+                                  status={
+                                    automation.estado
+                                  }
+                                />
+
+                              </div>
+
+                              <p className="mt-2 max-w-2xl text-sm leading-6 text-[#65676b]">
+                                {
+                                  automation.descripcion
+                                }
+                              </p>
+
+                              <div className="mt-3 flex flex-wrap items-center gap-2">
+
+                                <span className="rounded-lg bg-[#f0f2f5] px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-[#65676b]">
+                                  {automation.tipo}
+                                </span>
+
+                                <span className="rounded-lg bg-[#f0f2f5] px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-[#65676b]">
+                                  {automation.frecuencia}
+                                </span>
+
+                              </div>
+
+                            </div>
+
                           </div>
 
-                          <h2 className="font-semibold">
-                            {automation.name}
-                          </h2>
+                          {/* INFORMACIÓN EXTRA */}
 
-                          <p className="mt-2 text-sm text-white/35">
-                            {automation.description}
-                          </p>
-                        </div>
+                          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:min-w-[370px]">
 
-                        <div className="flex shrink-0 gap-2">
+                            <InfoBox
+                              label="Estado"
+                              value={
+                                automation.estado
+                              }
+                            />
+
+                            <InfoBox
+                              label="Frecuencia"
+                              value={
+                                automation.frecuencia
+                              }
+                            />
+
+                            <InfoBox
+                              label="Última ejecución"
+                              value={
+                                automation.ultima_ejecucion
+                                  ? automation.ultima_ejecucion
+                                  : "Pendiente"
+                              }
+                            />
+
+                          </div>
+
+                          {/* ACCIÓN */}
 
                           <button
                             onClick={() =>
@@ -721,117 +675,233 @@ export default function AutomatizacionesPage() {
                                 automation.id
                               )
                             }
-                            className="rounded-xl border border-white/10 px-4 py-2 text-xs text-white/50 transition hover:bg-white/5 hover:text-white"
+                            className={
+                              automation.estado ===
+                              "Activa"
+                                ? "shrink-0 rounded-lg border border-[#ccd0d5] bg-white px-5 py-2.5 text-xs font-bold text-[#65676b] transition hover:border-red-300 hover:bg-red-50 hover:text-red-600"
+                                : "shrink-0 rounded-lg bg-[#1877f2] px-5 py-2.5 text-xs font-bold text-white transition hover:bg-[#166fe5]"
+                            }
                           >
-                            {automation.active
+                            {automation.estado ===
+                            "Activa"
                               ? "Pausar"
                               : "Activar"}
                           </button>
 
-                          <button
-                            onClick={() =>
-                              deleteAutomation(
-                                automation.id
-                              )
-                            }
-                            className="rounded-xl border border-red-500/20 px-4 py-2 text-xs text-red-400 transition hover:bg-red-500/10"
-                          >
-                            Eliminar
-                          </button>
-                        </div>
-                      </div>
-
-                      {/* LIMITES */}
-                      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-
-                        <LimitCard
-                          label="Presupuesto máximo"
-                          value={money(
-                            automation.maxBudget
-                          )}
-                        />
-
-                        <LimitCard
-                          label="Gasto diario"
-                          value={money(
-                            automation.dailyBudget
-                          )}
-                        />
-
-                        <LimitCard
-                          label="Costo por mensaje"
-                          value={money(
-                            automation.maxCostPerMessage
-                          )}
-                        />
-
-                        <LimitCard
-                          label="Mensajes máximos"
-                          value={number(
-                            automation.maxMessages
-                          )}
-                        />
-                      </div>
-
-                      {/* PIE */}
-                      <div className="flex flex-col gap-2 border-t border-white/5 pt-4 text-xs sm:flex-row sm:items-center sm:justify-between">
-
-                        <div className="text-white/30">
-                          {automation.alertPercentage
-                            ? `Aviso al ${automation.alertPercentage}% del límite`
-                            : "Sin aviso previo configurado"}
                         </div>
 
-                        <div className="text-white/40">
-                          Acción:{" "}
-                          <span className="text-white/70">
-                            {automation.action}
-                          </span>
-                        </div>
                       </div>
 
-                    </div>
-                  </div>
-                ))
+                    )
+                  )}
+
+                </div>
+
               )}
-            </div>
 
-            {/* AVISO */}
-            <div className="mt-8 rounded-2xl border border-[#f0b90b]/20 bg-[#f0b90b]/5 p-5">
+            </section>
 
-              <div className="flex gap-3">
+            {/* =================================================
+                INFORMACIÓN
+            ================================================= */}
 
-                <div className="text-xl text-[#f0b90b]">
-                  ⓘ
+            <section className="mt-6 grid gap-6 xl:grid-cols-3">
+
+              <InfoCard
+                icon="!"
+                title="Control de stock"
+                description="Detectá productos que necesitan atención antes de continuar con la publicidad."
+              />
+
+              <InfoCard
+                icon="▣"
+                title="Control de campañas"
+                description="Mantené identificadas las campañas que todavía están en borrador."
+              />
+
+              <InfoCard
+                icon="◇"
+                title="Control de creativos"
+                description="Detectá anuncios que todavía necesitan imágenes o videos."
+              />
+
+            </section>
+
+            {/* =================================================
+                PRÓXIMAMENTE
+            ================================================= */}
+
+            <section className="mt-6 rounded-2xl border border-[#d8dadf] bg-white p-6 shadow-sm">
+
+              <div className="flex items-start gap-4">
+
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e7f3ff] font-bold text-[#1877f2]">
+                  ✦
                 </div>
 
                 <div>
 
-                  <div className="font-semibold text-[#f0b90b]">
-                    Límites opcionales
-                  </div>
+                  <h3 className="text-sm font-bold text-[#1c1e21]">
+                    Próximas automatizaciones
+                  </h3>
 
-                  <p className="mt-1 text-sm leading-6 text-white/40">
-                    Cada cliente puede configurar solamente
-                    los límites que necesite. No hay un monto
-                    máximo fijo impuesto por MÍA ADS.
+                  <p className="mt-2 text-xs leading-6 text-[#65676b]">
+                    Más adelante podemos conectar estas reglas
+                    con acciones reales: pausar anuncios cuando
+                    un producto se quede sin stock, generar
+                    alertas automáticamente, controlar campañas
+                    y preparar reportes periódicos.
                   </p>
+
                 </div>
+
               </div>
+
+            </section>
+
+            {/* PIE */}
+
+            <div className="mt-10 border-t border-[#dddfe2] pt-6">
+
+              <div className="flex flex-col gap-2 text-xs text-[#8a8d91] sm:flex-row sm:items-center sm:justify-between">
+
+                <div>
+                  MÍA ADS Manager
+                </div>
+
+                <div>
+                  Publicidad · Campañas · Anuncios · Automatizaciones
+                </div>
+
+              </div>
+
             </div>
 
-            <footer className="py-8 text-center text-xs text-white/20">
-              MÍA ADS MANAGER · Automatizaciones
-            </footer>
-
           </div>
+
         </section>
+
       </div>
     </main>
   );
 }
 
-function LimitCard({
+/* =========================================================
+   COMPONENTES
+========================================================= */
+
+function NavItem({
+  icon,
+  label,
+  href,
+  active = false,
+}: {
+  icon: string;
+  label: string;
+  href: string;
+  active?: boolean;
+}) {
+  return (
+    <a
+      href={href}
+      className={`mb-1 flex w-full items-center gap-3 rounded-lg px-3 py-3 text-left text-sm font-semibold transition ${
+        active
+          ? "bg-[#e7f3ff] text-[#1877f2]"
+          : "text-[#65676b] hover:bg-[#f0f2f5] hover:text-[#1c1e21]"
+      }`}
+    >
+      <span
+        className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-sm ${
+          active
+            ? "bg-[#1877f2] text-white"
+            : "bg-[#f0f2f5] text-[#65676b]"
+        }`}
+      >
+        {icon}
+      </span>
+
+      <span>{label}</span>
+    </a>
+  );
+}
+
+function MetricCard({
+  title,
+  value,
+  subtitle,
+  icon,
+}: {
+  title: string;
+  value: string;
+  subtitle: string;
+  icon: string;
+}) {
+  return (
+    <div className="group rounded-2xl border border-[#d8dadf] bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-[#1877f2]/40 hover:shadow-md">
+
+      <div className="flex items-start justify-between">
+
+        <div className="text-xs font-semibold text-[#65676b]">
+          {title}
+        </div>
+
+        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#e7f3ff] text-sm font-bold text-[#1877f2]">
+          {icon}
+        </div>
+
+      </div>
+
+      <div className="mt-5 text-2xl font-black text-[#1c1e21]">
+        {value}
+      </div>
+
+      <div className="mt-1 text-xs text-[#65676b]">
+        {subtitle}
+      </div>
+
+      <div className="mt-5 h-1 overflow-hidden rounded-full bg-[#e4e6eb]">
+
+        <div className="h-full w-1/2 rounded-full bg-[#1877f2]" />
+
+      </div>
+
+    </div>
+  );
+}
+
+function StatusBadge({
+  status,
+}: {
+  status: string;
+}) {
+  let classes =
+    "bg-[#f0f2f5] text-[#65676b]";
+
+  if (status === "Activa") {
+    classes =
+      "bg-[#eaf7ed] text-[#31a24c]";
+  }
+
+  if (status === "Pausada") {
+    classes =
+      "bg-[#fff4d6] text-[#b78103]";
+  }
+
+  if (status === "Borrador") {
+    classes =
+      "bg-[#e7f3ff] text-[#1877f2]";
+  }
+
+  return (
+    <span
+      className={`rounded-full px-3 py-1 text-[10px] font-bold ${classes}`}
+    >
+      {status}
+    </span>
+  );
+}
+
+function InfoBox({
   label,
   value,
 }: {
@@ -839,13 +909,13 @@ function LimitCard({
   value: string;
 }) {
   return (
-    <div className="rounded-xl border border-white/5 bg-[#090b0f] p-4">
+    <div className="rounded-xl bg-[#f0f2f5] px-4 py-3">
 
-      <div className="text-[10px] uppercase tracking-wider text-white/25">
+      <div className="text-[9px] font-bold uppercase tracking-wider text-[#8a8d91]">
         {label}
       </div>
 
-      <div className="mt-2 text-sm font-medium text-white/70">
+      <div className="mt-1 truncate text-xs font-bold text-[#1c1e21]">
         {value}
       </div>
 
@@ -853,25 +923,38 @@ function LimitCard({
   );
 }
 
-function SummaryCard({
-  label,
-  value,
+function InfoCard({
+  icon,
+  title,
+  description,
 }: {
-  label: string;
-  value: string;
+  icon: string;
+  title: string;
+  description: string;
 }) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-[#0d1015] p-5">
+    <div className="rounded-2xl border border-[#d8dadf] bg-white p-6 shadow-sm">
 
-      <div className="text-xs text-white/30">
-        {label}
-      </div>
+      <div className="flex items-start gap-4">
 
-      <div className="mt-2 text-2xl font-bold">
-        {value}
+        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e7f3ff] font-bold text-[#1877f2]">
+          {icon}
+        </div>
+
+        <div>
+
+          <h3 className="text-sm font-bold text-[#1c1e21]">
+            {title}
+          </h3>
+
+          <p className="mt-2 text-xs leading-6 text-[#65676b]">
+            {description}
+          </p>
+
+        </div>
+
       </div>
 
     </div>
   );
 }
-
