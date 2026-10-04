@@ -534,26 +534,6 @@ export default function AutomatizacionesPage() {
 
         </section>
 
-        {/* =====================================================
-            PIE
-        ===================================================== */}
-
-        <div className="mt-10 border-t border-[#dddfe2] pt-6">
-
-          <div className="flex flex-col gap-2 text-xs text-[#8a8d91] sm:flex-row sm:items-center sm:justify-between">
-
-            <div>
-              MÍA ADS Manager
-            </div>
-
-            <div>
-              Publicidad · Campañas · Anuncios · Automatizaciones
-            </div>
-
-          </div>
-
-        </div>
-
       </div>
 
     </main>

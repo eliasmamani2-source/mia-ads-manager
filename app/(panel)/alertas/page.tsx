@@ -253,20 +253,6 @@ export default function AlertasPage() {
 
           </div>
 
-          {/* PIE */}
-
-          <div className="mt-6 flex flex-col gap-2 border-t border-[#dddfe2] pt-5 text-xs text-[#8a8d91] sm:flex-row sm:items-center sm:justify-between">
-
-            <span>
-              MÍA ADS Manager
-            </span>
-
-            <span>
-              Centro de avisos · Notificaciones · Alertas
-            </span>
-
-          </div>
-
         </section>
 
       </div>

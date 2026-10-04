@@ -1,0 +1,22 @@
+.pie-pagina {
+  padding: 31px;
+  border-top: 1px solid #dddfe2;
+}
+
+.pie-pagina__contenido {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  color: #8a8d91;
+  font-size: 12px;
+}
+
+/* Pantallas pequeñas */
+@media (min-width: 640px) {
+  .pie-pagina__contenido {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}

@@ -2,6 +2,14 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import "./Header.css";
+import {
+  ArrowLeft,
+  RotateCw,
+} from "lucide-react";
+
+{/* =====================
+          DATOS
+  ===================== */}
 
 const titulosPorRuta: Record<string, string> = {
   "/dashboard": "Inicio",
@@ -19,19 +27,19 @@ const titulosPorRuta: Record<string, string> = {
   "/lanzador-ia": "Lanzador IA",
 };
 
+
+{/* =====================
+          HEADER
+  ===================== */}
+
 const Header = () => {
   const pathname = usePathname();
   const router = useRouter();
-  const tituloPagina =
-    titulosPorRuta[pathname] ??
-    (pathname.startsWith("/campanas/")
-      ? "Detalle de Campaña"
-      : pathname.startsWith("/productos/")
-        ? "Detalle del Producto"
-        : "Panel de Gestión");
+  const tituloPagina = titulosPorRuta[pathname];
 
   return (
     <header className="encabezado">
+
       <div className="encabezado-info">
         <div className="encabezado-subtitulo">Gestión de publicidad</div>
 
@@ -51,7 +59,8 @@ const Header = () => {
           onClick={() => router.push("/")}
           className="boton-encabezado"
         >
-          ← Volver al inicio
+          <ArrowLeft size={18} />
+          Volver al inicio
         </button>
 
         <button
@@ -59,8 +68,10 @@ const Header = () => {
           onClick={() => window.location.reload()}
           className="boton-encabezado"
         >
-          ↻ Actualizar
+          <RotateCw size={18} />
+          Actualizar
         </button>
+
       </div>
     </header>
   );

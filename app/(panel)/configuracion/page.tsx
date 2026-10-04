@@ -240,22 +240,6 @@ export default function ConfiguracionPage() {
 
           </div>
 
-          {/* =====================================================
-              PIE
-          ===================================================== */}
-
-          <div className="mt-8 flex flex-col gap-2 border-t border-[#dddfe2] pt-5 text-xs text-[#8a8d91] sm:flex-row sm:items-center sm:justify-between">
-
-            <span>
-              MÍA ADS Manager
-            </span>
-
-            <span>
-              Publicidad · Campañas · Anuncios · Productos
-            </span>
-
-          </div>
-
         </div>
 
       </div>
