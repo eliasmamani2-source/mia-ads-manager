@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -16,8 +17,17 @@ type Product = {
   estado: string;
 };
 
+type Creative = {
+  id: string;
+  product_id: string | null;
+  nombre: string;
+  tipo: string;
+  url: string | null;
+};
+
 export default function ProductosPage() {
   const [productos, setProductos] = useState<Product[]>([]);
+  const [creativos, setCreativos] = useState<Creative[]>([]);
   const [loading, setLoading] = useState(true);
 
   const [codigo, setCodigo] = useState("");
@@ -82,11 +92,49 @@ export default function ProductosPage() {
         throw error;
       }
 
-      setProductos((data as Product[]) || []);
+      const productosData = (data as Product[]) || [];
+
+      setProductos(productosData);
+
+      /*
+       * CREATIVOS
+       *
+       * Buscamos los creativos del usuario actual.
+       * Cada creativo puede tener un product_id.
+       */
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (user) {
+        const { data: creativesData, error: creativesError } =
+          await supabase
+            .from("creatives")
+            .select("id,product_id,nombre,tipo,url")
+            .eq("user_id", user.id)
+            .not("product_id", "is", null)
+            .order("created_at", {
+              ascending: false,
+            });
+
+        if (creativesError) {
+          console.error(
+            "Error al cargar creativos:",
+            creativesError
+          );
+
+          setCreativos([]);
+        } else {
+          setCreativos(
+            (creativesData as Creative[]) || []
+          );
+        }
+      }
     } catch (error) {
       console.error("Error al cargar productos:", error);
 
       setProductos([]);
+      setCreativos([]);
 
       setErrorMsg(
         error instanceof Error
@@ -184,6 +232,12 @@ export default function ProductosPage() {
           : "No se pudo eliminar el producto."
       );
     }
+  }
+
+  function getCreativosProducto(productId: string) {
+    return creativos.filter(
+      (creativo) => creativo.product_id === productId
+    );
   }
 
   if (loading) {
@@ -364,64 +418,124 @@ export default function ProductosPage() {
         ) : (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
 
-            {productos.map((producto) => (
-              <div
-                key={producto.id}
-                className="rounded-2xl border border-[#e4e6eb] bg-white p-5 shadow-sm transition hover:shadow-md"
-              >
+            {productos.map((producto) => {
+              const creativosProducto =
+                getCreativosProducto(producto.id);
 
-                <div className="flex items-start justify-between gap-4">
+              const miniaturas =
+                creativosProducto
+                  .filter((creativo) => creativo.url)
+                  .slice(0, 4);
 
-                  <div>
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#1877f2]">
-                      {producto.codigo || "SIN CÓDIGO"}
-                    </span>
+              const cantidadRestante =
+                Math.max(
+                  creativosProducto.length - 4,
+                  0
+                );
 
-                    <h3 className="mt-1 text-base font-bold">
-                      {producto.nombre}
-                    </h3>
+              return (
+                <div
+                  key={producto.id}
+                  className="rounded-2xl border border-[#e4e6eb] bg-white p-5 shadow-sm transition hover:shadow-md"
+                >
+
+                  {/* MINIATURAS DE CREATIVOS */}
+
+                  {miniaturas.length > 0 && (
+                    <div className="mb-5">
+
+                      <div className="mb-2 flex items-center justify-between">
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-[#65676b]">
+                          Creativos
+                        </span>
+
+                        <span className="text-[10px] font-semibold text-[#1877f2]">
+                          {creativosProducto.length}{" "}
+                          {creativosProducto.length === 1
+                            ? "imagen"
+                            : "imágenes"}
+                        </span>
+                      </div>
+
+                      <div className="flex gap-2">
+
+                        {miniaturas.map((creativo) => (
+                          <div
+                            key={creativo.id}
+                            className="h-16 w-16 overflow-hidden rounded-xl border border-[#e4e6eb] bg-[#f0f2f5]"
+                          >
+                            <img
+                              src={creativo.url || ""}
+                              alt={creativo.nombre}
+                              className="h-full w-full object-cover"
+                            />
+                          </div>
+                        ))}
+
+                        {cantidadRestante > 0 && (
+                          <div className="flex h-16 w-16 items-center justify-center rounded-xl border border-[#dbeafe] bg-[#eff6ff] text-xs font-bold text-[#1877f2]">
+                            +{cantidadRestante}
+                          </div>
+                        )}
+
+                      </div>
+
+                    </div>
+                  )}
+
+                  <div className="flex items-start justify-between gap-4">
+
+                    <div>
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#1877f2]">
+                        {producto.codigo || "SIN CÓDIGO"}
+                      </span>
+
+                      <h3 className="mt-1 text-base font-bold">
+                        {producto.nombre}
+                      </h3>
+                    </div>
+
+                    <button
+                      onClick={() =>
+                        handleDeleteProduct(producto.id)
+                      }
+                      className="rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-xs font-semibold text-red-600 hover:bg-red-100"
+                    >
+                      Eliminar
+                    </button>
+
                   </div>
 
-                  <button
-                    onClick={() =>
-                      handleDeleteProduct(producto.id)
-                    }
-                    className="rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-xs font-semibold text-red-600 hover:bg-red-100"
-                  >
-                    Eliminar
-                  </button>
+                  {producto.descripcion && (
+                    <p className="mt-3 text-xs leading-5 text-[#65676b]">
+                      {producto.descripcion}
+                    </p>
+                  )}
+
+                  <div className="mt-4 flex items-center justify-between border-t border-[#e4e6eb] pt-4">
+
+                    <span className="font-bold text-green-700">
+                      $
+                      {Number(producto.precio).toLocaleString(
+                        "es-AR"
+                      )}
+                    </span>
+
+                    <span
+                      className={`rounded-full px-3 py-1 text-[10px] font-bold ${
+                        producto.stock > 0
+                          ? "bg-green-100 text-green-800"
+                          : "bg-red-100 text-red-800"
+                      }`}
+                    >
+                      Stock: {producto.stock}
+                    </span>
+
+                  </div>
 
                 </div>
-
-                {producto.descripcion && (
-                  <p className="mt-3 text-xs leading-5 text-[#65676b]">
-                    {producto.descripcion}
-                  </p>
-                )}
-
-                <div className="mt-4 flex items-center justify-between border-t border-[#e4e6eb] pt-4">
-
-                  <span className="font-bold text-green-700">
-                    $
-                    {Number(producto.precio).toLocaleString(
-                      "es-AR"
-                    )}
-                  </span>
-
-                  <span
-                    className={`rounded-full px-3 py-1 text-[10px] font-bold ${
-                      producto.stock > 0
-                        ? "bg-green-100 text-green-800"
-                        : "bg-red-100 text-red-800"
-                    }`}
-                  >
-                    Stock: {producto.stock}
-                  </span>
-
-                </div>
-
-              </div>
-            ))}
+              );
+            })}
 
           </div>
         )}
@@ -430,3 +544,4 @@ export default function ProductosPage() {
     </main>
   );
 }
+

@@ -1,350 +1,283 @@
+
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import Link from "next/link";
 
 type Product = {
   id: string;
-  nombre: string;
+  business_id: string | null;
   codigo: string | null;
+  nombre: string;
+  descripcion: string | null;
+  precio: number;
+  stock: number;
+  imagen_url: string | null;
+  estado: string;
+  creativo_url?: string | null;
 };
 
 type Creative = {
   id: string;
-  nombre: string;
-  tipo: string;
-  url: string;
   product_id: string | null;
-  product_nombre: string;
-  product_codigo: string | null;
+  url: string | null;
+  tipo: string | null;
 };
 
-export default function CreativosPage() {
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
-
+export default function ProductosPage() {
   const [productos, setProductos] = useState<Product[]>([]);
-  const [creativos, setCreativos] = useState<Creative[]>([]);
-
-  const [selectedProduct, setSelectedProduct] = useState("");
-  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-
-  const [nombreCreativo, setNombreCreativo] = useState("");
-  const [urlArchivo, setUrlArchivo] = useState("");
-
   const [loading, setLoading] = useState(true);
-  const [uploading, setUploading] = useState(false);
-  const [savingUrl, setSavingUrl] = useState(false);
 
-  const [mensaje, setMensaje] = useState("");
-  const [error, setError] = useState("");
+  const [codigo, setCodigo] = useState("");
+  const [nombre, setNombre] = useState("");
+  const [descripcion, setDescripcion] = useState("");
+  const [precio, setPrecio] = useState("");
+  const [stock, setStock] = useState("");
+
+  const [saving, setSaving] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   useEffect(() => {
-    cargarDatos();
+    fetchProductos();
   }, []);
 
-  async function cargarDatos() {
-    setLoading(true);
-    setError("");
+  async function getBusinessId() {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
+    if (!user) {
+      throw new Error("No hay una sesión iniciada.");
+    }
+
+    const { data: business, error } = await supabase
+      .from("businesses")
+      .select("id")
+      .eq("owner_id", user.id)
+      .maybeSingle();
+
+    if (error) {
+      throw error;
+    }
+
+    if (!business) {
+      throw new Error(
+        "No encontramos un negocio asociado a tu usuario."
+      );
+    }
+
+    return {
+      businessId: business.id,
+      userId: user.id,
+    };
+  }
+
+  async function fetchProductos() {
     try {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
+      setLoading(true);
+      setErrorMsg(null);
 
-      if (!user) {
-        setError("No hay una sesión iniciada.");
-        setLoading(false);
-        return;
-      }
+      const { businessId, userId } = await getBusinessId();
 
       /*
+       * =====================================================
        * PRODUCTOS
+       * =====================================================
        */
+
       const { data: productosData, error: productosError } =
         await supabase
           .from("products")
-          .select("id,nombre,codigo")
-          .eq("business_id", user.id)
-          .order("nombre", { ascending: true });
+          .select(
+            "id,business_id,codigo,nombre,descripcion,precio,stock,imagen_url,estado"
+          )
+          .eq("business_id", businessId)
+          .order("nombre", {
+            ascending: true,
+          });
 
       if (productosError) {
-        console.error("Error productos:", productosError);
-        setProductos([]);
-      } else {
-        setProductos(productosData || []);
+        throw productosError;
       }
 
       /*
+       * =====================================================
        * CREATIVOS
+       * =====================================================
        *
-       * IMPORTANTE:
-       * La tabla creatives utiliza user_id.
-       *
-       * No usamos business_id.
-       *
-       * Tampoco usamos imagin_url.
-       * Usamos la columna url.
+       * Buscamos los creativos del usuario y utilizamos
+       * la primera imagen vinculada a cada producto como
+       * miniatura.
        */
-      const { data: creativosData, error: creativosError } =
+
+      const { data: creativesData, error: creativesError } =
         await supabase
           .from("creatives")
-          .select(
-            "id,ad_id,nombre,tipo,url,texto_principal,created_at,product_id,user_id"
-          )
-          .eq("user_id", user.id)
-          .order("created_at", { ascending: false });
+          .select("id,product_id,url,tipo")
+          .eq("user_id", userId)
+          .not("product_id", "is", null)
+          .order("created_at", {
+            ascending: false,
+          });
 
-      if (creativosError) {
-        console.error("Error creatives:", creativosError);
-        setError(
-          "No se pudieron cargar los creativos: " +
-            creativosError.message
+      if (creativesError) {
+        console.error(
+          "Error cargando creativos:",
+          creativesError
         );
-        setCreativos([]);
-        return;
       }
 
-      const lista: Creative[] = (creativosData || []).map(
-        (item: any) => {
-          const producto = productosData?.find(
-            (p: Product) => p.id === item.product_id
-          );
+      const creatives: Creative[] =
+        (creativesData as Creative[]) || [];
 
-          return {
-            id: item.id,
-            nombre: item.nombre || "Creativo",
-            tipo: item.tipo || "imagen",
-            url: item.url || "",
-            product_id: item.product_id || null,
-            product_nombre: producto?.nombre || "General",
-            product_codigo: producto?.codigo || null,
-          };
-        }
+      /*
+       * =====================================================
+       * VINCULAR MINIATURA
+       * =====================================================
+       *
+       * Para cada producto buscamos el primer creativo
+       * que tenga product_id igual al id del producto.
+       */
+
+      const productosConImagen: Product[] = (
+        (productosData as Product[]) || []
+      ).map((producto) => {
+        const creativo = creatives.find(
+          (item) =>
+            item.product_id === producto.id &&
+            item.url
+        );
+
+        return {
+          ...producto,
+          creativo_url: creativo?.url || null,
+        };
+      });
+
+      setProductos(productosConImagen);
+    } catch (error) {
+      console.error(
+        "Error al cargar productos:",
+        error
       );
 
-      setCreativos(lista);
-    } catch (err) {
-      console.error("Error general:", err);
-      setError("Ocurrió un error al cargar el banco multimedia.");
+      setProductos([]);
+
+      setErrorMsg(
+        error instanceof Error
+          ? error.message
+          : "No se pudieron cargar los productos."
+      );
     } finally {
       setLoading(false);
     }
   }
 
-  function seleccionarArchivos(
-    event: React.ChangeEvent<HTMLInputElement>
-  ) {
-    const files = Array.from(event.target.files || []);
-
-    if (files.length === 0) {
-      return;
-    }
-
-    setSelectedFiles(files);
-    setMensaje("");
-    setError("");
-  }
-
-  function limpiarArchivos() {
-    setSelectedFiles([]);
-
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
-  }
-
-  async function subirImagenes() {
-    if (selectedFiles.length === 0) {
-      setError("Seleccioná al menos una imagen.");
-      return;
-    }
-
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    if (!user) {
-      setError("No hay una sesión iniciada.");
-      return;
-    }
-
-    setUploading(true);
-    setError("");
-    setMensaje("");
-
-    let subidas = 0;
-    let errores = 0;
-
-    try {
-      for (const file of selectedFiles) {
-        const extension =
-          file.name.split(".").pop()?.toLowerCase() || "jpg";
-
-        const nombreBase = file.name
-          .replace(/\.[^/.]+$/, "")
-          .replace(/[^a-zA-Z0-9-_]/g, "-")
-          .toLowerCase();
-
-        const nombreArchivo =
-          Date.now() +
-          "-" +
-          Math.random().toString(36).substring(2, 8) +
-          "-" +
-          nombreBase +
-          "." +
-          extension;
-
-        const ruta = "uploads/" + nombreArchivo;
-
-        /*
-         * STORAGE
-         */
-        const { error: uploadError } = await supabase.storage
-          .from("creatives")
-          .upload(ruta, file, {
-            cacheControl: "3600",
-            upsert: false,
-          });
-
-        if (uploadError) {
-          console.error("Error Storage:", uploadError);
-          errores++;
-          continue;
-        }
-
-        /*
-         * URL PUBLICA
-         */
-        const { data: publicData } = supabase.storage
-          .from("creatives")
-          .getPublicUrl(ruta);
-
-        const imagenUrl = publicData.publicUrl;
-
-        /*
-         * TABLA CREATIVES
-         *
-         * Usamos:
-         * user_id
-         * nombre
-         * tipo
-         * url
-         * product_id
-         */
-        const { error: insertError } = await supabase
-          .from("creatives")
-          .insert({
-            user_id: user.id,
-            nombre: file.name,
-            tipo: "imagen",
-            url: imagenUrl,
-            product_id: selectedProduct || null,
-          });
-
-        if (insertError) {
-          console.error("Error base de datos:", insertError);
-          errores++;
-          continue;
-        }
-
-        subidas++;
-      }
-
-      if (subidas > 0) {
-        setMensaje(
-          subidas +
-            " imagen" +
-            (subidas === 1 ? "" : "es") +
-            " subida" +
-            (subidas === 1 ? "" : "s") +
-            " correctamente."
-        );
-      }
-
-      if (errores > 0) {
-        setError(
-          errores +
-            " archivo" +
-            (errores === 1 ? "" : "s") +
-            " no pudo registrarse."
-        );
-      }
-
-      limpiarArchivos();
-      setSelectedProduct("");
-
-      await cargarDatos();
-    } catch (err) {
-      console.error(err);
-      setError("Ocurrió un error durante la subida.");
-    } finally {
-      setUploading(false);
-    }
-  }
-
-  async function registrarUrl(
+  async function handleCreateProduct(
     event: React.FormEvent<HTMLFormElement>
   ) {
     event.preventDefault();
 
-    if (!urlArchivo.trim()) {
-      setError("Ingresá una URL.");
+    if (!nombre.trim()) {
+      setErrorMsg(
+        "El nombre del producto es obligatorio."
+      );
       return;
     }
 
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    if (!user) {
-      setError("No hay una sesión iniciada.");
+    if (!precio) {
+      setErrorMsg(
+        "El precio del producto es obligatorio."
+      );
       return;
     }
-
-    setSavingUrl(true);
-    setError("");
-    setMensaje("");
 
     try {
-      const nombre =
-        nombreCreativo.trim() ||
-        "Creativo " +
-          new Date().toLocaleDateString("es-AR");
+      setSaving(true);
+      setErrorMsg(null);
 
-      const { error: insertError } = await supabase
-        .from("creatives")
+      const { businessId } = await getBusinessId();
+
+      const { error } = await supabase
+        .from("products")
         .insert({
-          user_id: user.id,
-          nombre: nombre,
-          tipo: "imagen",
-          url: urlArchivo.trim(),
-          product_id: selectedProduct || null,
+          business_id: businessId,
+          codigo: codigo.trim() || null,
+          nombre: nombre.trim(),
+          descripcion: descripcion.trim() || null,
+          precio: Number(precio),
+          stock: Number(stock) || 0,
+          estado: "Activo",
         });
 
-      if (insertError) {
-        console.error("Error URL:", insertError);
-
-        setError(
-          "No se pudo registrar el creativo: " +
-            insertError.message
-        );
-
-        return;
+      if (error) {
+        throw error;
       }
 
-      setNombreCreativo("");
-      setUrlArchivo("");
-      setSelectedProduct("");
+      setCodigo("");
+      setNombre("");
+      setDescripcion("");
+      setPrecio("");
+      setStock("");
 
-      setMensaje("Creativo registrado correctamente.");
+      await fetchProductos();
+    } catch (error) {
+      console.error(
+        "Error al guardar producto:",
+        error
+      );
 
-      await cargarDatos();
-    } catch (err) {
-      console.error(err);
-      setError("Ocurrió un error al registrar la URL.");
+      setErrorMsg(
+        error instanceof Error
+          ? error.message
+          : "No se pudo guardar el producto."
+      );
     } finally {
-      setSavingUrl(false);
+      setSaving(false);
     }
+  }
+
+  async function handleDeleteProduct(id: string) {
+    const confirmar = window.confirm(
+      "¿Seguro que deseas eliminar este producto?"
+    );
+
+    if (!confirmar) {
+      return;
+    }
+
+    try {
+      const { error } = await supabase
+        .from("products")
+        .delete()
+        .eq("id", id);
+
+      if (error) {
+        throw error;
+      }
+
+      await fetchProductos();
+    } catch (error) {
+      console.error(
+        "Error al eliminar producto:",
+        error
+      );
+
+      setErrorMsg(
+        error instanceof Error
+          ? error.message
+          : "No se pudo eliminar el producto."
+      );
+    }
+  }
+
+  if (loading) {
+    return (
+      <main className="min-h-screen bg-[#f5f6f8] p-8 text-[#65676b]">
+        Cargando productos...
+      </main>
+    );
   }
 
   return (
@@ -352,476 +285,355 @@ export default function CreativosPage() {
       <div className="mx-auto max-w-7xl">
 
         {/* ENCABEZADO */}
-        <div className="mb-8">
-          <span className="text-xs font-bold uppercase tracking-wider text-[#1877f2]">
-            Banco Multimedia
-          </span>
 
-          <h1 className="mt-1 text-3xl font-black">
-            Creativos
-          </h1>
+        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <span className="text-xs font-bold uppercase tracking-wider text-[#1877f2]">
+              Catálogo de Inventario
+            </span>
 
-          <p className="mt-2 text-sm text-[#65676b]">
-            Subí, organizá y vinculá las imágenes de tus productos.
-          </p>
+            <h1 className="text-2xl font-bold">
+              Mis Productos
+            </h1>
+
+            <p className="mt-1 text-sm text-[#65676b]">
+              Administrá productos, códigos, precios,
+              stock y creativos vinculados.
+            </p>
+          </div>
+
+          <Link
+            href="/"
+            className="rounded-xl border border-[#ccd0d5] bg-white px-4 py-2 text-sm font-semibold hover:bg-[#f0f2f5]"
+          >
+            ← Volver al inicio
+          </Link>
         </div>
 
-        {/* MENSAJES */}
-        {error && (
-          <div className="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
-            {error}
+        {/* ERROR */}
+
+        {errorMsg && (
+          <div className="mb-6 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-600">
+            {errorMsg}
           </div>
         )}
 
-        {mensaje && (
-          <div className="mb-5 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">
-            {mensaje}
-          </div>
-        )}
+        {/* CREAR PRODUCTO */}
 
-        {/* CONTADORES */}
-        <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <section className="mb-10 rounded-2xl border border-[#e4e6eb] bg-white p-6 shadow-sm">
 
-          <div className="rounded-2xl border border-[#e4e6eb] bg-white p-5 shadow-sm">
-            <div className="text-xs font-bold uppercase tracking-wider text-[#65676b]">
-              Biblioteca
-            </div>
+          <h2 className="mb-5 text-lg font-bold">
+            ＋ Cargar Nuevo Producto
+          </h2>
 
-            <div className="mt-2 text-3xl font-black text-[#1877f2]">
-              {creativos.length}
-            </div>
-
-            <div className="text-xs text-[#65676b]">
-              creativos
-            </div>
-          </div>
-
-          <div className="rounded-2xl border border-[#e4e6eb] bg-white p-5 shadow-sm">
-            <div className="text-xs font-bold uppercase tracking-wider text-[#65676b]">
-              Productos
-            </div>
-
-            <div className="mt-2 text-3xl font-black">
-              {productos.length}
-            </div>
-
-            <div className="text-xs text-[#65676b]">
-              disponibles para vincular
-            </div>
-          </div>
-
-          <div className="rounded-2xl border border-[#e4e6eb] bg-white p-5 shadow-sm">
-            <div className="text-xs font-bold uppercase tracking-wider text-[#65676b]">
-              Seleccionadas
-            </div>
-
-            <div className="mt-2 text-3xl font-black text-[#1877f2]">
-              {selectedFiles.length}
-            </div>
-
-            <div className="text-xs text-[#65676b]">
-              imágenes para subir
-            </div>
-          </div>
-
-        </div>
-
-        {/* SUBIDA */}
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-
-          {/* PC */}
-          <section className="rounded-2xl border border-[#e4e6eb] bg-white p-6 shadow-sm">
-
-            <div className="mb-5">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#1877f2]">
-                Subida desde PC
-              </span>
-
-              <h2 className="mt-1 text-xl font-bold">
-                Subí varias imágenes
-              </h2>
-
-              <p className="mt-2 text-xs leading-5 text-[#65676b]">
-                Seleccioná varias fotos de tus productos y
-                cargalas todas juntas.
-              </p>
-            </div>
-
-            {/* PRODUCTO */}
-            <div className="mb-5">
-              <label className="mb-2 block text-xs font-bold">
-                Vincular al producto
-              </label>
-
-              <select
-                value={selectedProduct}
-                onChange={(event) =>
-                  setSelectedProduct(event.target.value)
-                }
-                className="w-full rounded-xl border border-[#ccd0d5] bg-white px-3 py-3 text-sm outline-none focus:border-[#1877f2]"
-              >
-                <option value="">
-                  Sin vincular — General
-                </option>
-
-                {productos.map((producto) => (
-                  <option
-                    key={producto.id}
-                    value={producto.id}
-                  >
-                    {producto.codigo
-                      ? producto.codigo +
-                        " — " +
-                        producto.nombre
-                      : producto.nombre}
-                  </option>
-                ))}
-              </select>
-
-              {productos.length === 0 && (
-                <p className="mt-2 text-xs text-[#8a8d91]">
-                  Todavía no hay productos disponibles para vincular.
-                </p>
-              )}
-            </div>
-
-            {/* ARCHIVOS */}
-            <div className="rounded-2xl border-2 border-dashed border-[#ccd0d5] bg-[#f8f9fa] p-8 text-center transition hover:border-[#1877f2]">
-
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#e7f3ff] text-2xl text-[#1877f2]">
-                ↑
-              </div>
-
-              <h3 className="mt-4 text-sm font-bold">
-                Arrastrá tus imágenes acá
-              </h3>
-
-              <p className="mt-1 text-xs text-[#65676b]">
-                o seleccioná varios archivos desde tu PC
-              </p>
-
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                multiple
-                onChange={seleccionarArchivos}
-                className="hidden"
-              />
-
-              <button
-                type="button"
-                onClick={() =>
-                  fileInputRef.current?.click()
-                }
-                className="mt-5 rounded-xl bg-[#1877f2] px-5 py-3 text-xs font-bold text-white hover:bg-[#166fe5]"
-              >
-                Seleccionar imágenes
-              </button>
-
-              <p className="mt-3 text-[10px] text-[#8a8d91]">
-                Podés seleccionar varias imágenes al mismo tiempo.
-              </p>
-            </div>
-
-            {/* PREVISUALIZACION */}
-            {selectedFiles.length > 0 && (
-              <div className="mt-5">
-
-                <div className="mb-3 flex items-center justify-between">
-                  <span className="text-xs font-bold">
-                    {selectedFiles.length} imágenes seleccionadas
-                  </span>
-
-                  <button
-                    type="button"
-                    onClick={limpiarArchivos}
-                    className="text-xs font-semibold text-red-500 hover:underline"
-                  >
-                    Limpiar
-                  </button>
-                </div>
-
-                <div className="grid grid-cols-3 gap-3">
-                  {selectedFiles.map((file, index) => (
-                    <div
-                      key={file.name + "-" + index}
-                      className="overflow-hidden rounded-xl border border-[#e4e6eb] bg-[#f8f9fa]"
-                    >
-                      <img
-                        src={URL.createObjectURL(file)}
-                        alt={"Vista previa " + (index + 1)}
-                        className="h-24 w-full object-cover"
-                      />
-
-                      <div className="truncate px-2 py-2 text-[9px] text-[#65676b]">
-                        {file.name}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                <button
-                  type="button"
-                  onClick={subirImagenes}
-                  disabled={uploading}
-                  className="mt-5 w-full rounded-xl bg-[#1877f2] py-3 text-xs font-bold text-white hover:bg-[#166fe5] disabled:cursor-not-allowed disabled:opacity-50"
-                >
-                  {uploading
-                    ? "Subiendo imágenes..."
-                    : "Subir " +
-                      selectedFiles.length +
-                      " imágenes"}
-                </button>
-              </div>
-            )}
-          </section>
-
-          {/* URL */}
-          <section className="rounded-2xl border border-[#e4e6eb] bg-white p-6 shadow-sm">
-
-            <div className="mb-5">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#1877f2]">
-                Importación externa
-              </span>
-
-              <h2 className="mt-1 text-xl font-bold">
-                Desde la nube
-              </h2>
-
-              <p className="mt-2 text-xs leading-5 text-[#65676b]">
-                También podés registrar una imagen mediante una URL.
-              </p>
-            </div>
-
-            <form
-              onSubmit={registrarUrl}
-              className="space-y-5"
-            >
-
-              <div>
-                <label className="mb-2 block text-xs font-bold">
-                  Producto
-                </label>
-
-                <select
-                  value={selectedProduct}
-                  onChange={(event) =>
-                    setSelectedProduct(event.target.value)
-                  }
-                  className="w-full rounded-xl border border-[#ccd0d5] bg-white px-3 py-3 text-sm outline-none focus:border-[#1877f2]"
-                >
-                  <option value="">
-                    Sin vincular — General
-                  </option>
-
-                  {productos.map((producto) => (
-                    <option
-                      key={producto.id}
-                      value={producto.id}
-                    >
-                      {producto.codigo
-                        ? producto.codigo +
-                          " — " +
-                          producto.nombre
-                        : producto.nombre}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="mb-2 block text-xs font-bold">
-                  Nombre del creativo
-                </label>
-
-                <input
-                  type="text"
-                  value={nombreCreativo}
-                  onChange={(event) =>
-                    setNombreCreativo(event.target.value)
-                  }
-                  placeholder="Ej: Jeans Mossa foto principal"
-                  className="w-full rounded-xl border border-[#ccd0d5] px-3 py-3 text-sm outline-none focus:border-[#1877f2]"
-                />
-              </div>
-
-              <div>
-                <label className="mb-2 block text-xs font-bold">
-                  URL del archivo
-                </label>
-
-                <input
-                  type="url"
-                  value={urlArchivo}
-                  onChange={(event) =>
-                    setUrlArchivo(event.target.value)
-                  }
-                  placeholder="https://..."
-                  required
-                  className="w-full rounded-xl border border-[#ccd0d5] px-3 py-3 text-sm outline-none focus:border-[#1877f2]"
-                />
-              </div>
-
-              <button
-                type="submit"
-                disabled={savingUrl}
-                className="w-full rounded-xl bg-[#1877f2] py-3 text-xs font-bold text-white hover:bg-[#166fe5] disabled:opacity-50"
-              >
-                {savingUrl
-                  ? "Registrando..."
-                  : "Registrar URL"}
-              </button>
-
-            </form>
-
-            <div className="mt-6 rounded-xl bg-[#f7f8fa] p-4">
-              <div className="text-xs font-bold">
-                Próximamente
-              </div>
-
-              <p className="mt-1 text-[11px] leading-5 text-[#65676b]">
-                Podemos conectar Google Drive y Dropbox directamente
-                para importar archivos sin copiar URLs.
-              </p>
-            </div>
-
-          </section>
-        </div>
-
-        {/* BIBLIOTECA */}
-        <section className="mt-8 rounded-2xl border border-[#e4e6eb] bg-white p-6 shadow-sm">
-
-          <div className="mb-6 flex items-center justify-between">
+          <form
+            onSubmit={handleCreateProduct}
+            className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5"
+          >
 
             <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-[#1877f2]">
-                Biblioteca
-              </span>
+              <label className="mb-1 block text-xs font-semibold text-[#65676b]">
+                Código / SKU
+              </label>
 
-              <h2 className="mt-1 text-xl font-bold">
-                Creativos registrados
-              </h2>
+              <input
+                type="text"
+                placeholder="Ej. JNS-001"
+                value={codigo}
+                onChange={(event) =>
+                  setCodigo(event.target.value)
+                }
+                className="w-full rounded-xl border border-[#ccd0d5] p-2.5 text-sm outline-none focus:border-[#1877f2]"
+              />
             </div>
 
-            <button
-              type="button"
-              onClick={cargarDatos}
-              className="rounded-xl border border-[#ccd0d5] bg-white px-4 py-2 text-xs font-semibold hover:bg-[#f0f2f5]"
-            >
-              Actualizar
-            </button>
+            <div>
+              <label className="mb-1 block text-xs font-semibold text-[#65676b]">
+                Nombre del Producto *
+              </label>
 
+              <input
+                type="text"
+                placeholder="Ej. Jeans Mossa"
+                value={nombre}
+                onChange={(event) =>
+                  setNombre(event.target.value)
+                }
+                className="w-full rounded-xl border border-[#ccd0d5] p-2.5 text-sm outline-none focus:border-[#1877f2]"
+              />
+            </div>
+
+            <div>
+              <label className="mb-1 block text-xs font-semibold text-[#65676b]">
+                Precio ($) *
+              </label>
+
+              <input
+                type="number"
+                min="0"
+                placeholder="20000"
+                value={precio}
+                onChange={(event) =>
+                  setPrecio(event.target.value)
+                }
+                className="w-full rounded-xl border border-[#ccd0d5] p-2.5 text-sm outline-none focus:border-[#1877f2]"
+              />
+            </div>
+
+            <div>
+              <label className="mb-1 block text-xs font-semibold text-[#65676b]">
+                Stock Inicial
+              </label>
+
+              <input
+                type="number"
+                min="0"
+                placeholder="10"
+                value={stock}
+                onChange={(event) =>
+                  setStock(event.target.value)
+                }
+                className="w-full rounded-xl border border-[#ccd0d5] p-2.5 text-sm outline-none focus:border-[#1877f2]"
+              />
+            </div>
+
+            <div className="flex items-end">
+              <button
+                type="submit"
+                disabled={saving}
+                className="w-full rounded-xl bg-[#1877f2] py-2.5 text-sm font-semibold text-white transition hover:bg-[#166fe5] disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {saving
+                  ? "Guardando..."
+                  : "Guardar Producto"}
+              </button>
+            </div>
+
+            <div className="sm:col-span-2 lg:col-span-5">
+              <label className="mb-1 block text-xs font-semibold text-[#65676b]">
+                Descripción
+              </label>
+
+              <textarea
+                rows={3}
+                placeholder="Descripción del producto..."
+                value={descripcion}
+                onChange={(event) =>
+                  setDescripcion(event.target.value)
+                }
+                className="w-full resize-none rounded-xl border border-[#ccd0d5] p-3 text-sm outline-none focus:border-[#1877f2]"
+              />
+            </div>
+
+          </form>
+        </section>
+
+        {/* CATÁLOGO */}
+
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="text-lg font-bold">
+            Catálogo Registrado ({productos.length})
+          </h2>
+
+          <button
+            onClick={fetchProductos}
+            className="rounded-xl border border-[#ccd0d5] bg-white px-4 py-2 text-xs font-semibold hover:bg-[#f0f2f5]"
+          >
+            ↻ Actualizar
+          </button>
+        </div>
+
+        {productos.length === 0 ? (
+          <div className="rounded-2xl border border-[#e4e6eb] bg-white p-10 text-center shadow-sm">
+            <div className="text-3xl">
+              ◇
+            </div>
+
+            <h3 className="mt-3 text-base font-bold">
+              Todavía no hay productos
+            </h3>
+
+            <p className="mt-1 text-sm text-[#65676b]">
+              Cargá tu primer producto para comenzar
+              a organizar tu catálogo.
+            </p>
           </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
 
-          {loading ? (
-            <div className="py-16 text-center text-sm text-[#65676b]">
-              Cargando biblioteca...
-            </div>
-          ) : creativos.length === 0 ? (
-            <div className="rounded-2xl bg-[#f7f8fa] py-16 text-center">
+            {productos.map((producto) => {
 
-              <div className="text-4xl">
-                Imagen
-              </div>
+              const imagen =
+                producto.creativo_url ||
+                producto.imagen_url;
 
-              <h3 className="mt-4 text-sm font-bold">
-                Todavía no hay creativos
-              </h3>
-
-              <p className="mt-1 text-xs text-[#65676b]">
-                Subí imágenes desde tu PC o registrá una URL externa.
-              </p>
-
-            </div>
-          ) : (
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-
-              {creativos.map((creativo) => (
+              return (
                 <div
-                  key={creativo.id}
-                  className="overflow-hidden rounded-2xl border border-[#e4e6eb] bg-white shadow-sm"
+                  key={producto.id}
+                  className="overflow-hidden rounded-2xl border border-[#e4e6eb] bg-white shadow-sm transition hover:shadow-md"
                 >
 
-                  <div className="h-44 bg-[#f0f2f5]">
+                  {/* MINIATURA */}
 
-                    {creativo.url ? (
+                  <div className="relative h-52 w-full overflow-hidden bg-[#f0f2f5]">
+
+                    {imagen ? (
                       <img
-                        src={creativo.url}
-                        alt={creativo.nombre}
-                        className="h-full w-full object-cover"
+                        src={imagen}
+                        alt={producto.nombre}
+                        className="h-full w-full object-cover transition duration-300 hover:scale-105"
                       />
                     ) : (
-                      <div className="flex h-full items-center justify-center text-xs font-bold text-[#8a8d91]">
-                        Sin imagen
+                      <div className="flex h-full flex-col items-center justify-center text-[#8a8d91]">
+                        <div className="text-4xl">
+                          +
+                        </div>
+
+                        <span className="mt-2 text-xs font-semibold">
+                          Sin creativo vinculado
+                        </span>
+                      </div>
+                    )}
+
+                    {/* CÓDIGO */}
+
+                    <div className="absolute left-3 top-3">
+                      <span className="rounded-full bg-white/95 px-3 py-1 text-[10px] font-black text-[#1877f2] shadow-sm">
+                        {producto.codigo ||
+                          "SIN CÓDIGO"}
+                      </span>
+                    </div>
+
+                    {/* CONTADOR / ESTADO */}
+
+                    {producto.creativo_url && (
+                      <div className="absolute bottom-3 right-3">
+                        <span className="rounded-full bg-black/70 px-3 py-1 text-[10px] font-bold text-white">
+                          Foto vinculada
+                        </span>
                       </div>
                     )}
 
                   </div>
 
-                  <div className="p-3">
+                  {/* INFORMACIÓN */}
 
-                    <div className="truncate text-xs font-bold">
-                      {creativo.nombre}
+                  <div className="p-5">
+
+                    <div className="flex items-start justify-between gap-3">
+
+                      <div className="min-w-0">
+
+                        <h3 className="truncate text-base font-bold">
+                          {producto.nombre}
+                        </h3>
+
+                        <p className="mt-1 text-xs text-[#65676b]">
+                          Producto del catálogo
+                        </p>
+
+                      </div>
+
+                      <button
+                        onClick={() =>
+                          handleDeleteProduct(
+                            producto.id
+                          )
+                        }
+                        className="shrink-0 rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-xs font-semibold text-red-600 hover:bg-red-100"
+                      >
+                        Eliminar
+                      </button>
+
                     </div>
 
-                    <div className="mt-2 flex items-center justify-between gap-2">
+                    {producto.descripcion && (
+                      <p className="mt-3 line-clamp-2 text-xs leading-5 text-[#65676b]">
+                        {producto.descripcion}
+                      </p>
+                    )}
 
-                      <span className="rounded-full bg-[#e7f3ff] px-2 py-1 text-[9px] font-bold text-[#1877f2]">
-                        {creativo.product_codigo || "GENERAL"}
+                    {/* PRECIO + STOCK */}
+
+                    <div className="mt-4 flex items-center justify-between border-t border-[#e4e6eb] pt-4">
+
+                      <span className="font-bold text-green-700">
+                        $
+                        {Number(
+                          producto.precio
+                        ).toLocaleString("es-AR")}
                       </span>
 
-                      <span className="text-[9px] font-bold uppercase text-[#65676b]">
-                        {creativo.tipo}
+                      <span
+                        className={`rounded-full px-3 py-1 text-[10px] font-bold ${
+                          producto.stock > 0
+                            ? "bg-green-100 text-green-800"
+                            : "bg-red-100 text-red-800"
+                        }`}
+                      >
+                        Stock: {producto.stock}
                       </span>
 
                     </div>
 
-                    <div className="mt-2 truncate text-[10px] text-[#65676b]">
-                      {creativo.product_nombre}
+                    {/* CREATIVOS */}
+
+                    <div className="mt-4">
+
+                      <Link
+                        href="/creativos"
+                        className="flex w-full items-center justify-center rounded-xl border border-[#1877f2] bg-[#e7f3ff] px-4 py-2.5 text-xs font-bold text-[#1877f2] transition hover:bg-[#dbeafe]"
+                      >
+                        Ver creativos del producto
+                      </Link>
+
                     </div>
 
                   </div>
+
                 </div>
-              ))}
-
-            </div>
-          )}
-
-        </section>
-
-        {/* IA */}
-        <section className="mt-8 rounded-2xl border border-[#dbeafe] bg-[#eff6ff] p-6">
-
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-
-            <div>
-              <div className="text-xs font-bold uppercase tracking-wider text-[#1877f2]">
-                Próximo paso
-              </div>
-
-              <h2 className="mt-1 text-lg font-black">
-                Usá tus creativos con MÍA IA
-              </h2>
-
-              <p className="mt-1 text-xs text-[#65676b]">
-                Las imágenes vinculadas a cada producto quedarán
-                disponibles para utilizarlas posteriormente en la
-                generación de anuncios.
-              </p>
-            </div>
-
-            <a
-              href="/lanzador-ia"
-              className="shrink-0 rounded-xl bg-[#1877f2] px-5 py-3 text-xs font-bold text-white hover:bg-[#166fe5]"
-            >
-              Ir a MÍA IA
-            </a>
+              );
+            })}
 
           </div>
+        )}
+
+        {/* EXPLICACIÓN */}
+
+        <section className="mt-8 rounded-2xl border border-[#dbeafe] bg-[#eff6ff] p-6">
+
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
+
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#1877f2] text-lg font-black text-white">
+              IA
+            </div>
+
+            <div>
+
+              <h2 className="text-sm font-black">
+                Creativos vinculados a productos
+              </h2>
+
+              <p className="mt-1 text-xs leading-5 text-[#65676b]">
+                Las imágenes que cargues desde Banco de
+                Creativos y vincules a un producto aparecerán
+                automáticamente como miniatura aquí.
+              </p>
+
+              <p className="mt-2 text-xs leading-5 text-[#65676b]">
+                Más adelante MÍA IA podrá utilizar estas
+                imágenes para generar nuevas variantes,
+                anuncios y creatividades para Meta Ads.
+              </p>
+
+            </div>
+
+          </div>
+
         </section>
 
       </div>
     </main>
   );
 }
+

@@ -325,35 +325,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* CARACTERÍSTICAS */}
-        <section className="mt-12">
-
-          <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
-
-            <Feature
-              title="Control de Stock"
-            />
-
-            <Feature
-              title="Banco de Creativos"
-            />
-
-            <Feature
-              title="Generación IA"
-            />
-
-            <Feature
-              title="Campañas Meta Ads"
-            />
-
-            <Feature
-              title="Analítica"
-            />
-
-          </div>
-
-        </section>
-
+       
         {/* SISTEMA */}
         <section className="mt-20">
 

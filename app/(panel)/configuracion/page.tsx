@@ -1,9 +1,8 @@
 
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabase";
 
 type Section = "cuenta" | "negocio" | "preferencias" | "seguridad";
 
@@ -11,463 +10,269 @@ export default function ConfiguracionPage() {
   const router = useRouter();
 
   const [section, setSection] = useState<Section>("cuenta");
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-
-  const [email, setEmail] = useState("");
-  const [businessId, setBusinessId] = useState("");
-  const [businessName, setBusinessName] = useState("");
-
+  const [businessName, setBusinessName] = useState("Mía Sofía Moda");
   const [notifications, setNotifications] = useState(true);
   const [alerts, setAlerts] = useState(true);
   const [autoRefresh, setAutoRefresh] = useState(true);
 
-  useEffect(() => {
-    loadData();
-  }, []);
-
-  async function loadData() {
-    try {
-      setLoading(true);
-      setError("");
-
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-
-      if (!user) {
-        router.replace("/login");
-        return;
-      }
-
-      setEmail(user.email || "");
-
-      const { data: business } = await supabase
-        .from("businesses")
-        .select("id, name")
-        .eq("owner_id", user.id)
-        .maybeSingle();
-
-      if (business) {
-        setBusinessId(business.id);
-        setBusinessName(business.name || "Mía Sofía Moda");
-      } else {
-        setBusinessName("Mía Sofía Moda");
-      }
-    } catch (err) {
-      setError(
-        err instanceof Error
-          ? err.message
-          : "No se pudo cargar la configuración."
-      );
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  async function saveBusiness() {
-    if (!businessId) {
-      setError("No encontramos tu negocio.");
-      return;
-    }
-
-    try {
-      setSaving(true);
-      setError("");
-      setSuccess("");
-
-      const { error } = await supabase
-        .from("businesses")
-        .update({
-          name: businessName.trim() || "Mía Sofía Moda",
-        })
-        .eq("id", businessId);
-
-      if (error) throw error;
-
-      setSuccess("Cambios guardados correctamente.");
-    } catch (err) {
-      setError(
-        err instanceof Error
-          ? err.message
-          : "No se pudieron guardar los cambios."
-      );
-    } finally {
-      setSaving(false);
-    }
-  }
-
-  async function logout() {
-    await supabase.auth.signOut();
-    router.replace("/login");
-    router.refresh();
-  }
-
-  if (loading) {
-    return (
-      <main className="flex min-h-screen items-center justify-center bg-white text-gray-900">
-        <div className="text-sm text-gray-500">
-          Cargando configuración...
-        </div>
-      </main>
-    );
+  function logout() {
+    router.push("/login");
   }
 
   return (
-    <main className="min-h-screen bg-white text-gray-900">
+    <main className="min-h-screen bg-[#f0f2f5] text-[#1c1e21] pl-64">
+      <div className="min-h-screen">
 
-      <div className="flex min-h-screen">
+        {/* =====================================================
+            CONTENIDO
+        ===================================================== */}
 
-        {/* SIDEBAR */}
+        <div className="mx-auto max-w-7xl px-6 py-8 lg:px-10">
 
-        <aside className="hidden w-64 flex-col border-r border-gray-200 bg-white lg:flex">
+          {/* =====================================================
+              CABECERA
+          ===================================================== */}
 
-          <div className="border-b border-gray-200 px-6 py-6">
+          <div className="mb-8 rounded-2xl border border-[#d8dadf] bg-white shadow-sm">
 
-            <div className="text-2xl font-black tracking-tight text-gray-900">
-              MÍA{" "}
-              <span className="text-[#1877F2]">
-                ADS
-              </span>
-            </div>
+            <div className="flex flex-col gap-5 px-7 py-6 lg:flex-row lg:items-center lg:justify-between">
 
-            <div className="mt-1 text-[9px] uppercase tracking-[0.35em] text-gray-400">
-              Manager
-            </div>
-
-          </div>
-
-          <nav className="flex-1 p-4">
-
-            <SidebarItem
-              label="Inicio"
-              icon="⌂"
-              href="/dashboard"
-            />
-
-            <SidebarItem
-              label="Campañas"
-              icon="▣"
-              href="/campanas"
-            />
-
-            <SidebarItem
-              label="Anuncios"
-              icon="◈"
-              href="/anuncios"
-            />
-
-            <SidebarItem
-              label="Productos"
-              icon="◇"
-              href="/productos"
-            />
-
-            <SidebarItem
-              label="Creativos"
-              icon="✦"
-              href="/creativos"
-            />
-
-            <SidebarItem
-              label="Analítica"
-              icon="▥"
-              href="/analitica"
-            />
-
-            <SidebarItem
-              label="Automatizaciones"
-              icon="⚙"
-              href="/automatizaciones"
-            />
-
-            <SidebarItem
-              label="Alertas"
-              icon="!"
-              href="/alertas"
-            />
-
-            <div className="my-4 border-t border-gray-200" />
-
-            <SidebarItem
-              label="Configuración"
-              icon="⚙"
-              href="/configuracion"
-              active
-            />
-
-          </nav>
-
-          <div className="border-t border-gray-200 p-4">
-
-            <div className="mb-3 rounded-xl bg-gray-50 p-4">
-
-              <div className="text-[10px] uppercase tracking-wider text-gray-400">
-                Cuenta
-              </div>
-
-              <div className="mt-2 truncate text-sm font-semibold text-gray-800">
-                Mía Sofía Moda
-              </div>
-
-              <div className="mt-1 text-xs text-green-600">
-                ● Conectada
-              </div>
-
-            </div>
-
-            <button
-              onClick={logout}
-              className="w-full rounded-xl px-4 py-3 text-left text-sm text-gray-500 transition hover:bg-gray-100 hover:text-gray-900"
-            >
-              Cerrar sesión
-            </button>
-
-          </div>
-
-        </aside>
-
-        {/* CONTENIDO */}
-
-        <section className="min-w-0 flex-1 bg-white">
-
-          {/* HEADER */}
-
-          <header className="border-b border-gray-200 bg-white px-6 py-6 lg:px-10">
-
-            <div className="text-xs font-medium text-gray-400">
-              Administración
-            </div>
-
-            <h1 className="mt-1 text-2xl font-bold text-gray-900">
-              Configuración
-            </h1>
-
-            <p className="mt-1 text-sm text-gray-500">
-              Administrá tu cuenta, negocio y preferencias.
-            </p>
-
-          </header>
-
-          <div className="p-6 lg:p-10">
-
-            {error && (
-              <div className="mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
-                {error}
-              </div>
-            )}
-
-            {success && (
-              <div className="mb-6 rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-600">
-                {success}
-              </div>
-            )}
-
-            <div className="grid gap-6 lg:grid-cols-[240px_1fr]">
-
-              {/* CONFIG MENU */}
-
-              <div className="h-fit rounded-2xl border border-gray-200 bg-white p-2 shadow-sm">
-
-                <ConfigItem
-                  title="Cuenta"
-                  description="Información de acceso"
-                  active={section === "cuenta"}
-                  onClick={() => setSection("cuenta")}
-                />
-
-                <ConfigItem
-                  title="Negocio"
-                  description="Datos comerciales"
-                  active={section === "negocio"}
-                  onClick={() => setSection("negocio")}
-                />
-
-                <ConfigItem
-                  title="Preferencias"
-                  description="Personalización"
-                  active={section === "preferencias"}
-                  onClick={() => setSection("preferencias")}
-                />
-
-                <ConfigItem
-                  title="Seguridad"
-                  description="Acceso y sesión"
-                  active={section === "seguridad"}
-                  onClick={() => setSection("seguridad")}
-                />
-
-              </div>
-
-              {/* PANEL PRINCIPAL */}
+              {/* TITULO */}
 
               <div>
+                <div className="mb-2 text-xs font-bold uppercase tracking-wider text-[#65676b]">
+                  Administración
+                </div>
 
-                {section === "cuenta" && (
-                  <Panel
-                    title="Información de la cuenta"
-                    description="Datos asociados a tu cuenta de MÍA ADS."
-                  >
+                <h1 className="text-3xl font-bold tracking-tight text-[#1c1e21]">
+                  Configuración
+                </h1>
 
-                    <div className="space-y-5">
+                <p className="mt-2 text-sm text-[#65676b]">
+                  Administrá tu cuenta, negocio y preferencias.
+                </p>
+              </div>
 
-                      <Field
-                        label="Correo electrónico"
-                        value={email}
+              {/* ACCIONES */}
+
+              <div className="flex flex-wrap items-center gap-3">
+
+                <button
+                  type="button"
+                  onClick={() => router.push("/")}
+                  className="inline-flex items-center gap-2 rounded-xl border border-[#ccd0d5] bg-white px-4 py-2.5 text-sm font-semibold text-[#65676b] shadow-sm transition hover:border-[#1877f2] hover:bg-[#e7f3ff] hover:text-[#1877f2]"
+                >
+                  <span className="text-lg leading-none">←</span>
+                  Volver al inicio
+                </button>
+
+                <div className="flex items-center gap-2 rounded-xl bg-[#eaf7ed] px-4 py-2.5 text-xs font-bold text-[#31a24c]">
+                  <span className="h-2 w-2 rounded-full bg-[#31a24c]" />
+                  Sistema activo
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          {/* =====================================================
+              ÁREA PRINCIPAL
+          ===================================================== */}
+
+          <div className="grid gap-6 lg:grid-cols-[250px_minmax(0,1fr)]">
+
+            {/* =================================================
+                PANEL LATERAL DE CONFIGURACIÓN
+            ================================================= */}
+
+            <aside className="h-fit rounded-2xl border border-[#d8dadf] bg-white p-3 shadow-sm">
+
+              <div className="px-3 pb-3 pt-2">
+                <div className="text-xs font-bold uppercase tracking-wider text-[#8a8d91]">
+                  Configuración
+                </div>
+              </div>
+
+              <ConfigItem
+                title="Cuenta"
+                description="Información de acceso"
+                active={section === "cuenta"}
+                onClick={() => setSection("cuenta")}
+              />
+
+              <ConfigItem
+                title="Negocio"
+                description="Datos comerciales"
+                active={section === "negocio"}
+                onClick={() => setSection("negocio")}
+              />
+
+              <ConfigItem
+                title="Preferencias"
+                description="Personalización"
+                active={section === "preferencias"}
+                onClick={() => setSection("preferencias")}
+              />
+
+              <ConfigItem
+                title="Seguridad"
+                description="Acceso y sesión"
+                active={section === "seguridad"}
+                onClick={() => setSection("seguridad")}
+              />
+
+            </aside>
+
+            {/* =================================================
+                PANEL PRINCIPAL
+            ================================================= */}
+
+            <section className="min-w-0">
+
+              {/* CUENTA */}
+
+              {section === "cuenta" && (
+                <Panel
+                  title="Información de la cuenta"
+                  description="Datos asociados a tu cuenta de MÍA ADS."
+                >
+
+                  <div className="mx-auto max-w-3xl space-y-6">
+
+                    <Field
+                      label="Correo electrónico"
+                      value="Cuenta conectada"
+                    />
+
+                    <Field
+                      label="Estado"
+                      value="Activa"
+                    />
+
+                    <InfoBox
+                      title="Cuenta MÍA ADS"
+                      text="Tu cuenta está conectada correctamente y lista para utilizar el administrador."
+                    />
+
+                  </div>
+
+                </Panel>
+              )}
+
+              {/* NEGOCIO */}
+
+              {section === "negocio" && (
+                <Panel
+                  title="Información del negocio"
+                  description="Configurá los datos principales de tu negocio."
+                >
+
+                  <div className="mx-auto max-w-3xl space-y-6">
+
+                    <div>
+                      <label className="mb-2 block text-xs font-bold text-[#65676b]">
+                        Nombre del negocio
+                      </label>
+
+                      <input
+                        type="text"
+                        value={businessName}
+                        onChange={(event) =>
+                          setBusinessName(event.target.value)
+                        }
+                        className="w-full rounded-xl border border-[#ccd0d5] bg-white px-4 py-3 text-sm text-[#1c1e21] outline-none transition focus:border-[#1877f2] focus:ring-2 focus:ring-[#1877f2]/10"
+                        placeholder="Nombre del negocio"
                       />
-
-                      <Field
-                        label="Estado"
-                        value="Cuenta conectada"
-                      />
-
-                      <InfoBox
-                        title="Cuenta MÍA ADS"
-                        text="Tu cuenta está conectada correctamente y lista para utilizar el administrador."
-                      />
-
                     </div>
 
-                  </Panel>
-                )}
-
-                {section === "negocio" && (
-                  <Panel
-                    title="Información del negocio"
-                    description="Configurá los datos de tu negocio."
-                  >
-
-                    <div className="space-y-5">
-
-                      <div>
-
-                        <label className="mb-2 block text-xs font-medium text-gray-500">
-                          Nombre del negocio
-                        </label>
-
-                        <input
-                          value={businessName}
-                          onChange={(e) =>
-                            setBusinessName(e.target.value)
-                          }
-                          className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm text-gray-900 outline-none transition focus:border-[#1877F2] focus:ring-2 focus:ring-blue-100"
-                          placeholder="Nombre del negocio"
-                        />
-
-                      </div>
-
-                      <div>
-
-                        <label className="mb-2 block text-xs font-medium text-gray-500">
-                          ID del negocio
-                        </label>
-
-                        <div className="rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 font-mono text-xs text-gray-500">
-                          {businessId || "No disponible"}
-                        </div>
-
-                      </div>
-
-                      <div className="flex justify-end">
-
-                        <button
-                          onClick={saveBusiness}
-                          disabled={saving}
-                          className="rounded-xl bg-[#1877F2] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#166fe5] disabled:opacity-50"
-                        >
-                          {saving
-                            ? "Guardando..."
-                            : "Guardar cambios"}
-                        </button>
-
-                      </div>
-
-                    </div>
-
-                  </Panel>
-                )}
-
-                {section === "preferencias" && (
-                  <Panel
-                    title="Preferencias"
-                    description="Personalizá el funcionamiento de MÍA ADS."
-                  >
-
-                    <div className="divide-y divide-gray-100">
-
-                      <Toggle
-                        title="Notificaciones"
-                        description="Recibir avisos importantes de tu cuenta."
-                        enabled={notifications}
-                        onChange={() =>
-                          setNotifications(!notifications)
-                        }
-                      />
-
-                      <Toggle
-                        title="Alertas"
-                        description="Mostrar avisos relacionados con campañas y productos."
-                        enabled={alerts}
-                        onChange={() =>
-                          setAlerts(!alerts)
-                        }
-                      />
-
-                      <Toggle
-                        title="Actualización automática"
-                        description="Actualizar información automáticamente."
-                        enabled={autoRefresh}
-                        onChange={() =>
-                          setAutoRefresh(!autoRefresh)
-                        }
-                      />
-
-                    </div>
-
-                  </Panel>
-                )}
-
-                {section === "seguridad" && (
-                  <div className="space-y-6">
-
-                    <Panel
-                      title="Seguridad"
-                      description="Información relacionada con el acceso."
-                    >
-
-                      <div className="space-y-4">
-
-                        <SecurityItem
-                          title="Sesión actual"
-                          description="La sesión actual está activa."
-                          status="Activa"
-                        />
-
-                        <SecurityItem
-                          title="Autenticación"
-                          description="La cuenta utiliza autenticación segura."
-                          status="Protegida"
-                        />
-
-                      </div>
-
-                    </Panel>
-
-                    <div className="rounded-2xl border border-red-200 bg-red-50 p-5">
-
-                      <div className="font-semibold text-red-700">
-                        Cerrar sesión
-                      </div>
-
-                      <p className="mt-1 text-sm text-red-600/70">
-                        Vas a cerrar la sesión actual.
-                      </p>
+                    <div className="flex justify-end">
 
                       <button
+                        type="button"
+                        className="rounded-xl bg-[#1877f2] px-6 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-[#166fe5]"
+                      >
+                        Guardar cambios
+                      </button>
+
+                    </div>
+
+                  </div>
+
+                </Panel>
+              )}
+
+              {/* PREFERENCIAS */}
+
+              {section === "preferencias" && (
+                <Panel
+                  title="Preferencias"
+                  description="Personalizá el funcionamiento de MÍA ADS."
+                >
+
+                  <div className="mx-auto max-w-3xl divide-y divide-[#e4e6eb]">
+
+                    <Toggle
+                      title="Notificaciones"
+                      description="Recibir avisos importantes de tu cuenta."
+                      enabled={notifications}
+                      onChange={() =>
+                        setNotifications(!notifications)
+                      }
+                    />
+
+                    <Toggle
+                      title="Alertas"
+                      description="Mostrar avisos relacionados con campañas y productos."
+                      enabled={alerts}
+                      onChange={() =>
+                        setAlerts(!alerts)
+                      }
+                    />
+
+                    <Toggle
+                      title="Actualización automática"
+                      description="Actualizar información automáticamente."
+                      enabled={autoRefresh}
+                      onChange={() =>
+                        setAutoRefresh(!autoRefresh)
+                      }
+                    />
+
+                  </div>
+
+                </Panel>
+              )}
+
+              {/* SEGURIDAD */}
+
+              {section === "seguridad" && (
+                <Panel
+                  title="Seguridad"
+                  description="Información relacionada con el acceso a tu cuenta."
+                >
+
+                  <div className="mx-auto max-w-3xl space-y-4">
+
+                    <SecurityItem
+                      title="Sesión actual"
+                      description="La sesión actual está activa."
+                      status="Activa"
+                    />
+
+                    <SecurityItem
+                      title="Autenticación"
+                      description="La cuenta utiliza autenticación segura."
+                      status="Protegida"
+                    />
+
+                    <div className="pt-3">
+
+                      <button
+                        type="button"
                         onClick={logout}
-                        className="mt-4 rounded-xl border border-red-200 bg-white px-5 py-3 text-sm font-semibold text-red-600 transition hover:bg-red-100"
+                        className="rounded-xl border border-[#ccd0d5] bg-white px-5 py-3 text-sm font-bold text-[#65676b] transition hover:border-red-200 hover:bg-red-50 hover:text-red-600"
                       >
                         Cerrar sesión
                       </button>
@@ -475,56 +280,41 @@ export default function ConfiguracionPage() {
                     </div>
 
                   </div>
-                )}
 
-              </div>
+                </Panel>
+              )}
 
-            </div>
-
-            <footer className="py-10 text-center text-xs text-gray-400">
-              MÍA ADS MANAGER · Configuración
-            </footer>
+            </section>
 
           </div>
 
-        </section>
+          {/* =====================================================
+              PIE
+          ===================================================== */}
+
+          <div className="mt-8 flex flex-col gap-2 border-t border-[#dddfe2] pt-5 text-xs text-[#8a8d91] sm:flex-row sm:items-center sm:justify-between">
+
+            <span>
+              MÍA ADS Manager
+            </span>
+
+            <span>
+              Publicidad · Campañas · Anuncios · Productos
+            </span>
+
+          </div>
+
+        </div>
 
       </div>
-
     </main>
   );
 }
 
-function SidebarItem({
-  label,
-  icon,
-  href,
-  active = false,
-}: {
-  label: string;
-  icon: string;
-  href: string;
-  active?: boolean;
-}) {
-  return (
-    <button
-      onClick={() => {
-        window.location.href = href;
-      }}
-      className={`mb-1 flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm transition ${
-        active
-          ? "bg-[#1877F2] font-semibold text-white shadow-sm"
-          : "text-gray-500 hover:bg-gray-100 hover:text-gray-900"
-      }`}
-    >
-      <span className="w-5 text-center text-base">
-        {icon}
-      </span>
 
-      {label}
-    </button>
-  );
-}
+/* =========================================================
+   ITEM DEL PANEL LATERAL
+========================================================= */
 
 function ConfigItem({
   title,
@@ -539,29 +329,37 @@ function ConfigItem({
 }) {
   return (
     <button
+      type="button"
       onClick={onClick}
       className={`mb-1 w-full rounded-xl p-4 text-left transition ${
         active
-          ? "bg-blue-50"
-          : "hover:bg-gray-50"
+          ? "bg-[#e7f3ff]"
+          : "hover:bg-[#f7f8fa]"
       }`}
     >
+
       <div
-        className={`text-sm font-semibold ${
+        className={`text-sm font-bold ${
           active
-            ? "text-[#1877F2]"
-            : "text-gray-800"
+            ? "text-[#1877f2]"
+            : "text-[#1c1e21]"
         }`}
       >
         {title}
       </div>
 
-      <div className="mt-1 text-[11px] text-gray-400">
+      <div className="mt-1 text-[11px] text-[#8a8d91]">
         {description}
       </div>
+
     </button>
   );
 }
+
+
+/* =========================================================
+   PANEL
+========================================================= */
 
 function Panel({
   title,
@@ -573,27 +371,32 @@ function Panel({
   children: React.ReactNode;
 }) {
   return (
-    <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+    <div className="overflow-hidden rounded-2xl border border-[#d8dadf] bg-white shadow-sm">
 
-      <div className="border-b border-gray-200 px-6 py-5">
+      <div className="border-b border-[#e4e6eb] px-7 py-6 text-center">
 
-        <h2 className="font-bold text-gray-900">
+        <h2 className="text-xl font-bold text-[#1c1e21]">
           {title}
         </h2>
 
-        <p className="mt-1 text-xs text-gray-500">
+        <p className="mt-2 text-sm text-[#65676b]">
           {description}
         </p>
 
       </div>
 
-      <div className="p-6">
+      <div className="px-7 py-7">
         {children}
       </div>
 
     </div>
   );
 }
+
+
+/* =========================================================
+   FIELD
+========================================================= */
 
 function Field({
   label,
@@ -605,19 +408,25 @@ function Field({
   return (
     <div>
 
-      <label className="mb-2 block text-xs font-medium text-gray-500">
+      <label className="mb-2 block text-xs font-bold text-[#65676b]">
         {label}
       </label>
 
       <input
+        type="text"
         value={value}
         readOnly
-        className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 outline-none"
+        className="w-full rounded-xl border border-[#e4e6eb] bg-[#f0f2f5] px-4 py-3 text-sm text-[#65676b] outline-none"
       />
 
     </div>
   );
 }
+
+
+/* =========================================================
+   TOGGLE
+========================================================= */
 
 function Toggle({
   title,
@@ -631,31 +440,33 @@ function Toggle({
   onChange: () => void;
 }) {
   return (
-    <div className="flex items-center justify-between gap-5 py-5">
+    <div className="flex items-center justify-between gap-5 py-6">
 
       <div>
 
-        <div className="text-sm font-semibold text-gray-900">
+        <div className="text-sm font-bold text-[#1c1e21]">
           {title}
         </div>
 
-        <div className="mt-1 text-xs text-gray-500">
+        <div className="mt-1 text-xs text-[#65676b]">
           {description}
         </div>
 
       </div>
 
       <button
+        type="button"
         onClick={onChange}
-        className={`relative h-6 w-11 shrink-0 rounded-full transition ${
+        aria-pressed={enabled}
+        className={`relative h-6 w-11 shrink-0 rounded-full transition-colors ${
           enabled
-            ? "bg-[#1877F2]"
-            : "bg-gray-300"
+            ? "bg-[#1877f2]"
+            : "bg-[#ccd0d5]"
         }`}
       >
 
         <span
-          className={`absolute top-1 h-4 w-4 rounded-full bg-white shadow-sm transition ${
+          className={`absolute top-1 h-4 w-4 rounded-full bg-white shadow transition-all ${
             enabled
               ? "left-6"
               : "left-1"
@@ -668,6 +479,11 @@ function Toggle({
   );
 }
 
+
+/* =========================================================
+   SEGURIDAD
+========================================================= */
+
 function SecurityItem({
   title,
   description,
@@ -678,27 +494,32 @@ function SecurityItem({
   status: string;
 }) {
   return (
-    <div className="flex items-center justify-between gap-5 rounded-xl border border-gray-200 bg-gray-50 p-4">
+    <div className="flex items-center justify-between gap-5 rounded-xl border border-[#e4e6eb] bg-[#f7f8fa] p-5">
 
       <div>
 
-        <div className="text-sm font-semibold text-gray-900">
+        <div className="text-sm font-bold text-[#1c1e21]">
           {title}
         </div>
 
-        <div className="mt-1 text-xs text-gray-500">
+        <div className="mt-1 text-xs text-[#65676b]">
           {description}
         </div>
 
       </div>
 
-      <span className="rounded-full bg-green-50 px-3 py-1 text-xs font-medium text-green-600">
+      <span className="shrink-0 rounded-full bg-[#eaf7ed] px-3 py-1 text-xs font-bold text-[#31a24c]">
         {status}
       </span>
 
     </div>
   );
 }
+
+
+/* =========================================================
+   INFO BOX
+========================================================= */
 
 function InfoBox({
   title,
@@ -708,21 +529,21 @@ function InfoBox({
   text: string;
 }) {
   return (
-    <div className="rounded-xl border border-blue-200 bg-blue-50 p-4">
+    <div className="rounded-xl border border-[#1877f2]/20 bg-[#e7f3ff] p-5">
 
-      <div className="flex gap-3">
+      <div className="flex gap-4">
 
-        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#1877F2] text-sm font-bold text-white">
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#1877f2] text-sm font-bold text-white">
           i
         </div>
 
         <div>
 
-          <div className="text-sm font-semibold text-[#1877F2]">
+          <div className="text-sm font-bold text-[#1877f2]">
             {title}
           </div>
 
-          <p className="mt-1 text-xs leading-5 text-gray-500">
+          <p className="mt-1 text-xs leading-5 text-[#65676b]">
             {text}
           </p>
 

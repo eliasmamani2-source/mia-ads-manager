@@ -4,11 +4,6 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 
-type Business = {
-  id: string;
-  nombre: string;
-};
-
 type Automation = {
   id: string;
   nombre: string;
@@ -65,9 +60,9 @@ const DEFAULT_AUTOMATIONS: Automation[] = [
 export default function AutomatizacionesPage() {
   const router = useRouter();
 
-  const [business, setBusiness] = useState<Business | null>(null);
-  const [automations, setAutomations] =
-    useState<Automation[]>(DEFAULT_AUTOMATIONS);
+  const [automations, setAutomations] = useState<Automation[]>(
+    DEFAULT_AUTOMATIONS
+  );
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -92,30 +87,12 @@ export default function AutomatizacionesPage() {
         return;
       }
 
-      const { data: businessData, error: businessError } =
-        await supabase
-          .from("businesses")
-          .select("id, nombre")
-          .eq("owner_id", user.id)
-          .maybeSingle();
-
-      if (businessError) {
-        throw businessError;
-      }
-
-      if (!businessData) {
-        setError("No encontramos un negocio asociado a tu cuenta.");
-        return;
-      }
-
-      setBusiness(businessData);
-
       /*
-       * Las automatizaciones inicialmente funcionan como reglas
-       * internas del administrador. No creamos una tabla nueva
-       * para evitar modificar tu estructura actual de Supabase.
+       * Las automatizaciones funcionan actualmente
+       * como reglas internas de MÍA ADS.
+       *
+       * No necesitamos crear una tabla nueva en Supabase.
        */
-
       setAutomations(DEFAULT_AUTOMATIONS);
     } catch (err) {
       console.error(err);
@@ -128,13 +105,6 @@ export default function AutomatizacionesPage() {
     } finally {
       setLoading(false);
     }
-  }
-
-  async function logout() {
-    await supabase.auth.signOut();
-
-    router.replace("/login");
-    router.refresh();
   }
 
   function toggleAutomation(id: string) {
@@ -196,584 +166,195 @@ export default function AutomatizacionesPage() {
 
   return (
     <main className="min-h-screen bg-[#f0f2f5] text-[#1c1e21]">
-      <div className="flex min-h-screen">
+
+      {/* =====================================================
+          HEADER
+      ===================================================== */}
+
+      <header className="sticky top-0 z-20 flex flex-col gap-4 border-b border-[#dddfe2] bg-white px-5 py-4 shadow-sm md:flex-row md:items-center md:justify-between lg:px-8">
+
+        <div>
+          <div className="text-xs font-medium text-[#65676b]">
+            Gestión automática
+          </div>
+
+          <h1 className="mt-1 text-2xl font-bold tracking-tight text-[#1c1e21]">
+            Automatizaciones
+          </h1>
+
+          <p className="mt-1 text-xs text-[#65676b]">
+            Configurá reglas para que MÍA ADS controle tareas automáticamente.
+          </p>
+        </div>
+
+        <div className="flex items-center gap-2">
+
+          <div className="hidden items-center gap-2 rounded-full border border-[#31a24c]/20 bg-[#eaf7ed] px-4 py-2 text-xs font-semibold text-[#31a24c] sm:flex">
+            <span className="h-2 w-2 rounded-full bg-[#31a24c]" />
+            Sistema activo
+          </div>
+
+          <button
+            type="button"
+            onClick={loadData}
+            className="rounded-lg border border-[#ccd0d5] bg-white px-4 py-2.5 text-xs font-semibold text-[#65676b] transition hover:bg-[#f0f2f5] hover:text-[#1c1e21]"
+          >
+            ↻ Actualizar
+          </button>
+
+          <button
+            type="button"
+            onClick={() => router.push("/alertas")}
+            className="rounded-lg bg-[#1877f2] px-5 py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-[#166fe5]"
+          >
+            Ver alertas
+          </button>
+
+        </div>
+
+      </header>
+
+      <div className="p-5 lg:p-8">
 
         {/* =====================================================
-            SIDEBAR
+            ERROR
         ===================================================== */}
 
-        <aside className="hidden w-64 shrink-0 flex-col border-r border-[#dddfe2] bg-white lg:flex">
+        {error && (
+          <div className="mb-6 rounded-xl border border-red-200 bg-red-50 px-5 py-4 text-sm text-red-600">
+            {error}
+          </div>
+        )}
 
-          <div className="border-b border-[#e4e6eb] p-5">
+        {/* =====================================================
+            HERO
+        ===================================================== */}
 
-            <div className="flex items-center gap-3">
+        <section className="relative overflow-hidden rounded-2xl border border-[#d8dadf] bg-white p-7 shadow-sm lg:p-9">
 
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#1877f2] text-lg font-black text-white shadow-sm">
-                M
-              </div>
+          <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-[#1877f2]/5 blur-3xl" />
 
-              <div>
+          <div className="relative">
 
-                <div className="text-xl font-black tracking-tight text-[#1c1e21]">
-                  MÍA{" "}
-                  <span className="text-[#1877f2]">
-                    ADS
-                  </span>
-                </div>
-
-                <div className="text-[9px] font-semibold uppercase tracking-[0.25em] text-[#65676b]">
-                  Manager
-                </div>
-
-              </div>
-
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#1877f2]/20 bg-[#e7f3ff] px-4 py-2 text-xs font-bold text-[#1877f2]">
+              <span className="h-2 w-2 rounded-full bg-[#1877f2]" />
+              MÍA ADS AUTOMATION
             </div>
+
+            <h2 className="text-3xl font-black tracking-tight text-[#1c1e21] md:text-4xl">
+              Automatizá tu{" "}
+              <span className="text-[#1877f2]">
+                negocio.
+              </span>
+            </h2>
+
+            <p className="mt-4 max-w-2xl text-sm leading-7 text-[#65676b] md:text-base">
+              Creá reglas para detectar problemas,
+              organizar tus productos y mantener tus
+              campañas preparadas sin tener que revisar
+              todo manualmente.
+            </p>
 
           </div>
 
-          <nav className="flex-1 p-3">
-
-            <NavItem
-              icon="⌂"
-              label="Inicio"
-              href="/dashboard"
-            />
-
-            <NavItem
-              icon="▣"
-              label="Campañas"
-              href="/campanas"
-            />
-
-            <NavItem
-              icon="◈"
-              label="Anuncios"
-              href="/anuncios"
-            />
-
-            <NavItem
-              icon="◇"
-              label="Creativos"
-              href="/creativos"
-            />
-
-            <NavItem
-              icon="▧"
-              label="Productos"
-              href="/productos"
-            />
-
-            <NavItem
-              icon="◫"
-              label="Analítica"
-              href="/analitica"
-            />
-
-            <NavItem
-              icon="♢"
-              label="Alertas"
-              href="/alertas"
-            />
-
-            <NavItem
-              icon="↻"
-              label="Automatizaciones"
-              href="/automatizaciones"
-              active
-            />
-
-            <div className="my-4 border-t border-[#e4e6eb]" />
-
-            <NavItem
-              icon="⚙"
-              label="Configuración"
-              href="/configuracion"
-            />
-
-          </nav>
-
-          <div className="border-t border-[#e4e6eb] p-3">
-
-            <div className="mb-2 rounded-xl bg-[#f0f2f5] p-3">
-
-              <div className="text-[9px] font-bold uppercase tracking-wider text-[#65676b]">
-                Negocio
-              </div>
-
-              <div className="mt-1 truncate text-sm font-semibold text-[#1c1e21]">
-                {business?.nombre || "Mi negocio"}
-              </div>
-
-            </div>
-
-            <button
-              onClick={logout}
-              className="w-full rounded-xl px-4 py-3 text-left text-sm font-semibold text-[#65676b] transition hover:bg-[#f0f2f5] hover:text-[#1c1e21]"
-            >
-              Cerrar sesión
-            </button>
-
-          </div>
-
-        </aside>
+        </section>
 
         {/* =====================================================
-            CONTENIDO
+            MÉTRICAS
         ===================================================== */}
 
-        <section className="min-w-0 flex-1">
+        <section className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
 
-          {/* HEADER */}
+          <MetricCard
+            title="Automatizaciones"
+            value={automations.length.toString()}
+            subtitle="Reglas configuradas"
+            icon="↻"
+          />
 
-          <header className="sticky top-0 z-20 flex flex-col gap-4 border-b border-[#dddfe2] bg-white px-5 py-4 shadow-sm md:flex-row md:items-center md:justify-between lg:px-8">
+          <MetricCard
+            title="Activas"
+            value={activeCount.toString()}
+            subtitle="Funcionando actualmente"
+            icon="✓"
+          />
+
+          <MetricCard
+            title="Pausadas"
+            value={pausedCount.toString()}
+            subtitle="Reglas detenidas"
+            icon="Ⅱ"
+          />
+
+          <MetricCard
+            title="Borradores"
+            value={draftCount.toString()}
+            subtitle="Pendientes de activar"
+            icon="✎"
+          />
+
+        </section>
+
+        {/* =====================================================
+            FILTROS
+        ===================================================== */}
+
+        <section className="mt-6 rounded-2xl border border-[#d8dadf] bg-white p-5 shadow-sm">
+
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
 
             <div>
-
-              <div className="text-xs font-medium text-[#65676b]">
-                Gestión automática
+              <div className="text-xs font-bold uppercase tracking-wider text-[#1877f2]">
+                Administrador
               </div>
 
-              <h1 className="mt-1 text-2xl font-bold tracking-tight text-[#1c1e21]">
-                Automatizaciones
-              </h1>
-
-              <p className="mt-1 text-xs text-[#65676b]">
-                Configurá reglas para que MÍA ADS controle tareas automáticamente.
-              </p>
-
+              <h3 className="mt-1 text-xl font-bold text-[#1c1e21]">
+                Reglas automáticas
+              </h3>
             </div>
 
-            <div className="flex items-center gap-2">
-
-              <div className="hidden items-center gap-2 rounded-full border border-[#31a24c]/20 bg-[#eaf7ed] px-4 py-2 text-xs font-semibold text-[#31a24c] sm:flex">
-
-                <span className="h-2 w-2 rounded-full bg-[#31a24c]" />
-
-                Sistema activo
-
-              </div>
-
-              <button
-                onClick={loadData}
-                className="rounded-lg border border-[#ccd0d5] bg-white px-4 py-2.5 text-xs font-semibold text-[#65676b] transition hover:bg-[#f0f2f5] hover:text-[#1c1e21]"
-              >
-                ↻ Actualizar
-              </button>
-
-              <button
-                onClick={() =>
-                  router.push("/alertas")
-                }
-                className="rounded-lg bg-[#1877f2] px-5 py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-[#166fe5]"
-              >
-                Ver alertas
-              </button>
-
-            </div>
-
-          </header>
-
-          <div className="p-5 lg:p-8">
-
-            {/* ERROR */}
-
-            {error && (
-              <div className="mb-6 rounded-xl border border-red-200 bg-red-50 px-5 py-4 text-sm text-red-600">
-                {error}
-              </div>
-            )}
-
-            {/* =================================================
-                HERO
-            ================================================= */}
-
-            <section className="relative overflow-hidden rounded-2xl border border-[#d8dadf] bg-white p-7 shadow-sm lg:p-9">
-
-              <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-[#1877f2]/5 blur-3xl" />
+            <div className="flex flex-col gap-3 sm:flex-row">
 
               <div className="relative">
 
-                <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#1877f2]/20 bg-[#e7f3ff] px-4 py-2 text-xs font-bold text-[#1877f2]">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-[#8a8d91]">
+                  ⌕
+                </span>
 
-                  <span className="h-2 w-2 rounded-full bg-[#1877f2]" />
-
-                  MÍA ADS AUTOMATION
-
-                </div>
-
-                <h2 className="text-3xl font-black tracking-tight text-[#1c1e21] md:text-4xl">
-
-                  Automatizá tu{" "}
-                  <span className="text-[#1877f2]">
-                    negocio.
-                  </span>
-
-                </h2>
-
-                <p className="mt-4 max-w-2xl text-sm leading-7 text-[#65676b] md:text-base">
-                  Creá reglas para detectar problemas,
-                  organizar tus productos y mantener tus
-                  campañas preparadas sin tener que revisar
-                  todo manualmente.
-                </p>
+                <input
+                  value={search}
+                  onChange={(event) =>
+                    setSearch(event.target.value)
+                  }
+                  placeholder="Buscar automatización..."
+                  className="w-full rounded-lg border border-[#ccd0d5] bg-white py-2.5 pl-9 pr-4 text-sm text-[#1c1e21] outline-none transition placeholder:text-[#8a8d91] focus:border-[#1877f2] focus:ring-2 focus:ring-[#1877f2]/10 sm:w-72"
+                />
 
               </div>
 
-            </section>
-
-            {/* =================================================
-                MÉTRICAS
-            ================================================= */}
-
-            <section className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-
-              <MetricCard
-                title="Automatizaciones"
-                value={automations.length.toString()}
-                subtitle="Reglas configuradas"
-                icon="↻"
-              />
-
-              <MetricCard
-                title="Activas"
-                value={activeCount.toString()}
-                subtitle="Funcionando actualmente"
-                icon="✓"
-              />
-
-              <MetricCard
-                title="Pausadas"
-                value={pausedCount.toString()}
-                subtitle="Reglas detenidas"
-                icon="Ⅱ"
-              />
-
-              <MetricCard
-                title="Borradores"
-                value={draftCount.toString()}
-                subtitle="Pendientes de activar"
-                icon="✎"
-              />
-
-            </section>
-
-            {/* =================================================
-                FILTROS
-            ================================================= */}
-
-            <section className="mt-6 rounded-2xl border border-[#d8dadf] bg-white p-5 shadow-sm">
-
-              <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-
-                <div>
-
-                  <div className="text-xs font-bold uppercase tracking-wider text-[#1877f2]">
-                    Administrador
-                  </div>
-
-                  <h3 className="mt-1 text-xl font-bold text-[#1c1e21]">
-                    Reglas automáticas
-                  </h3>
-
-                </div>
-
-                <div className="flex flex-col gap-3 sm:flex-row">
-
-                  <div className="relative">
-
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-[#8a8d91]">
-                      ⌕
-                    </span>
-
-                    <input
-                      value={search}
-                      onChange={(event) =>
-                        setSearch(event.target.value)
-                      }
-                      placeholder="Buscar automatización..."
-                      className="w-full rounded-lg border border-[#ccd0d5] bg-white py-2.5 pl-9 pr-4 text-sm text-[#1c1e21] outline-none transition placeholder:text-[#8a8d91] focus:border-[#1877f2] focus:ring-2 focus:ring-[#1877f2]/10 sm:w-72"
-                    />
-
-                  </div>
-
-                  <select
-                    value={filter}
-                    onChange={(event) =>
-                      setFilter(event.target.value)
-                    }
-                    className="rounded-lg border border-[#ccd0d5] bg-white px-4 py-2.5 text-sm font-medium text-[#1c1e21] outline-none focus:border-[#1877f2]"
-                  >
-                    <option value="Todas">
-                      Todos los estados
-                    </option>
-
-                    <option value="Activa">
-                      Activas
-                    </option>
-
-                    <option value="Pausada">
-                      Pausadas
-                    </option>
-
-                    <option value="Borrador">
-                      Borradores
-                    </option>
-                  </select>
-
-                </div>
-
-              </div>
-
-            </section>
-
-            {/* =================================================
-                LISTADO
-            ================================================= */}
-
-            <section className="mt-6 overflow-hidden rounded-2xl border border-[#d8dadf] bg-white shadow-sm">
-
-              <div className="border-b border-[#e4e6eb] px-5 py-4">
-
-                <div className="flex items-center justify-between">
-
-                  <div>
-
-                    <div className="text-sm font-bold text-[#1c1e21]">
-                      Automatizaciones
-                    </div>
-
-                    <div className="mt-1 text-xs text-[#65676b]">
-                      {filteredAutomations.length} regla
-                      {filteredAutomations.length === 1
-                        ? ""
-                        : "s"}
-                    </div>
-
-                  </div>
-
-                  <div className="rounded-lg bg-[#e7f3ff] px-3 py-2 text-xs font-bold text-[#1877f2]">
-                    Reglas inteligentes
-                  </div>
-
-                </div>
-
-              </div>
-
-              {filteredAutomations.length === 0 ? (
-
-                <div className="p-12 text-center">
-
-                  <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[#e7f3ff] text-2xl font-bold text-[#1877f2]">
-                    ↻
-                  </div>
-
-                  <h3 className="mt-5 text-lg font-bold text-[#1c1e21]">
-                    No encontramos automatizaciones
-                  </h3>
-
-                  <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[#65676b]">
-                    Probá cambiar la búsqueda o el filtro
-                    seleccionado.
-                  </p>
-
-                </div>
-
-              ) : (
-
-                <div className="divide-y divide-[#e4e6eb]">
-
-                  {filteredAutomations.map(
-                    (automation) => (
-
-                      <div
-                        key={automation.id}
-                        className="group px-5 py-5 transition hover:bg-[#f7f8fa]"
-                      >
-
-                        <div className="flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
-
-                          {/* INFORMACIÓN */}
-
-                          <div className="flex min-w-0 items-start gap-4">
-
-                            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#e7f3ff] text-lg font-bold text-[#1877f2]">
-                              ↻
-                            </div>
-
-                            <div className="min-w-0">
-
-                              <div className="flex flex-wrap items-center gap-2">
-
-                                <h4 className="text-sm font-bold text-[#1c1e21]">
-                                  {automation.nombre}
-                                </h4>
-
-                                <StatusBadge
-                                  status={
-                                    automation.estado
-                                  }
-                                />
-
-                              </div>
-
-                              <p className="mt-2 max-w-2xl text-sm leading-6 text-[#65676b]">
-                                {
-                                  automation.descripcion
-                                }
-                              </p>
-
-                              <div className="mt-3 flex flex-wrap items-center gap-2">
-
-                                <span className="rounded-lg bg-[#f0f2f5] px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-[#65676b]">
-                                  {automation.tipo}
-                                </span>
-
-                                <span className="rounded-lg bg-[#f0f2f5] px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-[#65676b]">
-                                  {automation.frecuencia}
-                                </span>
-
-                              </div>
-
-                            </div>
-
-                          </div>
-
-                          {/* INFORMACIÓN EXTRA */}
-
-                          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:min-w-[370px]">
-
-                            <InfoBox
-                              label="Estado"
-                              value={
-                                automation.estado
-                              }
-                            />
-
-                            <InfoBox
-                              label="Frecuencia"
-                              value={
-                                automation.frecuencia
-                              }
-                            />
-
-                            <InfoBox
-                              label="Última ejecución"
-                              value={
-                                automation.ultima_ejecucion
-                                  ? automation.ultima_ejecucion
-                                  : "Pendiente"
-                              }
-                            />
-
-                          </div>
-
-                          {/* ACCIÓN */}
-
-                          <button
-                            onClick={() =>
-                              toggleAutomation(
-                                automation.id
-                              )
-                            }
-                            className={
-                              automation.estado ===
-                              "Activa"
-                                ? "shrink-0 rounded-lg border border-[#ccd0d5] bg-white px-5 py-2.5 text-xs font-bold text-[#65676b] transition hover:border-red-300 hover:bg-red-50 hover:text-red-600"
-                                : "shrink-0 rounded-lg bg-[#1877f2] px-5 py-2.5 text-xs font-bold text-white transition hover:bg-[#166fe5]"
-                            }
-                          >
-                            {automation.estado ===
-                            "Activa"
-                              ? "Pausar"
-                              : "Activar"}
-                          </button>
-
-                        </div>
-
-                      </div>
-
-                    )
-                  )}
-
-                </div>
-
-              )}
-
-            </section>
-
-            {/* =================================================
-                INFORMACIÓN
-            ================================================= */}
-
-            <section className="mt-6 grid gap-6 xl:grid-cols-3">
-
-              <InfoCard
-                icon="!"
-                title="Control de stock"
-                description="Detectá productos que necesitan atención antes de continuar con la publicidad."
-              />
-
-              <InfoCard
-                icon="▣"
-                title="Control de campañas"
-                description="Mantené identificadas las campañas que todavía están en borrador."
-              />
-
-              <InfoCard
-                icon="◇"
-                title="Control de creativos"
-                description="Detectá anuncios que todavía necesitan imágenes o videos."
-              />
-
-            </section>
-
-            {/* =================================================
-                PRÓXIMAMENTE
-            ================================================= */}
-
-            <section className="mt-6 rounded-2xl border border-[#d8dadf] bg-white p-6 shadow-sm">
-
-              <div className="flex items-start gap-4">
-
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e7f3ff] font-bold text-[#1877f2]">
-                  ✦
-                </div>
-
-                <div>
-
-                  <h3 className="text-sm font-bold text-[#1c1e21]">
-                    Próximas automatizaciones
-                  </h3>
-
-                  <p className="mt-2 text-xs leading-6 text-[#65676b]">
-                    Más adelante podemos conectar estas reglas
-                    con acciones reales: pausar anuncios cuando
-                    un producto se quede sin stock, generar
-                    alertas automáticamente, controlar campañas
-                    y preparar reportes periódicos.
-                  </p>
-
-                </div>
-
-              </div>
-
-            </section>
-
-            {/* PIE */}
-
-            <div className="mt-10 border-t border-[#dddfe2] pt-6">
-
-              <div className="flex flex-col gap-2 text-xs text-[#8a8d91] sm:flex-row sm:items-center sm:justify-between">
-
-                <div>
-                  MÍA ADS Manager
-                </div>
-
-                <div>
-                  Publicidad · Campañas · Anuncios · Automatizaciones
-                </div>
-
-              </div>
+              <select
+                value={filter}
+                onChange={(event) =>
+                  setFilter(event.target.value)
+                }
+                className="rounded-lg border border-[#ccd0d5] bg-white px-4 py-2.5 text-sm font-medium text-[#1c1e21] outline-none focus:border-[#1877f2]"
+              >
+                <option value="Todas">
+                  Todos los estados
+                </option>
+
+                <option value="Activa">
+                  Activas
+                </option>
+
+                <option value="Pausada">
+                  Pausadas
+                </option>
+
+                <option value="Borrador">
+                  Borradores
+                </option>
+              </select>
 
             </div>
 
@@ -781,7 +362,247 @@ export default function AutomatizacionesPage() {
 
         </section>
 
+        {/* =====================================================
+            LISTADO
+        ===================================================== */}
+
+        <section className="mt-6 overflow-hidden rounded-2xl border border-[#d8dadf] bg-white shadow-sm">
+
+          <div className="border-b border-[#e4e6eb] px-5 py-4">
+
+            <div className="flex items-center justify-between">
+
+              <div>
+
+                <div className="text-sm font-bold text-[#1c1e21]">
+                  Automatizaciones
+                </div>
+
+                <div className="mt-1 text-xs text-[#65676b]">
+                  {filteredAutomations.length} regla
+                  {filteredAutomations.length === 1
+                    ? ""
+                    : "s"}
+                </div>
+
+              </div>
+
+              <div className="rounded-lg bg-[#e7f3ff] px-3 py-2 text-xs font-bold text-[#1877f2]">
+                Reglas inteligentes
+              </div>
+
+            </div>
+
+          </div>
+
+          {filteredAutomations.length === 0 ? (
+
+            <div className="p-12 text-center">
+
+              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[#e7f3ff] text-2xl font-bold text-[#1877f2]">
+                ↻
+              </div>
+
+              <h3 className="mt-5 text-lg font-bold text-[#1c1e21]">
+                No encontramos automatizaciones
+              </h3>
+
+              <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[#65676b]">
+                Probá cambiar la búsqueda o el filtro
+                seleccionado.
+              </p>
+
+            </div>
+
+          ) : (
+
+            <div className="divide-y divide-[#e4e6eb]">
+
+              {filteredAutomations.map((automation) => (
+
+                <div
+                  key={automation.id}
+                  className="group px-5 py-5 transition hover:bg-[#f7f8fa]"
+                >
+
+                  <div className="flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
+
+                    {/* INFORMACIÓN */}
+
+                    <div className="flex min-w-0 items-start gap-4">
+
+                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#e7f3ff] text-lg font-bold text-[#1877f2]">
+                        ↻
+                      </div>
+
+                      <div className="min-w-0">
+
+                        <div className="flex flex-wrap items-center gap-2">
+
+                          <h4 className="text-sm font-bold text-[#1c1e21]">
+                            {automation.nombre}
+                          </h4>
+
+                          <StatusBadge
+                            status={automation.estado}
+                          />
+
+                        </div>
+
+                        <p className="mt-2 max-w-2xl text-sm leading-6 text-[#65676b]">
+                          {automation.descripcion}
+                        </p>
+
+                        <div className="mt-3 flex flex-wrap items-center gap-2">
+
+                          <span className="rounded-lg bg-[#f0f2f5] px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-[#65676b]">
+                            {automation.tipo}
+                          </span>
+
+                          <span className="rounded-lg bg-[#f0f2f5] px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-[#65676b]">
+                            {automation.frecuencia}
+                          </span>
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                    {/* INFORMACIÓN EXTRA */}
+
+                    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:min-w-[370px]">
+
+                      <InfoBox
+                        label="Estado"
+                        value={automation.estado}
+                      />
+
+                      <InfoBox
+                        label="Frecuencia"
+                        value={automation.frecuencia}
+                      />
+
+                      <InfoBox
+                        label="Última ejecución"
+                        value={
+                          automation.ultima_ejecucion ||
+                          "Pendiente"
+                        }
+                      />
+
+                    </div>
+
+                    {/* ACCIÓN */}
+
+                    <button
+                      type="button"
+                      onClick={() =>
+                        toggleAutomation(automation.id)
+                      }
+                      className={
+                        automation.estado === "Activa"
+                          ? "shrink-0 rounded-lg border border-[#ccd0d5] bg-white px-5 py-2.5 text-xs font-bold text-[#65676b] transition hover:border-red-300 hover:bg-red-50 hover:text-red-600"
+                          : "shrink-0 rounded-lg bg-[#1877f2] px-5 py-2.5 text-xs font-bold text-white transition hover:bg-[#166fe5]"
+                      }
+                    >
+                      {automation.estado === "Activa"
+                        ? "Pausar"
+                        : "Activar"}
+                    </button>
+
+                  </div>
+
+                </div>
+
+              ))}
+
+            </div>
+
+          )}
+
+        </section>
+
+        {/* =====================================================
+            INFORMACIÓN
+        ===================================================== */}
+
+        <section className="mt-6 grid gap-6 xl:grid-cols-3">
+
+          <InfoCard
+            icon="!"
+            title="Control de stock"
+            description="Detectá productos que necesitan atención antes de continuar con la publicidad."
+          />
+
+          <InfoCard
+            icon="▣"
+            title="Control de campañas"
+            description="Mantené identificadas las campañas que todavía están en borrador."
+          />
+
+          <InfoCard
+            icon="◇"
+            title="Control de creativos"
+            description="Detectá anuncios que todavía necesitan imágenes o videos."
+          />
+
+        </section>
+
+        {/* =====================================================
+            PRÓXIMAMENTE
+        ===================================================== */}
+
+        <section className="mt-6 rounded-2xl border border-[#d8dadf] bg-white p-6 shadow-sm">
+
+          <div className="flex items-start gap-4">
+
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e7f3ff] font-bold text-[#1877f2]">
+              ✦
+            </div>
+
+            <div>
+
+              <h3 className="text-sm font-bold text-[#1c1e21]">
+                Próximas automatizaciones
+              </h3>
+
+              <p className="mt-2 text-xs leading-6 text-[#65676b]">
+                Más adelante podemos conectar estas reglas
+                con acciones reales: pausar anuncios cuando
+                un producto se quede sin stock, generar
+                alertas automáticamente, controlar campañas
+                y preparar reportes periódicos.
+              </p>
+
+            </div>
+
+          </div>
+
+        </section>
+
+        {/* =====================================================
+            PIE
+        ===================================================== */}
+
+        <div className="mt-10 border-t border-[#dddfe2] pt-6">
+
+          <div className="flex flex-col gap-2 text-xs text-[#8a8d91] sm:flex-row sm:items-center sm:justify-between">
+
+            <div>
+              MÍA ADS Manager
+            </div>
+
+            <div>
+              Publicidad · Campañas · Anuncios · Automatizaciones
+            </div>
+
+          </div>
+
+        </div>
+
       </div>
+
     </main>
   );
 }
@@ -789,41 +610,6 @@ export default function AutomatizacionesPage() {
 /* =========================================================
    COMPONENTES
 ========================================================= */
-
-function NavItem({
-  icon,
-  label,
-  href,
-  active = false,
-}: {
-  icon: string;
-  label: string;
-  href: string;
-  active?: boolean;
-}) {
-  return (
-    <a
-      href={href}
-      className={`mb-1 flex w-full items-center gap-3 rounded-lg px-3 py-3 text-left text-sm font-semibold transition ${
-        active
-          ? "bg-[#e7f3ff] text-[#1877f2]"
-          : "text-[#65676b] hover:bg-[#f0f2f5] hover:text-[#1c1e21]"
-      }`}
-    >
-      <span
-        className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-sm ${
-          active
-            ? "bg-[#1877f2] text-white"
-            : "bg-[#f0f2f5] text-[#65676b]"
-        }`}
-      >
-        {icon}
-      </span>
-
-      <span>{label}</span>
-    </a>
-  );
-}
 
 function MetricCard({
   title,
@@ -860,9 +646,7 @@ function MetricCard({
       </div>
 
       <div className="mt-5 h-1 overflow-hidden rounded-full bg-[#e4e6eb]">
-
         <div className="h-full w-1/2 rounded-full bg-[#1877f2]" />
-
       </div>
 
     </div>
@@ -874,22 +658,18 @@ function StatusBadge({
 }: {
   status: string;
 }) {
-  let classes =
-    "bg-[#f0f2f5] text-[#65676b]";
+  let classes = "bg-[#f0f2f5] text-[#65676b]";
 
   if (status === "Activa") {
-    classes =
-      "bg-[#eaf7ed] text-[#31a24c]";
+    classes = "bg-[#eaf7ed] text-[#31a24c]";
   }
 
   if (status === "Pausada") {
-    classes =
-      "bg-[#fff4d6] text-[#b78103]";
+    classes = "bg-[#fff4d6] text-[#b78103]";
   }
 
   if (status === "Borrador") {
-    classes =
-      "bg-[#e7f3ff] text-[#1877f2]";
+    classes = "bg-[#e7f3ff] text-[#1877f2]";
   }
 
   return (

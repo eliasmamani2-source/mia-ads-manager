@@ -197,6 +197,13 @@ export default function DashboardPage() {
             <span className="h-2 w-2 rounded-full bg-[#31a24c]" />
             Sincronizado
           </div>
+           
+            <button
+    onClick={() => router.push("/")}
+    className="rounded-lg border border-[#ccd0d5] bg-white px-4 py-2.5 text-xs font-semibold text-[#65676b] transition hover:bg-[#f0f2f5] hover:text-[#1c1e21]"
+  >
+    ← Volver al inicio
+  </button>
 
           <button
             onClick={loadDashboard}
@@ -205,13 +212,7 @@ export default function DashboardPage() {
             ↻ Actualizar
           </button>
 
-          <button
-            onClick={() => router.push("/campanas")}
-            className="rounded-lg bg-[#1877f2] px-5 py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-[#166fe5]"
-          >
-            + Nueva campaña
-          </button>
-
+          
         </div>
 
       </header>
