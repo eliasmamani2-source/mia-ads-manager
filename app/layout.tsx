@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -15,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "MÍA ADS Manager",
-  description: "Gestión de campañas y catálogo de productos",
+  description: "Sistema de Gestión Publicitaria e Inventario",
 };
 
 export default function RootLayout({
@@ -26,12 +25,11 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable}`}
     >
-      <body className="min-h-full bg-[#f5f6f8]">
+      <body className="min-h-screen bg-[#f0f2f5] text-[#1c1e21] antialiased">
         {children}
       </body>
     </html>
   );
 }
-
