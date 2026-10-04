@@ -438,93 +438,16 @@ export default function CampaignDetailPage() {
 
         <section className="flex-1">
 
-          {/* HEADER */}
-
-          <header className="border-b border-white/10 bg-[#0d1015] px-6 py-5 lg:px-10">
-
-            <button
-              onClick={() =>
-                router.push("/campanas")
-              }
-              className="mb-5 text-sm text-white/40 transition hover:text-white"
-            >
-              ← Volver a campañas
-            </button>
-
-            <div className="flex flex-col justify-between gap-5 md:flex-row md:items-center">
-
-              <div>
-
-                <div className="text-xs text-white/30">
-                  Gestión de publicidad
-                </div>
-
-                <h1 className="mt-1 text-2xl font-bold">
-                  {campaign.nombre}
-                </h1>
-
-                <div className="mt-2 flex flex-wrap items-center gap-3">
-
-                  <span className="text-xs text-white/30">
-                    ID {campaign.id.slice(0, 8)}
-                  </span>
-
-                  <span className="rounded-full bg-white/5 px-3 py-1 text-xs text-white/50">
-                    {campaign.objetivo}
-                  </span>
-
-                  <span
-                    className={`rounded-full px-3 py-1 text-xs ${
-                      campaign.estado ===
-                      "Activa"
-                        ? "bg-green-500/10 text-green-400"
-                        : campaign.estado ===
-                          "Pausada"
-                        ? "bg-yellow-500/10 text-yellow-400"
-                        : "bg-white/5 text-white/40"
-                    }`}
-                  >
-                    {campaign.estado}
-                  </span>
-
-                </div>
-
-              </div>
-
-              <div className="flex items-center gap-3">
-
-                <div className="rounded-xl border border-white/10 bg-[#090b0f] px-5 py-3">
-
-                  <div className="text-[10px] uppercase tracking-wider text-white/25">
-                    Presupuesto
-                  </div>
-
-                  <div className="mt-1 text-lg font-bold">
-                    $
-                    {formatBudget(
-                      campaign.presupuesto
-                    )}
-                  </div>
-
-                </div>
-
-                <button
-                  onClick={toggleCampaign}
-                  className="rounded-xl border border-white/10 px-5 py-3 text-sm font-semibold text-white/60 transition hover:bg-white/5 hover:text-white"
-                >
-                  {campaign.estado ===
-                  "Activa"
-                    ? "Pausar"
-                    : "Activar"}
-                </button>
-
-              </div>
-
-            </div>
-
-          </header>
-
           <div className="p-6 lg:p-10">
+
+            <div className="mb-6 flex justify-end">
+              <button
+                onClick={toggleCampaign}
+                className="rounded-xl border border-white/10 px-5 py-3 text-sm font-semibold text-white/60 transition hover:bg-white/5 hover:text-white"
+              >
+                {campaign.estado === "Activa" ? "Pausar" : "Activar"}
+              </button>
+            </div>
 
             {/* ERROR */}
 
@@ -924,4 +847,3 @@ function SummaryCard({
     </div>
   );
 }
-

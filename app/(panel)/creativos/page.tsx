@@ -284,32 +284,6 @@ export default function ProductosPage() {
     <main className="min-h-screen bg-[#f5f6f8] p-6 text-[#1c1e21] lg:p-10">
       <div className="mx-auto max-w-7xl">
 
-        {/* ENCABEZADO */}
-
-        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <span className="text-xs font-bold uppercase tracking-wider text-[#1877f2]">
-              Catálogo de Inventario
-            </span>
-
-            <h1 className="text-2xl font-bold">
-              Mis Productos
-            </h1>
-
-            <p className="mt-1 text-sm text-[#65676b]">
-              Administrá productos, códigos, precios,
-              stock y creativos vinculados.
-            </p>
-          </div>
-
-          <Link
-            href="/"
-            className="rounded-xl border border-[#ccd0d5] bg-white px-4 py-2 text-sm font-semibold hover:bg-[#f0f2f5]"
-          >
-            ← Volver al inicio
-          </Link>
-        </div>
-
         {/* ERROR */}
 
         {errorMsg && (
@@ -430,17 +404,10 @@ export default function ProductosPage() {
 
         {/* CATÁLOGO */}
 
-        <div className="mb-4 flex items-center justify-between">
+        <div className="mb-4">
           <h2 className="text-lg font-bold">
             Catálogo Registrado ({productos.length})
           </h2>
-
-          <button
-            onClick={fetchProductos}
-            className="rounded-xl border border-[#ccd0d5] bg-white px-4 py-2 text-xs font-semibold hover:bg-[#f0f2f5]"
-          >
-            ↻ Actualizar
-          </button>
         </div>
 
         {productos.length === 0 ? (
@@ -636,4 +603,3 @@ export default function ProductosPage() {
     </main>
   );
 }
-

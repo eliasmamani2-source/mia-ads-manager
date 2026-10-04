@@ -167,53 +167,6 @@ export default function AutomatizacionesPage() {
   return (
     <main className="min-h-screen bg-[#f0f2f5] text-[#1c1e21]">
 
-      {/* =====================================================
-          HEADER
-      ===================================================== */}
-
-      <header className="sticky top-0 z-20 flex flex-col gap-4 border-b border-[#dddfe2] bg-white px-5 py-4 shadow-sm md:flex-row md:items-center md:justify-between lg:px-8">
-
-        <div>
-          <div className="text-xs font-medium text-[#65676b]">
-            Gestión automática
-          </div>
-
-          <h1 className="mt-1 text-2xl font-bold tracking-tight text-[#1c1e21]">
-            Automatizaciones
-          </h1>
-
-          <p className="mt-1 text-xs text-[#65676b]">
-            Configurá reglas para que MÍA ADS controle tareas automáticamente.
-          </p>
-        </div>
-
-        <div className="flex items-center gap-2">
-
-          <div className="hidden items-center gap-2 rounded-full border border-[#31a24c]/20 bg-[#eaf7ed] px-4 py-2 text-xs font-semibold text-[#31a24c] sm:flex">
-            <span className="h-2 w-2 rounded-full bg-[#31a24c]" />
-            Sistema activo
-          </div>
-
-          <button
-            type="button"
-            onClick={loadData}
-            className="rounded-lg border border-[#ccd0d5] bg-white px-4 py-2.5 text-xs font-semibold text-[#65676b] transition hover:bg-[#f0f2f5] hover:text-[#1c1e21]"
-          >
-            ↻ Actualizar
-          </button>
-
-          <button
-            type="button"
-            onClick={() => router.push("/alertas")}
-            className="rounded-lg bg-[#1877f2] px-5 py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-[#166fe5]"
-          >
-            Ver alertas
-          </button>
-
-        </div>
-
-      </header>
-
       <div className="p-5 lg:p-8">
 
         {/* =====================================================

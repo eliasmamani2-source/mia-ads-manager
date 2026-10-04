@@ -177,46 +177,6 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen bg-[#f0f2f5] text-[#1c1e21]">
 
-      {/* HEADER */}
-
-      <header className="sticky top-0 z-20 flex flex-col gap-4 border-b border-[#dddfe2] bg-white px-5 py-4 shadow-sm md:flex-row md:items-center md:justify-between lg:px-8">
-
-        <div>
-          <div className="text-xs font-medium text-[#65676b]">
-            Gestión de publicidad
-          </div>
-
-          <h1 className="mt-1 text-2xl font-bold tracking-tight text-[#1c1e21]">
-            Inicio
-          </h1>
-        </div>
-
-        <div className="flex items-center gap-2">
-
-          <div className="hidden items-center gap-2 rounded-full border border-[#31a24c]/20 bg-[#eaf7ed] px-4 py-2 text-xs font-semibold text-[#31a24c] sm:flex">
-            <span className="h-2 w-2 rounded-full bg-[#31a24c]" />
-            Sincronizado
-          </div>
-           
-            <button
-    onClick={() => router.push("/")}
-    className="rounded-lg border border-[#ccd0d5] bg-white px-4 py-2.5 text-xs font-semibold text-[#65676b] transition hover:bg-[#f0f2f5] hover:text-[#1c1e21]"
-  >
-    ← Volver al inicio
-  </button>
-
-          <button
-            onClick={loadDashboard}
-            className="rounded-lg border border-[#ccd0d5] bg-white px-4 py-2.5 text-xs font-semibold text-[#65676b] transition hover:bg-[#f0f2f5] hover:text-[#1c1e21]"
-          >
-            ↻ Actualizar
-          </button>
-
-          
-        </div>
-
-      </header>
-
       {/* CONTENIDO */}
 
       <div className="p-5 lg:p-8">

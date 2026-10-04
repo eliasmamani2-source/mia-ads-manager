@@ -2,7 +2,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 
 type Alerta = {
   id: number;
@@ -13,8 +12,6 @@ type Alerta = {
 };
 
 export default function AlertasPage() {
-  const router = useRouter();
-
   const [notificaciones, setNotificaciones] = useState<Alerta[]>([
     {
       id: 1,
@@ -66,92 +63,30 @@ export default function AlertasPage() {
       <div className="min-h-screen">
 
         {/* =====================================================
-            CABECERA
-        ===================================================== */}
-
-        <header className="border-b border-[#dddfe2] bg-white">
-          <div className="mx-auto max-w-6xl px-6 py-5 lg:px-8">
-
-            {/* TITULO + BOTON VOLVER */}
-
-            <div className="flex items-start justify-between gap-6">
-
-              {/* INFORMACIÓN */}
-
-              <div>
-                <div className="text-xs font-semibold uppercase tracking-wider text-[#1877f2]">
-                  Centro de avisos
-                </div>
-
-                <h1 className="mt-1 text-3xl font-bold tracking-tight text-[#1c1e21]">
-                  Alertas
-                </h1>
-
-                <p className="mt-2 max-w-2xl text-sm text-[#65676b]">
-                  Revisá las notificaciones, avisos y eventos importantes
-                  de tu cuenta de MÍA ADS.
-                </p>
-              </div>
-
-              {/* BOTÓN VOLVER A LA PÁGINA PRINCIPAL */}
-
-              <button
-                type="button"
-                onClick={() => router.push("/")}
-                className="inline-flex shrink-0 items-center gap-2 rounded-xl border border-[#ccd0d5] bg-white px-4 py-2.5 text-sm font-semibold text-[#65676b] shadow-sm transition hover:border-[#1877f2] hover:bg-[#e7f3ff] hover:text-[#1877f2]"
-              >
-                <span className="text-lg leading-none">
-                  ←
-                </span>
-
-                Volver al inicio
-              </button>
-
-            </div>
-
-            {/* CONTROLES */}
-
-            <div className="mt-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-
-              {/* CONTADOR */}
-
-              <div className="flex items-center gap-3">
-
-                <div className="rounded-2xl border border-[#e4e6eb] bg-[#f7f8fa] px-5 py-3">
-
-                  <div className="text-[10px] font-bold uppercase tracking-wider text-[#8a8d91]">
-                    Pendientes
-                  </div>
-
-                  <div className="mt-1 text-xl font-bold text-[#1877f2]">
-                    {alertasPendientes}
-                  </div>
-
-                </div>
-
-              </div>
-
-              {/* MARCAR TODAS */}
-
-              <button
-                type="button"
-                onClick={marcarTodasComoLeidas}
-                disabled={alertasPendientes === 0}
-                className="rounded-xl bg-[#1877f2] px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-[#166fe5] disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                Marcar todo como leído
-              </button>
-
-            </div>
-
-          </div>
-        </header>
-
-        {/* =====================================================
             CONTENIDO PRINCIPAL
         ===================================================== */}
 
         <section className="mx-auto max-w-6xl px-6 py-8 lg:px-8">
+
+          <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div className="rounded-2xl border border-[#e4e6eb] bg-white px-5 py-3">
+              <div className="text-[10px] font-bold uppercase tracking-wider text-[#8a8d91]">
+                Pendientes
+              </div>
+              <div className="mt-1 text-xl font-bold text-[#1877f2]">
+                {alertasPendientes}
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={marcarTodasComoLeidas}
+              disabled={alertasPendientes === 0}
+              className="rounded-xl bg-[#1877f2] px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-[#166fe5] disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              Marcar todo como leído
+            </button>
+          </div>
 
           {/* RESUMEN */}
 

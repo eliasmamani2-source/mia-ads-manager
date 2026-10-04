@@ -1,3 +1,4 @@
+import Header from "@/components/Header/Header";
 import Sidebar from "@/components/Sidebar/Sidebar";
 
 export default function PanelLayout({
@@ -11,10 +12,10 @@ export default function PanelLayout({
       {/* SIDEBAR DEL PANEL */}
       <Sidebar />
 
-      {/* CONTENIDO DE CADA PÁGINA */}
-      <main className="min-w-0 flex-1">
+      <div className="min-w-0 flex-1">
+        <Header />
         {children}
-      </main>
+      </div>
 
     </div>
   );

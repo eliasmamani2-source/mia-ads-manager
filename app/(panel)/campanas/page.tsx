@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
-import { useRouter } from "next/navigation";
 
 type Product = {
   id: string;
@@ -22,8 +21,6 @@ type Campaign = {
 };
 
 export default function CampanasPage() {
-  const router = useRouter();
-
   const [campanas, setCampanas] = useState<Campaign[]>([]);
   const [productos, setProductos] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -237,40 +234,6 @@ export default function CampanasPage() {
   return (
     <main className="min-h-screen bg-[#f0f2f5] text-[#1c1e21] pl-64">
       <div className="min-h-screen flex flex-col p-5 lg:p-8">
-
-        {/* ENCABEZADO */}
-        <div className="mb-6">
-          <button
-            type="button"
-            onClick={() => router.push("/dashboard")}
-            className="mb-3 inline-flex items-center gap-2 text-xs font-semibold text-[#65676b] hover:text-[#1877f2] transition"
-          >
-            <span>←</span>
-            <span>Volver al inicio</span>
-          </button>
-
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-[#1877f2]">
-                Estructura Publicitaria
-              </span>
-              <h1 className="mt-1 text-2xl font-bold">Gestión de Campañas</h1>
-              <p className="mt-1 text-xs text-[#65676b]">
-                Creá campañas vinculadas directamente con tus productos.
-              </p>
-            </div>
-
-            <div className="flex gap-3">
-              <button
-                type="button"
-                onClick={fetchData}
-                className="rounded-xl border border-[#ccd0d5] bg-white px-4 py-2 text-sm font-semibold hover:bg-[#f0f2f5]"
-              >
-                ↻ Actualizar
-              </button>
-            </div>
-          </div>
-        </div>
 
         {/* ERROR */}
         {errorMsg && (

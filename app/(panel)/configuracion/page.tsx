@@ -30,54 +30,6 @@ export default function ConfiguracionPage() {
         <div className="mx-auto max-w-7xl px-6 py-8 lg:px-10">
 
           {/* =====================================================
-              CABECERA
-          ===================================================== */}
-
-          <div className="mb-8 rounded-2xl border border-[#d8dadf] bg-white shadow-sm">
-
-            <div className="flex flex-col gap-5 px-7 py-6 lg:flex-row lg:items-center lg:justify-between">
-
-              {/* TITULO */}
-
-              <div>
-                <div className="mb-2 text-xs font-bold uppercase tracking-wider text-[#65676b]">
-                  Administración
-                </div>
-
-                <h1 className="text-3xl font-bold tracking-tight text-[#1c1e21]">
-                  Configuración
-                </h1>
-
-                <p className="mt-2 text-sm text-[#65676b]">
-                  Administrá tu cuenta, negocio y preferencias.
-                </p>
-              </div>
-
-              {/* ACCIONES */}
-
-              <div className="flex flex-wrap items-center gap-3">
-
-                <button
-                  type="button"
-                  onClick={() => router.push("/")}
-                  className="inline-flex items-center gap-2 rounded-xl border border-[#ccd0d5] bg-white px-4 py-2.5 text-sm font-semibold text-[#65676b] shadow-sm transition hover:border-[#1877f2] hover:bg-[#e7f3ff] hover:text-[#1877f2]"
-                >
-                  <span className="text-lg leading-none">←</span>
-                  Volver al inicio
-                </button>
-
-                <div className="flex items-center gap-2 rounded-xl bg-[#eaf7ed] px-4 py-2.5 text-xs font-bold text-[#31a24c]">
-                  <span className="h-2 w-2 rounded-full bg-[#31a24c]" />
-                  Sistema activo
-                </div>
-
-              </div>
-
-            </div>
-
-          </div>
-
-          {/* =====================================================
               ÁREA PRINCIPAL
           ===================================================== */}
 
@@ -554,4 +506,3 @@ function InfoBox({
     </div>
   );
 }
-

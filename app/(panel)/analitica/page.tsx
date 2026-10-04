@@ -75,22 +75,6 @@ export default function AnaliticaPage() {
   return (
     <main className="min-h-screen bg-[#f5f6f8] p-6 lg:p-10 text-[#1c1e21]">
       <div className="mx-auto max-w-7xl">
-        {/* ENCABEZADO */}
-        <div className="mb-8 flex items-center justify-between">
-          <div>
-            <span className="text-xs font-bold uppercase tracking-wider text-[#1877f2]">
-              Rendimiento & ROI
-            </span>
-            <h1 className="text-2xl font-bold">Métricas de Analítica</h1>
-          </div>
-          <button
-            onClick={fetchAnalytics}
-            className="rounded-xl border border-[#ccd0d5] bg-white px-4 py-2 text-sm font-semibold hover:bg-[#f0f2f5]"
-          >
-            ↻ Actualizar
-          </button>
-        </div>
-
         {/* TARJETAS DE KPIS PRINCIPALES */}
         <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <div className="rounded-2xl border border-[#e4e6eb] bg-white p-5 shadow-sm">

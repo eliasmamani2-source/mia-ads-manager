@@ -176,22 +176,6 @@ export default function AnunciosMasivoPage() {
     <main className="min-h-screen bg-[#f0f2f5] p-5 text-[#1c1e21] lg:p-8">
       <div className="mx-auto max-w-7xl">
 
-        {/* ENCABEZADO */}
-        <div className="mb-6">
-          <div className="text-xs font-bold uppercase tracking-wider text-[#1877f2]">
-            MÍA ADS
-          </div>
-
-          <h1 className="mt-1 text-3xl font-bold">
-            Anuncios
-          </h1>
-
-          <p className="mt-2 text-sm text-[#65676b]">
-            Acá aparecen los anuncios generados desde el
-            Lanzador IA y guardados en tu cuenta.
-          </p>
-        </div>
-
         {/* ERROR */}
         {error && (
           <div className="mb-6 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-600">
@@ -229,13 +213,6 @@ export default function AnunciosMasivoPage() {
               ))}
             </select>
 
-            <button
-              type="button"
-              onClick={cargarDatos}
-              className="rounded-xl border border-[#ccd0d5] bg-white px-5 py-3 text-sm font-semibold hover:bg-[#f0f2f5]"
-            >
-              Actualizar
-            </button>
           </div>
         </section>
 
@@ -434,4 +411,3 @@ function Paso({
     </div>
   );
 }
-

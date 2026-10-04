@@ -157,40 +157,6 @@ export default function StockPage() {
     <main className="min-h-screen bg-[#f5f6f8] p-6 text-[#1c1e21] lg:p-10">
       <div className="mx-auto max-w-7xl">
 
-        {/* ENCABEZADO */}
-
-        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <span className="text-xs font-bold uppercase tracking-wider text-[#1877f2]">
-              Gestión de inventario
-            </span>
-
-            <h1 className="mt-1 text-3xl font-black">
-              Control de Stock
-            </h1>
-
-            <p className="mt-2 text-sm text-[#65676b]">
-              Controlá el stock de todos tus productos desde un solo lugar.
-            </p>
-          </div>
-
-          <div className="flex flex-wrap gap-2">
-            <Link
-              href="/productos"
-              className="rounded-xl border border-[#ccd0d5] bg-white px-4 py-2 text-sm font-semibold transition hover:bg-[#f0f2f5]"
-            >
-              Productos
-            </Link>
-
-            <Link
-              href="/"
-              className="rounded-xl border border-[#ccd0d5] bg-white px-4 py-2 text-sm font-semibold transition hover:bg-[#f0f2f5]"
-            >
-              ← Inicio
-            </Link>
-          </div>
-        </div>
-
         {/* ERROR */}
 
         {errorMsg && (
@@ -322,7 +288,7 @@ export default function StockPage() {
 
         <section className="rounded-2xl border border-[#e4e6eb] bg-white shadow-sm">
 
-          <div className="flex flex-col gap-4 border-b border-[#e4e6eb] p-6 sm:flex-row sm:items-center sm:justify-between">
+          <div className="border-b border-[#e4e6eb] p-6">
 
             <div>
               <span className="text-xs font-bold uppercase tracking-wider text-[#1877f2]">
@@ -333,14 +299,6 @@ export default function StockPage() {
                 Estado del stock
               </h2>
             </div>
-
-            <button
-              type="button"
-              onClick={cargarStock}
-              className="rounded-xl border border-[#ccd0d5] bg-white px-4 py-2 text-xs font-semibold transition hover:bg-[#f0f2f5]"
-            >
-              ↻ Actualizar
-            </button>
 
           </div>
 
@@ -510,4 +468,3 @@ export default function StockPage() {
     </main>
   );
 }
-

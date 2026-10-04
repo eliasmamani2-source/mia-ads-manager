@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 
 type Product = {
@@ -51,8 +50,6 @@ type Ad = {
 };
 
 export default function AnunciosPage() {
-  const router = useRouter();
-
   const [anuncios, setAnuncios] = useState<Ad[]>([]);
   const [productos, setProductos] = useState<Product[]>([]);
   const [campanas, setCampanas] = useState<Campaign[]>([]);
@@ -633,54 +630,6 @@ export default function AnunciosPage() {
     <main className="min-h-screen bg-[#f5f6f8] text-[#1c1e21]">
 
       <div className="mx-auto max-w-[1500px] p-5 lg:p-8">
-
-        {/* ===================================================== */}
-        {/* HEADER */}
-        {/* ===================================================== */}
-
-        <div className="mb-7 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-
-          <div>
-            <div className="text-xs font-bold uppercase tracking-wider text-[#1877f2]">
-              Gestión de publicidad
-            </div>
-
-            <h1 className="mt-1 text-3xl font-black tracking-tight">
-              Anuncios
-            </h1>
-
-            <p className="mt-2 max-w-3xl text-sm leading-6 text-[#65676b]">
-              Administrá los anuncios creados
-              desde MÍA ADS, revisá el contenido
-              generado por Lanzador IA y controlá
-              producto, código, creativo, campaña
-              y estado desde un solo lugar.
-            </p>
-          </div>
-
-          {/* BOTONES SUPERIORES */}
-
-          <div className="flex flex-wrap items-center gap-2">
-
-            <button
-              onClick={() =>
-                router.push("/dashboard")
-              }
-              className="rounded-xl border border-[#ccd0d5] bg-white px-5 py-3 text-sm font-bold text-[#1c1e21] shadow-sm transition hover:bg-[#f0f2f5]"
-            >
-              ← Volver al inicio
-            </button>
-
-            <button
-              onClick={fetchData}
-              className="rounded-xl border border-[#ccd0d5] bg-white px-5 py-3 text-sm font-bold shadow-sm transition hover:bg-[#f0f2f5]"
-            >
-              ↻ Actualizar
-            </button>
-
-          </div>
-
-        </div>
 
         {/* ===================================================== */}
         {/* MENSAJES */}

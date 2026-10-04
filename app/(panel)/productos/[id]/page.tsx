@@ -204,16 +204,6 @@ export default function VerProductoPage() {
           <Sidebar logout={logout} />
 
           <section className="flex-1">
-            <header className="border-b border-[#e4e6eb] bg-white px-6 py-5 lg:px-10">
-              <div className="text-xs text-[#65676b]">
-                Catálogo
-              </div>
-
-              <h1 className="mt-1 text-2xl font-bold">
-                Producto
-              </h1>
-            </header>
-
             <div className="p-6 lg:p-10">
               <div className="mb-6 rounded-2xl border border-red-200 bg-red-50 p-5">
                 <div className="font-semibold text-red-700">
@@ -248,45 +238,16 @@ export default function VerProductoPage() {
         <Sidebar logout={logout} />
 
         <section className="min-w-0 flex-1">
-          <header className="border-b border-[#e4e6eb] bg-white px-6 py-5 lg:px-10">
-            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-              <div>
-                <div className="text-xs text-[#65676b]">
-                  Catálogo / Productos
-                </div>
-
-                <h1 className="mt-1 text-2xl font-bold">
-                  Ver producto
-                </h1>
-
-                <p className="mt-1 text-xs text-[#65676b]">
-                  Información y configuración del producto.
-                </p>
-              </div>
-
-              <div className="flex gap-2">
-                <button
-                  onClick={() => router.push("/productos")}
-                  className="rounded-xl border border-[#ccd0d5] bg-white px-5 py-3 text-sm font-semibold text-[#1c1e21] transition hover:bg-[#f0f2f5]"
-                >
-                  ← Productos
-                </button>
-
-                <button
-                  onClick={() =>
-                    router.push(
-                      `/productos?editar=${product.id}`
-                    )
-                  }
-                  className="rounded-xl bg-[#1877f2] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#166fe5]"
-                >
-                  Editar producto
-                </button>
-              </div>
-            </div>
-          </header>
-
           <div className="p-6 lg:p-10">
+            <div className="mb-6 flex justify-end">
+              <button
+                onClick={() => router.push(`/productos?editar=${product.id}`)}
+                className="rounded-xl bg-[#1877f2] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#166fe5]"
+              >
+                Editar producto
+              </button>
+            </div>
+
             {error && (
               <div className="mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
                 {error}
@@ -670,4 +631,3 @@ function DetailRow({
     </div>
   );
 }
-
