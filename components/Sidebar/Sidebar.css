@@ -1,0 +1,170 @@
+/* ================
+      SIDEBAR
+================== */
+
+.barra-lateral {
+  display: none;
+  width: 256px;
+  min-height: 100vh;
+  flex-shrink: 0;
+  flex-direction: column;
+  background: #ffffff;
+  border-right: 1px solid #dddfe2;
+}
+
+/* ================
+     ENCABEZADO
+================== */
+
+.barra-lateral__encabezado {
+  padding: 20px;
+  border-bottom: 1px solid #e4e6eb;
+}
+
+.barra-lateral__marca {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.barra-lateral__logo {
+  display: flex;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: #1877f2;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 900;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+}
+
+.barra-lateral__titulo {
+  color: #1c1e21;
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+}
+
+.barra-lateral__titulo span {
+  color: #1877f2;
+}
+
+.barra-lateral__subtitulo {
+  color: #65676b;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 2.25px;
+  text-transform: uppercase;
+}
+
+/* ================
+     NAVEGADOR
+================== */
+
+.barra-lateral__navegacion {
+  flex: 1;
+  padding: 12px;
+}
+
+.barra-lateral__seccion {
+  margin-bottom: 12px;
+  padding: 0 12px;
+  color: #8a8d91;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.barra-lateral__enlace {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 4px;
+  padding: 12px;
+  border-radius: 8px;
+  color: #65676b;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.barra-lateral__enlace:hover {
+  background: #e0ecff;
+  color: #1876f2;
+}
+
+.barra-lateral__enlace--activo {
+  background: #1876f2;
+  color: #dae3ec;
+}
+
+.barra-lateral__icono {
+  display: flex;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: #f0f2f5;
+  color: #65676b;
+}
+
+.barra-lateral__enlace--activo .barra-lateral__icono {
+  background: #1877f2;
+  color: #ffffff;
+}
+
+/* =========================
+   PIE DEL SIDEBAR
+   ========================= */
+
+.sidebar-pie {
+  background-color: #1877f2;
+  padding: 16px;
+}
+
+.sidebar-pie-contenido {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-pie-marca {
+  color: #cbd7f3;
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.sidebar-pie-titulo {
+  margin-top: 4px;
+  color: #e4e6eb;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* ================
+     SEPARADOR
+================== */
+
+.barra-lateral__separador {
+  margin: 16px 0;
+  border-top: 1px solid #ced3df;
+}
+
+/* ================
+     RESPONSIVE
+================== */
+
+@media (min-width: 1024px) {
+  .barra-lateral {
+    display: flex;
+  }
+}
