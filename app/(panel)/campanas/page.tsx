@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import Loading from "@/components/Loading/Loading";
 
 type Product = {
   id: string;
@@ -224,11 +225,7 @@ export default function CampanasPage() {
   }
 
   if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-[#f0f2f5] text-sm font-semibold text-[#65676b] pl-64">
-        Cargando módulo de Campañas...
-      </div>
-    );
+    return <Loading />;
   }
 
   return (

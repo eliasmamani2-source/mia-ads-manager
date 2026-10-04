@@ -3,6 +3,7 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import Loading from "@/components/Loading/Loading";
 
 type Product = {
   id: string;
@@ -240,11 +241,7 @@ export default function ProductosPage() {
   }
 
   if (loading) {
-    return (
-      <main className="min-h-screen bg-[#f5f6f8] p-8 text-[#65676b]">
-        Cargando productos...
-      </main>
-    );
+    return <Loading />;
   }
 
   return (

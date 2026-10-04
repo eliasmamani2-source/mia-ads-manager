@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
+import Loading from "@/components/Loading/Loading";
 
 type Business = {
   id: string;
@@ -163,14 +164,7 @@ export default function DashboardPage() {
   );
 
   if (loading) {
-    return (
-      <main className="flex min-h-screen items-center justify-center bg-[#f0f2f5] text-[#1c1e21]">
-        <div className="flex items-center gap-3 text-sm text-[#65676b]">
-          <div className="h-5 w-5 animate-spin rounded-full border-2 border-[#1877f2]/20 border-t-[#1877f2]" />
-          Cargando MÍA ADS...
-        </div>
-      </main>
-    );
+    return <Loading />;
   }
 
   return (

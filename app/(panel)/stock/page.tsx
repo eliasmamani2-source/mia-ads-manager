@@ -4,6 +4,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
+import Loading from "@/components/Loading/Loading";
 
 type Product = {
   id: string;
@@ -146,11 +147,7 @@ export default function StockPage() {
   }
 
   if (loading) {
-    return (
-      <main className="min-h-screen bg-[#f5f6f8] p-8 text-[#65676b]">
-        Cargando control de stock...
-      </main>
-    );
+    return <Loading />;
   }
 
   return (

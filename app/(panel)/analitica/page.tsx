@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import Loading from "@/components/Loading/Loading";
 
 type AnalyticsRow = {
   id: string;
@@ -70,7 +71,7 @@ export default function AnaliticaPage() {
   const roasGlobal = totalGasto > 0 ? (totalIngresos / totalGasto).toFixed(2) : "0.00";
   const ctrGlobal = totalImpresiones > 0 ? ((totalClics / totalImpresiones) * 100).toFixed(2) : "0.00";
 
-  if (loading) return <main className="p-8 text-[#65676b]">Cargando métricas de rendimiento...</main>;
+  if (loading) return <Loading />;
 
   return (
     <main className="min-h-screen bg-[#f5f6f8] p-6 lg:p-10 text-[#1c1e21]">

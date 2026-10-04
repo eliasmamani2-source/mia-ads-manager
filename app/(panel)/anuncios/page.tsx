@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import Loading from "@/components/Loading/Loading";
 
 type Product = {
   id: string;
@@ -611,19 +612,8 @@ export default function AnunciosPage() {
       (ad) => ad.creative_id
     ).length;
 
-  /*
-   * LOADING
-   */
   if (loading) {
-    return (
-      <main className="min-h-screen bg-[#f5f6f8] p-8 text-[#65676b]">
-        <div className="mx-auto max-w-7xl">
-          <div className="animate-pulse">
-            Cargando administrador de anuncios...
-          </div>
-        </div>
-      </main>
-    );
+    return <Loading />;
   }
 
   return (
