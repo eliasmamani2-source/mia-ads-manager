@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import Loading from "@/components/Loading/Loading";
+import styles from "./Automatizaciones.module.css";
 
 type Automation = {
   id: string;
@@ -159,16 +160,16 @@ export default function AutomatizacionesPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#f0f2f5] text-[#1c1e21]">
+    <main className={styles.automatizacionesPage}>
 
-      <div className="p-5 lg:p-8">
+      <div className={styles.automatizacionesContent}>
 
         {/* =====================================================
             ERROR
         ===================================================== */}
 
         {error && (
-          <div className="mb-6 rounded-xl border border-red-200 bg-red-50 px-5 py-4 text-sm text-red-600">
+          <div className={styles.automatizacionesError}>
             {error}
           </div>
         )}
@@ -177,25 +178,25 @@ export default function AutomatizacionesPage() {
             HERO
         ===================================================== */}
 
-        <section className="relative overflow-hidden rounded-2xl border border-[#d8dadf] bg-white p-7 shadow-sm lg:p-9">
+        <section className={styles.automatizacionesHero}>
 
-          <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-[#1877f2]/5 blur-3xl" />
+          <div className={styles.automatizacionesHeroGlow} />
 
-          <div className="relative">
+          <div className={styles.automatizacionesHeroContent}>
 
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#1877f2]/20 bg-[#e7f3ff] px-4 py-2 text-xs font-bold text-[#1877f2]">
-              <span className="h-2 w-2 rounded-full bg-[#1877f2]" />
+            <div className={styles.automatizacionesHeroEyebrow}>
+              <span className={styles.automatizacionesHeroEyebrowDot} />
               MÍA ADS AUTOMATION
             </div>
 
-            <h2 className="text-3xl font-black tracking-tight text-[#1c1e21] md:text-4xl">
+            <h2 className={styles.automatizacionesHeroTitle}>
               Automatizá tu{" "}
-              <span className="text-[#1877f2]">
+              <span className={styles.automatizacionesAccentText}>
                 negocio.
               </span>
             </h2>
 
-            <p className="mt-4 max-w-2xl text-sm leading-7 text-[#65676b] md:text-base">
+            <p className={styles.automatizacionesHeroDescription}>
               Creá reglas para detectar problemas,
               organizar tus productos y mantener tus
               campañas preparadas sin tener que revisar
@@ -210,7 +211,7 @@ export default function AutomatizacionesPage() {
             MÉTRICAS
         ===================================================== */}
 
-        <section className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <section className={styles.automatizacionesMetricsGrid}>
 
           <MetricCard
             title="Automatizaciones"
@@ -246,25 +247,25 @@ export default function AutomatizacionesPage() {
             FILTROS
         ===================================================== */}
 
-        <section className="mt-6 rounded-2xl border border-[#d8dadf] bg-white p-5 shadow-sm">
+        <section className={styles.automatizacionesFilterPanel}>
 
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div className={styles.automatizacionesFilterHeader}>
 
             <div>
-              <div className="text-xs font-bold uppercase tracking-wider text-[#1877f2]">
+              <div className={styles.automatizacionesSectionLabel}>
                 Administrador
               </div>
 
-              <h3 className="mt-1 text-xl font-bold text-[#1c1e21]">
+              <h3 className={styles.automatizacionesSectionHeading}>
                 Reglas automáticas
               </h3>
             </div>
 
-            <div className="flex flex-col gap-3 sm:flex-row">
+            <div className={styles.automatizacionesFilterControls}>
 
-              <div className="relative">
+              <div className={styles.automatizacionesSearchWrapper}>
 
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-[#8a8d91]">
+                <span className={styles.automatizacionesSearchIcon}>
                   ⌕
                 </span>
 
@@ -274,7 +275,7 @@ export default function AutomatizacionesPage() {
                     setSearch(event.target.value)
                   }
                   placeholder="Buscar automatización..."
-                  className="w-full rounded-lg border border-[#ccd0d5] bg-white py-2.5 pl-9 pr-4 text-sm text-[#1c1e21] outline-none transition placeholder:text-[#8a8d91] focus:border-[#1877f2] focus:ring-2 focus:ring-[#1877f2]/10 sm:w-72"
+                  className={styles.automatizacionesSearchInput}
                 />
 
               </div>
@@ -284,7 +285,7 @@ export default function AutomatizacionesPage() {
                 onChange={(event) =>
                   setFilter(event.target.value)
                 }
-                className="rounded-lg border border-[#ccd0d5] bg-white px-4 py-2.5 text-sm font-medium text-[#1c1e21] outline-none focus:border-[#1877f2]"
+                className={styles.automatizacionesFilterSelect}
               >
                 <option value="Todas">
                   Todos los estados
@@ -313,19 +314,19 @@ export default function AutomatizacionesPage() {
             LISTADO
         ===================================================== */}
 
-        <section className="mt-6 overflow-hidden rounded-2xl border border-[#d8dadf] bg-white shadow-sm">
+        <section className={styles.automatizacionesList}>
 
-          <div className="border-b border-[#e4e6eb] px-5 py-4">
+          <div className={styles.automatizacionesListHeader}>
 
-            <div className="flex items-center justify-between">
+            <div className={styles.automatizacionesListHeaderRow}>
 
               <div>
 
-                <div className="text-sm font-bold text-[#1c1e21]">
+                <div className={styles.automatizacionesListTitle}>
                   Automatizaciones
                 </div>
 
-                <div className="mt-1 text-xs text-[#65676b]">
+                <div className={styles.automatizacionesResultCount}>
                   {filteredAutomations.length} regla
                   {filteredAutomations.length === 1
                     ? ""
@@ -334,7 +335,7 @@ export default function AutomatizacionesPage() {
 
               </div>
 
-              <div className="rounded-lg bg-[#e7f3ff] px-3 py-2 text-xs font-bold text-[#1877f2]">
+              <div className={styles.automatizacionesSmartRulesBadge}>
                 Reglas inteligentes
               </div>
 
@@ -344,17 +345,17 @@ export default function AutomatizacionesPage() {
 
           {filteredAutomations.length === 0 ? (
 
-            <div className="p-12 text-center">
+            <div className={styles.automatizacionesEmptyState}>
 
-              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[#e7f3ff] text-2xl font-bold text-[#1877f2]">
+              <div className={styles.automatizacionesEmptyIcon}>
                 ↻
               </div>
 
-              <h3 className="mt-5 text-lg font-bold text-[#1c1e21]">
+              <h3 className={styles.automatizacionesEmptyTitle}>
                 No encontramos automatizaciones
               </h3>
 
-              <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[#65676b]">
+              <p className={styles.automatizacionesEmptyDescription}>
                 Probá cambiar la búsqueda o el filtro
                 seleccionado.
               </p>
@@ -363,30 +364,30 @@ export default function AutomatizacionesPage() {
 
           ) : (
 
-            <div className="divide-y divide-[#e4e6eb]">
+            <div className={styles.automatizacionesRows}>
 
               {filteredAutomations.map((automation) => (
 
                 <div
                   key={automation.id}
-                  className="group px-5 py-5 transition hover:bg-[#f7f8fa]"
+                  className={styles.automatizacionesRow}
                 >
 
-                  <div className="flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
+                  <div className={styles.automatizacionesRowContent}>
 
                     {/* INFORMACIÓN */}
 
-                    <div className="flex min-w-0 items-start gap-4">
+                    <div className={styles.automatizacionesIdentity}>
 
-                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#e7f3ff] text-lg font-bold text-[#1877f2]">
+                      <div className={styles.automatizacionesAutomationIcon}>
                         ↻
                       </div>
 
-                      <div className="min-w-0">
+                      <div className={styles.automatizacionesDetails}>
 
-                        <div className="flex flex-wrap items-center gap-2">
+                        <div className={styles.automatizacionesTitleRow}>
 
-                          <h4 className="text-sm font-bold text-[#1c1e21]">
+                          <h4 className={styles.automatizacionesAutomationTitle}>
                             {automation.nombre}
                           </h4>
 
@@ -396,17 +397,17 @@ export default function AutomatizacionesPage() {
 
                         </div>
 
-                        <p className="mt-2 max-w-2xl text-sm leading-6 text-[#65676b]">
+                        <p className={styles.automatizacionesAutomationDescription}>
                           {automation.descripcion}
                         </p>
 
-                        <div className="mt-3 flex flex-wrap items-center gap-2">
+                        <div className={styles.automatizacionesTags}>
 
-                          <span className="rounded-lg bg-[#f0f2f5] px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-[#65676b]">
+                          <span className={styles.automatizacionesTag}>
                             {automation.tipo}
                           </span>
 
-                          <span className="rounded-lg bg-[#f0f2f5] px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-[#65676b]">
+                          <span className={styles.automatizacionesTag}>
                             {automation.frecuencia}
                           </span>
 
@@ -418,7 +419,7 @@ export default function AutomatizacionesPage() {
 
                     {/* INFORMACIÓN EXTRA */}
 
-                    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:min-w-[370px]">
+                    <div className={styles.automatizacionesInfoBoxes}>
 
                       <InfoBox
                         label="Estado"
@@ -449,8 +450,8 @@ export default function AutomatizacionesPage() {
                       }
                       className={
                         automation.estado === "Activa"
-                          ? "shrink-0 rounded-lg border border-[#ccd0d5] bg-white px-5 py-2.5 text-xs font-bold text-[#65676b] transition hover:border-red-300 hover:bg-red-50 hover:text-red-600"
-                          : "shrink-0 rounded-lg bg-[#1877f2] px-5 py-2.5 text-xs font-bold text-white transition hover:bg-[#166fe5]"
+                          ? styles.automatizacionesPauseButton
+                          : styles.automatizacionesActivateButton
                       }
                     >
                       {automation.estado === "Activa"
@@ -474,7 +475,7 @@ export default function AutomatizacionesPage() {
             INFORMACIÓN
         ===================================================== */}
 
-        <section className="mt-6 grid gap-6 xl:grid-cols-3">
+        <section className={styles.automatizacionesInfoCardsGrid}>
 
           <InfoCard
             icon="!"
@@ -500,21 +501,21 @@ export default function AutomatizacionesPage() {
             PRÓXIMAMENTE
         ===================================================== */}
 
-        <section className="mt-6 rounded-2xl border border-[#d8dadf] bg-white p-6 shadow-sm">
+        <section className={styles.automatizacionesUpcomingPanel}>
 
-          <div className="flex items-start gap-4">
+          <div className={styles.automatizacionesUpcomingContent}>
 
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e7f3ff] font-bold text-[#1877f2]">
+            <div className={styles.automatizacionesUpcomingIcon}>
               ✦
             </div>
 
             <div>
 
-              <h3 className="text-sm font-bold text-[#1c1e21]">
+              <h3 className={styles.automatizacionesUpcomingTitle}>
                 Próximas automatizaciones
               </h3>
 
-              <p className="mt-2 text-xs leading-6 text-[#65676b]">
+              <p className={styles.automatizacionesUpcomingDescription}>
                 Más adelante podemos conectar estas reglas
                 con acciones reales: pausar anuncios cuando
                 un producto se quede sin stock, generar
@@ -550,30 +551,30 @@ function MetricCard({
   icon: string;
 }) {
   return (
-    <div className="group rounded-2xl border border-[#d8dadf] bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-[#1877f2]/40 hover:shadow-md">
+    <div className={styles.automatizacionesMetricCard}>
 
-      <div className="flex items-start justify-between">
+      <div className={styles.automatizacionesMetricHeader}>
 
-        <div className="text-xs font-semibold text-[#65676b]">
+        <div className={styles.automatizacionesMetricLabel}>
           {title}
         </div>
 
-        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#e7f3ff] text-sm font-bold text-[#1877f2]">
+        <div className={styles.automatizacionesMetricIcon}>
           {icon}
         </div>
 
       </div>
 
-      <div className="mt-5 text-2xl font-black text-[#1c1e21]">
+      <div className={styles.automatizacionesMetricValue}>
         {value}
       </div>
 
-      <div className="mt-1 text-xs text-[#65676b]">
+      <div className={styles.automatizacionesMetricSubtitle}>
         {subtitle}
       </div>
 
-      <div className="mt-5 h-1 overflow-hidden rounded-full bg-[#e4e6eb]">
-        <div className="h-full w-1/2 rounded-full bg-[#1877f2]" />
+      <div className={styles.automatizacionesMetricProgress}>
+        <div className={styles.automatizacionesMetricProgressValue} />
       </div>
 
     </div>
@@ -585,24 +586,22 @@ function StatusBadge({
 }: {
   status: string;
 }) {
-  let classes = "bg-[#f0f2f5] text-[#65676b]";
+  let statusClass = styles.automatizacionesStatusNeutral;
 
   if (status === "Activa") {
-    classes = "bg-[#eaf7ed] text-[#31a24c]";
+    statusClass = styles.automatizacionesStatusActive;
   }
 
   if (status === "Pausada") {
-    classes = "bg-[#fff4d6] text-[#b78103]";
+    statusClass = styles.automatizacionesStatusPaused;
   }
 
   if (status === "Borrador") {
-    classes = "bg-[#e7f3ff] text-[#1877f2]";
+    statusClass = styles.automatizacionesStatusDraft;
   }
 
   return (
-    <span
-      className={`rounded-full px-3 py-1 text-[10px] font-bold ${classes}`}
-    >
+    <span className={`${styles.automatizacionesStatusBadge} ${statusClass}`}>
       {status}
     </span>
   );
@@ -616,13 +615,13 @@ function InfoBox({
   value: string;
 }) {
   return (
-    <div className="rounded-xl bg-[#f0f2f5] px-4 py-3">
+    <div className={styles.automatizacionesInfoBox}>
 
-      <div className="text-[9px] font-bold uppercase tracking-wider text-[#8a8d91]">
+      <div className={styles.automatizacionesInfoBoxLabel}>
         {label}
       </div>
 
-      <div className="mt-1 truncate text-xs font-bold text-[#1c1e21]">
+      <div className={styles.automatizacionesInfoBoxValue}>
         {value}
       </div>
 
@@ -640,21 +639,21 @@ function InfoCard({
   description: string;
 }) {
   return (
-    <div className="rounded-2xl border border-[#d8dadf] bg-white p-6 shadow-sm">
+    <div className={styles.automatizacionesInfoCard}>
 
-      <div className="flex items-start gap-4">
+      <div className={styles.automatizacionesInfoCardContent}>
 
-        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e7f3ff] font-bold text-[#1877f2]">
+        <div className={styles.automatizacionesInfoCardIcon}>
           {icon}
         </div>
 
         <div>
 
-          <h3 className="text-sm font-bold text-[#1c1e21]">
+          <h3 className={styles.automatizacionesInfoCardTitle}>
             {title}
           </h3>
 
-          <p className="mt-2 text-xs leading-6 text-[#65676b]">
+          <p className={styles.automatizacionesInfoCardDescription}>
             {description}
           </p>
 

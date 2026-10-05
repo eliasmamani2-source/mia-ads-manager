@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import Loading from "@/components/Loading/Loading";
+import styles from "./Stock.module.css";
 
 type Product = {
   id: string;
@@ -123,8 +124,8 @@ export default function StockPage() {
     if (stock <= 0) {
       return {
         texto: "Agotado",
-        clase: "bg-red-100 text-red-700",
-        barra: "bg-red-500",
+        clase: styles.stockEstadoAgotado,
+        barra: styles.stockBarraAgotado,
         porcentaje: 0,
       };
     }
@@ -132,16 +133,16 @@ export default function StockPage() {
     if (stock <= 5) {
       return {
         texto: "Stock bajo",
-        clase: "bg-orange-100 text-orange-700",
-        barra: "bg-orange-500",
+        clase: styles.stockEstadoBajo,
+        barra: styles.stockBarraBajo,
         porcentaje: Math.min(stock * 10, 100),
       };
     }
 
     return {
       texto: "Disponible",
-      clase: "bg-green-100 text-green-700",
-      barra: "bg-green-500",
+      clase: styles.stockEstadoDisponible,
+      barra: styles.stockBarraDisponible,
       porcentaje: Math.min(stock * 5, 100),
     };
   }
@@ -151,73 +152,73 @@ export default function StockPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#f5f6f8] p-6 text-[#1c1e21] lg:p-10">
-      <div className="mx-auto max-w-7xl">
+    <main className={styles.stockMinHScreenBgF5f6f8P6Text1c1e21}>
+      <div className={styles.stockMxAutoMaxW7xl}>
 
         {/* ERROR */}
 
         {errorMsg && (
-          <div className="mb-6 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-600">
+          <div className={styles.stockMb6RoundedXlBorderBorderRed200}>
             {errorMsg}
           </div>
         )}
 
         {/* RESUMEN */}
 
-        <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className={styles.stockMb8GridGridCols1Gap4}>
 
-          <div className="rounded-2xl border border-[#e4e6eb] bg-white p-5 shadow-sm">
-            <div className="text-xs font-bold uppercase tracking-wider text-[#65676b]">
+          <div className={styles.stockRounded2xlBorderBorderE4e6ebBgWhite}>
+            <div className={styles.stockTextXsFontBoldUppercaseTrackingWider}>
               Productos
             </div>
 
-            <div className="mt-2 text-3xl font-black">
+            <div className={styles.stockMt2Text3xlFontBlack}>
               {totalProductos}
             </div>
 
-            <div className="mt-1 text-xs text-[#65676b]">
+            <div className={styles.stockMt1TextXsText65676b}>
               productos registrados
             </div>
           </div>
 
-          <div className="rounded-2xl border border-[#e4e6eb] bg-white p-5 shadow-sm">
-            <div className="text-xs font-bold uppercase tracking-wider text-[#65676b]">
+          <div className={styles.stockRounded2xlBorderBorderE4e6ebBgWhite}>
+            <div className={styles.stockTextXsFontBoldUppercaseTrackingWider}>
               Unidades
             </div>
 
-            <div className="mt-2 text-3xl font-black text-[#1877f2]">
+            <div className={styles.stockMt2Text3xlFontBlackText1877f2}>
               {stockTotal}
             </div>
 
-            <div className="mt-1 text-xs text-[#65676b]">
+            <div className={styles.stockMt1TextXsText65676b}>
               unidades disponibles
             </div>
           </div>
 
-          <div className="rounded-2xl border border-orange-200 bg-orange-50 p-5 shadow-sm">
-            <div className="text-xs font-bold uppercase tracking-wider text-orange-600">
+          <div className={styles.stockRounded2xlBorderBorderOrange200BgOrange50}>
+            <div className={styles.stockTextXsFontBoldUppercaseTrackingWider2}>
               Stock bajo
             </div>
 
-            <div className="mt-2 text-3xl font-black text-orange-600">
+            <div className={styles.stockMt2Text3xlFontBlackTextOrange600}>
               {stockBajo.length}
             </div>
 
-            <div className="mt-1 text-xs text-orange-600">
+            <div className={styles.stockMt1TextXsTextOrange600}>
               productos necesitan atención
             </div>
           </div>
 
-          <div className="rounded-2xl border border-red-200 bg-red-50 p-5 shadow-sm">
-            <div className="text-xs font-bold uppercase tracking-wider text-red-600">
+          <div className={styles.stockRounded2xlBorderBorderRed200BgRed50}>
+            <div className={styles.stockTextXsFontBoldUppercaseTrackingWider3}>
               Agotados
             </div>
 
-            <div className="mt-2 text-3xl font-black text-red-600">
+            <div className={styles.stockMt2Text3xlFontBlackTextRed600}>
               {agotados.length}
             </div>
 
-            <div className="mt-1 text-xs text-red-600">
+            <div className={styles.stockMt1TextXsTextRed600}>
               productos sin stock
             </div>
           </div>
@@ -227,19 +228,19 @@ export default function StockPage() {
         {/* ALERTAS */}
 
         {(agotados.length > 0 || stockBajo.length > 0) && (
-          <section className="mb-8 rounded-2xl border border-[#e4e6eb] bg-white p-6 shadow-sm">
+          <section className={styles.stockMb8Rounded2xlBorderBorderE4e6eb}>
 
-            <div className="mb-5">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#1877f2]">
+            <div className={styles.stockMb5}>
+              <span className={styles.stockTextXsFontBoldUppercaseTrackingWider4}>
                 Alertas
               </span>
 
-              <h2 className="mt-1 text-xl font-bold">
+              <h2 className={styles.stockMt1TextXlFontBold}>
                 Productos que necesitan atención
               </h2>
             </div>
 
-            <div className="space-y-3">
+            <div className={styles.stockSpaceY3}>
 
               {[...agotados, ...stockBajo].map((producto) => {
                 const stock = Number(producto.stock || 0);
@@ -248,28 +249,28 @@ export default function StockPage() {
                 return (
                   <div
                     key={producto.id}
-                    className="flex flex-col gap-3 rounded-xl border border-[#e4e6eb] bg-[#f8f9fa] p-4 sm:flex-row sm:items-center sm:justify-between"
+                    className={styles.stockFlexFlexColGap3RoundedXl}
                   >
 
                     <div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-[#1877f2]">
+                      <div className={styles.stockFlexItemsCenterGap2}>
+                        <span className={styles.stockText10pxFontBoldUppercaseTrackingWider}>
                           {producto.codigo || "SIN CÓDIGO"}
                         </span>
 
                         <span
-                          className={`rounded-full px-2 py-1 text-[9px] font-bold ${estado.clase}`}
+                          className={`${styles.stockEstadoBadge} ${estado.clase}`}
                         >
                           {estado.texto}
                         </span>
                       </div>
 
-                      <h3 className="mt-1 text-sm font-bold">
+                      <h3 className={styles.stockMt1TextSmFontBold}>
                         {producto.nombre}
                       </h3>
                     </div>
 
-                    <div className="text-sm font-black">
+                    <div className={styles.stockTextSmFontBlack}>
                       {stock} unidades
                     </div>
 
@@ -283,16 +284,16 @@ export default function StockPage() {
 
         {/* TABLA / CATÁLOGO */}
 
-        <section className="rounded-2xl border border-[#e4e6eb] bg-white shadow-sm">
+        <section className={styles.stockRounded2xlBorderBorderE4e6ebBgWhite2}>
 
-          <div className="border-b border-[#e4e6eb] p-6">
+          <div className={styles.stockBorderBBorderE4e6ebP6}>
 
             <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-[#1877f2]">
+              <span className={styles.stockTextXsFontBoldUppercaseTrackingWider4}>
                 Inventario
               </span>
 
-              <h2 className="mt-1 text-xl font-bold">
+              <h2 className={styles.stockMt1TextXlFontBold}>
                 Estado del stock
               </h2>
             </div>
@@ -300,24 +301,24 @@ export default function StockPage() {
           </div>
 
           {productos.length === 0 ? (
-            <div className="p-12 text-center">
+            <div className={styles.stockP12TextCenter}>
 
-              <div className="text-4xl">
+              <div className={styles.stockText4xl}>
                 📦
               </div>
 
-              <h3 className="mt-4 text-base font-bold">
+              <h3 className={styles.stockMt4TextBaseFontBold}>
                 No hay productos registrados
               </h3>
 
-              <p className="mt-1 text-sm text-[#65676b]">
+              <p className={styles.stockMt1TextSmText65676b}>
                 Agregá productos desde el catálogo para comenzar
                 a controlar el stock.
               </p>
 
               <Link
                 href="/productos"
-                className="mt-5 inline-flex rounded-xl bg-[#1877f2] px-5 py-3 text-xs font-bold text-white hover:bg-[#166fe5]"
+                className={styles.stockMt5InlineFlexRoundedXlBg1877f2}
               >
                 Ir a Productos
               </Link>
@@ -325,7 +326,7 @@ export default function StockPage() {
             </div>
           ) : (
 
-            <div className="divide-y divide-[#e4e6eb]">
+            <div className={styles.stockDivideYDivideE4e6eb}>
 
               {productos.map((producto) => {
 
@@ -335,30 +336,30 @@ export default function StockPage() {
                 return (
                   <div
                     key={producto.id}
-                    className="p-5 transition hover:bg-[#f8f9fa]"
+                    className={styles.stockP5TransitionBgF8f9fa}
                   >
 
-                    <div className="flex flex-col gap-4 lg:flex-row lg:items-center">
+                    <div className={styles.stockFlexFlexColGap4FlexRow}>
 
                       {/* PRODUCTO */}
 
-                      <div className="min-w-0 flex-1">
+                      <div className={styles.stockMinW0Flex1}>
 
-                        <div className="flex items-center gap-2">
+                        <div className={styles.stockFlexItemsCenterGap2}>
 
-                          <span className="rounded-md bg-[#e7f3ff] px-2 py-1 text-[10px] font-bold text-[#1877f2]">
+                          <span className={styles.stockRoundedMdBgE7f3ffPx2Py1}>
                             {producto.codigo || "SIN CÓDIGO"}
                           </span>
 
                           <span
-                            className={`rounded-full px-2 py-1 text-[9px] font-bold ${estado.clase}`}
+                            className={`${styles.stockEstadoBadge} ${estado.clase}`}
                           >
                             {estado.texto}
                           </span>
 
                         </div>
 
-                        <h3 className="mt-2 truncate text-sm font-bold">
+                        <h3 className={styles.stockMt2TruncateTextSmFontBold}>
                           {producto.nombre}
                         </h3>
 
@@ -366,13 +367,13 @@ export default function StockPage() {
 
                       {/* PRECIO */}
 
-                      <div className="w-full lg:w-32">
+                      <div className={styles.stockWFullW32}>
 
-                        <div className="text-[10px] font-bold uppercase tracking-wider text-[#65676b]">
+                        <div className={styles.stockText10pxFontBoldUppercaseTrackingWider2}>
                           Precio
                         </div>
 
-                        <div className="mt-1 text-sm font-black">
+                        <div className={styles.stockMt1TextSmFontBlack}>
                           $
                           {Number(producto.precio).toLocaleString(
                             "es-AR"
@@ -383,24 +384,24 @@ export default function StockPage() {
 
                       {/* STOCK */}
 
-                      <div className="w-full lg:w-48">
+                      <div className={styles.stockWFullW48}>
 
-                        <div className="flex items-center justify-between">
+                        <div className={styles.stockFlexItemsCenterJustifyBetween}>
 
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-[#65676b]">
+                          <span className={styles.stockText10pxFontBoldUppercaseTrackingWider2}>
                             Stock
                           </span>
 
-                          <span className="text-sm font-black">
+                          <span className={styles.stockTextSmFontBlack}>
                             {stock}
                           </span>
 
                         </div>
 
-                        <div className="mt-2 h-2 overflow-hidden rounded-full bg-[#e4e6eb]">
+                        <div className={styles.stockMt2H2OverflowHiddenRoundedFull}>
 
                           <div
-                            className={`h-full rounded-full ${estado.barra}`}
+                            className={`${styles.stockBarraBase} ${estado.barra}`}
                             style={{
                               width: `${estado.porcentaje}%`,
                             }}
@@ -412,10 +413,10 @@ export default function StockPage() {
 
                       {/* ESTADO */}
 
-                      <div className="w-full lg:w-28 lg:text-right">
+                      <div className={styles.stockWFullW28TextRight}>
 
                         <span
-                          className={`inline-flex rounded-full px-3 py-1 text-[10px] font-bold ${estado.clase}`}
+                          className={`${styles.stockEstadoBadgeGrande} ${estado.clase}`}
                         >
                           {estado.texto}
                         </span>
@@ -435,21 +436,21 @@ export default function StockPage() {
 
         {/* INFORMACIÓN */}
 
-        <section className="mt-8 rounded-2xl border border-[#dbeafe] bg-[#eff6ff] p-6">
+        <section className={styles.stockMt8Rounded2xlBorderBorderDbeafe}>
 
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
+          <div className={styles.stockFlexFlexColGap3FlexRow}>
 
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#1877f2] text-white">
+            <div className={styles.stockFlexH10W10Shrink0}>
               i
             </div>
 
             <div>
 
-              <h2 className="text-sm font-black">
+              <h2 className={styles.stockTextSmFontBlack}>
                 Control automático
               </h2>
 
-              <p className="mt-1 text-xs leading-5 text-[#65676b]">
+              <p className={styles.stockMt1TextXsLeading5Text65676b}>
                 Esta pantalla utiliza el mismo catálogo de productos
                 de MÍA ADS. Los códigos, precios y cantidades se
                 mantienen sincronizados con Productos.

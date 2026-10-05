@@ -1,8 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
 import { supabase } from "@/lib/supabase";
 import Loading from "@/components/Loading/Loading";
+
+import styles from "./Campanas.module.css";
 
 type Product = {
   id: string;
@@ -26,6 +29,7 @@ export default function CampanasPage() {
   const [productos, setProductos] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+
   const [nombre, setNombre] = useState("");
   const [objetivo, setObjetivo] = useState("CONVERSIONS");
   const [presupuesto, setPresupuesto] = useState("");
@@ -112,6 +116,7 @@ export default function CampanasPage() {
       }
     } catch (error) {
       console.error(error);
+
       setErrorMsg(
         error instanceof Error
           ? error.message
@@ -162,7 +167,9 @@ export default function CampanasPage() {
         estado: "Activa",
       };
 
-      const { error } = await supabase.from("campaigns").insert([campaignData]);
+      const { error } = await supabase
+        .from("campaigns")
+        .insert([campaignData]);
 
       if (error) {
         throw error;
@@ -176,16 +183,24 @@ export default function CampanasPage() {
       await fetchData();
     } catch (error) {
       console.error("Error creando campaña:", error);
+
       setErrorMsg(
-        error instanceof Error ? error.message : "No se pudo crear la campaña."
+        error instanceof Error
+          ? error.message
+          : "No se pudo crear la campaña."
       );
     } finally {
       setSaving(false);
     }
   }
 
-  async function toggleEstadoCampaign(id: string, estadoActual: string) {
-    const nuevoEstado = estadoActual === "Activa" ? "Pausada" : "Activa";
+  async function toggleEstadoCampaign(
+    id: string,
+    estadoActual: string
+  ) {
+    const nuevoEstado =
+      estadoActual === "Activa" ? "Pausada" : "Activa";
+
     const { error } = await supabase
       .from("campaigns")
       .update({ estado: nuevoEstado })
@@ -201,12 +216,18 @@ export default function CampanasPage() {
   }
 
   async function handleDeleteCampaign(id: string) {
-    const confirmar = window.confirm("¿Seguro que deseas eliminar esta campaña?");
+    const confirmar = window.confirm(
+      "¿Seguro que deseas eliminar esta campaña?"
+    );
+
     if (!confirmar) {
       return;
     }
 
-    const { error } = await supabase.from("campaigns").delete().eq("id", id);
+    const { error } = await supabase
+      .from("campaigns")
+      .delete()
+      .eq("id", id);
 
     if (error) {
       console.error("Error eliminando campaña:", error);
@@ -221,7 +242,10 @@ export default function CampanasPage() {
     if (!productId) {
       return null;
     }
-    return productos.find((producto) => producto.id === productId) || null;
+
+    return productos.find(
+      (producto) => producto.id === productId
+    ) || null;
   }
 
   if (loading) {
@@ -229,140 +253,182 @@ export default function CampanasPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#f0f2f5] text-[#1c1e21] pl-64">
-      <div className="min-h-screen flex flex-col p-5 lg:p-8">
+    <main className={styles.campanasPage}>
+      <div className={styles.campanasContenido}>
 
-        {/* ERROR */}
         {errorMsg && (
-          <div className="mb-6 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-600">
+          <div className={styles.campanasError}>
             {errorMsg}
           </div>
         )}
 
         {/* CREAR CAMPAÑA */}
-        <section className="mb-10 rounded-2xl border border-[#e4e6eb] bg-white p-6 shadow-sm">
-          <div className="mb-5">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-[#1877f2]">
+        <section className={styles.campanasFormulario}>
+          <div className={styles.campanasFormularioEncabezado}>
+            <span className={styles.campanasEtiqueta}>
               Nueva campaña
             </span>
-            <h2 className="mt-1 text-lg font-bold">＋ Crear Nueva Campaña</h2>
-            <p className="mt-1 text-xs text-[#65676b]">
+
+            <h2>＋ Crear Nueva Campaña</h2>
+
+            <p>
               Elegí el producto que querés promocionar.
             </p>
           </div>
 
           <form
             onSubmit={handleCreateCampaign}
-            className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5"
+            className={styles.campanasFormularioCampos}
           >
-            {/* NOMBRE */}
-            <div>
-              <label className="mb-1 block text-xs font-semibold text-[#65676b]">
+            <div className={styles.campanasCampo}>
+              <label htmlFor="nombre">
                 Nombre de Campaña *
               </label>
+
               <input
+                id="nombre"
                 type="text"
                 placeholder="Ej. Jeans Mossa - Ventas"
                 value={nombre}
-                onChange={(event) => setNombre(event.target.value)}
-                className="w-full rounded-xl border border-[#ccd0d5] bg-white p-2.5 text-sm outline-none focus:border-[#1877f2]"
+                onChange={(event) =>
+                  setNombre(event.target.value)
+                }
               />
             </div>
 
-            {/* OBJETIVO */}
-            <div>
-              <label className="mb-1 block text-xs font-semibold text-[#65676b]">
+            <div className={styles.campanasCampo}>
+              <label htmlFor="objetivo">
                 Objetivo
               </label>
+
               <select
+                id="objetivo"
                 value={objetivo}
-                onChange={(event) => setObjetivo(event.target.value)}
-                className="w-full rounded-xl border border-[#ccd0d5] bg-white p-2.5 text-sm outline-none focus:border-[#1877f2]"
+                onChange={(event) =>
+                  setObjetivo(event.target.value)
+                }
               >
-                <option value="CONVERSIONS">Ventas / Conversiones</option>
-                <option value="OUTCOME_LEADS">Generación de Clientes</option>
-                <option value="MESSAGES">Mensajes WhatsApp / IG</option>
-                <option value="TRAFFIC">Tráfico al sitio web</option>
+                <option value="CONVERSIONS">
+                  Ventas / Conversiones
+                </option>
+
+                <option value="OUTCOME_LEADS">
+                  Generación de Clientes
+                </option>
+
+                <option value="MESSAGES">
+                  Mensajes WhatsApp / IG
+                </option>
+
+                <option value="TRAFFIC">
+                  Tráfico al sitio web
+                </option>
               </select>
             </div>
 
-            {/* PRESUPUESTO */}
-            <div>
-              <label className="mb-1 block text-xs font-semibold text-[#65676b]">
+            <div className={styles.campanasCampo}>
+              <label htmlFor="presupuesto">
                 Presupuesto Diario ($) *
               </label>
+
               <input
+                id="presupuesto"
                 type="number"
                 min="1"
                 step="1"
                 placeholder="5000"
                 value={presupuesto}
-                onChange={(event) => setPresupuesto(event.target.value)}
-                className="w-full rounded-xl border border-[#ccd0d5] bg-white p-2.5 text-sm outline-none focus:border-[#1877f2]"
+                onChange={(event) =>
+                  setPresupuesto(event.target.value)
+                }
               />
             </div>
 
-            {/* PRODUCTO */}
-            <div>
-              <label className="mb-1 block text-xs font-semibold text-[#65676b]">
+            <div className={styles.campanasCampo}>
+              <label htmlFor="producto">
                 Producto Promocionado
               </label>
+
               <select
+                id="producto"
                 value={selectedProductId}
-                onChange={(event) => setSelectedProductId(event.target.value)}
-                className="w-full rounded-xl border border-[#ccd0d5] bg-white p-2.5 text-sm outline-none focus:border-[#1877f2]"
+                onChange={(event) =>
+                  setSelectedProductId(event.target.value)
+                }
               >
-                <option value="">Sin producto específico</option>
+                <option value="">
+                  Sin producto específico
+                </option>
+
                 {productos.map((producto) => (
-                  <option key={producto.id} value={producto.id}>
+                  <option
+                    key={producto.id}
+                    value={producto.id}
+                  >
                     {producto.codigo
                       ? `${producto.codigo} — ${producto.nombre}`
                       : producto.nombre}
                   </option>
                 ))}
               </select>
-              <p className="mt-1 text-[10px] text-[#8a8d91]">
+
+              <p className={styles.campanasAyuda}>
                 {productos.length} productos disponibles
               </p>
             </div>
 
-            {/* BOTÓN */}
-            <div className="flex items-end">
+            <div className={styles.campanasAccion}>
               <button
                 type="submit"
-                disabled={saving || !nombre.trim() || !presupuesto}
-                className="w-full rounded-xl bg-[#1877f2] py-2.5 text-sm font-semibold text-white hover:bg-[#166fe5] disabled:cursor-not-allowed disabled:opacity-50"
+                disabled={
+                  saving ||
+                  !nombre.trim() ||
+                  !presupuesto
+                }
               >
-                {saving ? "Guardando..." : "Crear Campaña"}
+                {saving
+                  ? "Guardando..."
+                  : "Crear Campaña"}
               </button>
             </div>
           </form>
 
-          {/* PRODUCTO SELECCIONADO */}
           {selectedProductId && (
-            <div className="mt-5 rounded-xl border border-[#e7f3ff] bg-[#f7fbff] p-4">
+            <div className={styles.campanasProductoSeleccionado}>
               {(() => {
-                const producto = getProducto(selectedProductId);
+                const producto =
+                  getProducto(selectedProductId);
+
                 if (!producto) {
                   return null;
                 }
+
                 return (
-                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                  <div className={styles.campanasProductoInfo}>
                     <div>
-                      <div className="text-[10px] font-bold uppercase tracking-wider text-[#1877f2]">
+                      <div className={styles.campanasEtiqueta}>
                         Producto vinculado
                       </div>
-                      <div className="mt-1 text-sm font-bold">
+
+                      <div className={styles.campanasProductoNombre}>
                         {producto.nombre}
                       </div>
+
                       {producto.codigo && (
-                        <div className="text-xs text-[#65676b]">
-                          Código: <strong>{producto.codigo}</strong>
+                        <div className={styles.campanasProductoCodigo}>
+                          Código:{" "}
+                          <strong>
+                            {producto.codigo}
+                          </strong>
                         </div>
                       )}
                     </div>
-                    <div className="text-sm font-bold">
-                      ${Number(producto.precio || 0).toLocaleString("es-AR")}
+
+                    <div className={styles.campanasProductoPrecio}>
+                      $
+                      {Number(
+                        producto.precio || 0
+                      ).toLocaleString("es-AR")}
                     </div>
                   </div>
                 );
@@ -372,86 +438,121 @@ export default function CampanasPage() {
         </section>
 
         {/* LISTADO */}
-        <div className="mb-4">
-          <h2 className="text-lg font-bold">Campañas ({campanas.length})</h2>
-          <p className="mt-1 text-xs text-[#65676b]">
+        <div className={styles.campanasListadoEncabezado}>
+          <h2>
+            Campañas ({campanas.length})
+          </h2>
+
+          <p>
             Cada campaña puede estar vinculada a un producto específico.
           </p>
         </div>
 
         {campanas.length === 0 ? (
-          <div className="rounded-2xl border border-[#e4e6eb] bg-white p-10 text-center shadow-sm">
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[#e7f3ff] text-2xl text-[#1877f2]">
+          <div className={styles.campanasEstadoVacio}>
+            <div className={styles.campanasEstadoVacioIcono}>
               ▣
             </div>
-            <h3 className="mt-4 text-base font-bold">No hay campañas creadas</h3>
-            <p className="mt-1 text-sm text-[#65676b]">
+
+            <h3>
+              No hay campañas creadas
+            </h3>
+
+            <p>
               Creá tu primera campaña desde el formulario superior.
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className={styles.campanasLista}>
             {campanas.map((campana) => {
-              const producto = getProducto(campana.product_id);
+              const producto = getProducto(
+                campana.product_id
+              );
+
+              const estaActiva =
+                campana.estado === "Activa";
+
               return (
                 <div
                   key={campana.id}
-                  className="flex flex-col justify-between rounded-2xl border border-[#e4e6eb] bg-white p-5 shadow-sm transition hover:shadow-md"
+                  className={styles.campanasTarjeta}
                 >
                   <div>
-                    <div className="mb-2 flex items-center justify-between gap-3">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#1877f2]">
+                    <div className={styles.campanasTarjetaEncabezado}>
+                      <span className={styles.campanasEtiqueta}>
                         {campana.objetivo}
                       </span>
+
                       <span
-                        className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${
-                          campana.estado === "Activa"
-                            ? "bg-green-100 text-green-800"
-                            : "bg-gray-100 text-gray-700"
+                        className={`${styles.campanasEstado} ${
+                          estaActiva
+                            ? styles.campanasEstadoActiva
+                            : styles.campanasEstadoPausada
                         }`}
                       >
                         ● {campana.estado}
                       </span>
                     </div>
 
-                    <h3 className="text-base font-bold">{campana.nombre}</h3>
+                    <h3>
+                      {campana.nombre}
+                    </h3>
 
-                    <div className="mt-3 space-y-2 rounded-xl bg-[#f8f9fa] p-3 text-xs">
-                      <div className="flex justify-between gap-3">
-                        <span className="text-gray-500">Presupuesto diario:</span>
-                        <span className="font-bold text-gray-800">
-                          ${Number(campana.presupuesto_diario || 0).toLocaleString("es-AR")}
+                    <div className={styles.campanasDetalles}>
+                      <div>
+                        <span>
+                          Presupuesto diario:
                         </span>
+
+                        <strong>
+                          $
+                          {Number(
+                            campana.presupuesto_diario || 0
+                          ).toLocaleString("es-AR")}
+                        </strong>
                       </div>
 
-                      <div className="flex justify-between gap-3">
-                        <span className="text-gray-500">Producto:</span>
-                        <span className="text-right font-bold text-[#1877f2]">
+                      <div>
+                        <span>
+                          Producto:
+                        </span>
+
+                        <strong>
                           {producto?.codigo
                             ? `${producto.codigo} — ${producto.nombre}`
-                            : producto?.nombre || "General / Todo el catálogo"}
-                        </span>
+                            : producto?.nombre ||
+                              "General / Todo el catálogo"}
+                        </strong>
                       </div>
                     </div>
                   </div>
 
-                  <div className="mt-4 flex items-center gap-2 border-t border-[#e4e6eb] pt-3">
+                  <div className={styles.campanasAcciones}>
                     <button
                       type="button"
-                      onClick={() => toggleEstadoCampaign(campana.id, campana.estado)}
-                      className={`flex-1 rounded-xl border py-2 text-xs font-semibold ${
-                        campana.estado === "Activa"
-                          ? "border-amber-200 bg-amber-50 text-amber-700 hover:bg-amber-100"
-                          : "border-green-200 bg-green-50 text-green-700 hover:bg-green-100"
-                      }`}
+                      onClick={() =>
+                        toggleEstadoCampaign(
+                          campana.id,
+                          campana.estado
+                        )
+                      }
+                      className={
+                        estaActiva
+                          ? styles.campanasBotonPausar
+                          : styles.campanasBotonActivar
+                      }
                     >
-                      {campana.estado === "Activa" ? "Pausar" : "Activar"}
+                      {estaActiva
+                        ? "Pausar"
+                        : "Activar"}
                     </button>
 
                     <button
                       type="button"
-                      onClick={() => handleDeleteCampaign(campana.id)}
-                      className="rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-xs font-semibold text-red-600 hover:bg-red-100"
+                      onClick={() =>
+                        handleDeleteCampaign(campana.id)
+                      }
+                      className={styles.campanasBotonEliminar}
                     >
                       Eliminar
                     </button>
@@ -461,7 +562,6 @@ export default function CampanasPage() {
             })}
           </div>
         )}
-
       </div>
     </main>
   );

@@ -1,0 +1,485 @@
+@reference "../../globals.css";
+
+.lanzadorIaMinHScreenBgF0f2f5Text1c1e21 {
+  @apply min-h-screen bg-[#f0f2f5] text-[#1c1e21];
+}
+
+.lanzadorIaP5P8 {
+  @apply p-5 lg:p-8;
+}
+
+.lanzadorIaMb4TextXsFontSemiboldText1877f2 {
+  @apply mb-4 text-xs font-semibold text-[#1877f2];
+}
+
+.lanzadorIaMb4FlexItemsCenterJustifyEnd {
+  @apply mb-4 flex items-center justify-end gap-3;
+}
+
+.lanzadorIaRoundedLgBorderBorderCcd0d5BgWhite {
+  @apply rounded-lg border border-[#ccd0d5] bg-white px-4 py-2 text-xs font-semibold text-[#65676b];
+}
+
+.lanzadorIaRoundedLgBorderBorderCcd0d5BgWhite2 {
+  @apply rounded-lg border border-[#ccd0d5] bg-white px-4 py-2.5 text-xs font-semibold text-[#65676b] hover:bg-[#f0f2f5];
+}
+
+.lanzadorIaMb6RoundedXlBorderBorderRed200 {
+  @apply mb-6 rounded-xl border border-red-200 bg-red-50 px-5 py-4 text-sm text-red-600;
+}
+
+.lanzadorIaMb6RoundedXlBorderBorderGreen200 {
+  @apply mb-6 rounded-xl border border-green-200 bg-green-50 px-5 py-4 text-sm font-semibold text-green-700;
+}
+
+.lanzadorIaMb6OverflowHiddenRounded2xlBorder {
+  @apply mb-6 overflow-hidden rounded-2xl border border-[#d8dadf] bg-white shadow-sm;
+}
+
+.lanzadorIaRelativeP7P9 {
+  @apply relative p-7 lg:p-9;
+}
+
+.lanzadorIaAbsoluteRight20Top20H64 {
+  @apply absolute -right-20 -top-20 h-64 w-64 rounded-full bg-[#1877f2]/5 blur-3xl;
+}
+
+.lanzadorIaRelativeMaxW3xl {
+  @apply relative max-w-3xl;
+}
+
+.lanzadorIaMb4InlineFlexItemsCenterGap2 {
+  @apply mb-4 inline-flex items-center gap-2 rounded-full border border-[#1877f2]/20 bg-[#e7f3ff] px-4 py-2 text-xs font-bold text-[#1877f2];
+}
+
+.lanzadorIaH2W2RoundedFullBg1877f2 {
+  @apply h-2 w-2 rounded-full bg-[#1877f2];
+}
+
+.lanzadorIaText3xlFontBlackTrackingTightText4xl {
+  @apply text-3xl font-black tracking-tight lg:text-4xl;
+}
+
+.lanzadorIaText1877f2 {
+  @apply text-[#1877f2];
+}
+
+.lanzadorIaMt4MaxW2xlTextSmLeading7 {
+  @apply mt-4 max-w-2xl text-sm leading-7 text-[#65676b];
+}
+
+.lanzadorIaMt5FlexFlexWrapGap2 {
+  @apply mt-5 flex flex-wrap gap-2;
+}
+
+.lanzadorIaRoundedFullBgF0f2f5Px3Py15 {
+  @apply rounded-full bg-[#f0f2f5] px-3 py-1.5 text-[10px] font-semibold text-[#65676b];
+}
+
+.lanzadorIaGridGap6GridCols380pxMinmax01fr {
+  @apply grid gap-6 xl:grid-cols-[380px_minmax(0,1fr)];
+}
+
+.lanzadorIaRounded2xlBorderBorderD8dadfBgWhite {
+  @apply rounded-2xl border border-[#d8dadf] bg-white shadow-sm;
+}
+
+.lanzadorIaBorderBBorderE4e6ebP5 {
+  @apply border-b border-[#e4e6eb] p-5;
+}
+
+.lanzadorIaTextXsFontBoldUppercaseTrackingWider {
+  @apply text-xs font-bold uppercase tracking-wider text-[#1877f2];
+}
+
+.lanzadorIaMt1TextLgFontBold {
+  @apply mt-1 text-lg font-bold;
+}
+
+.lanzadorIaSpaceY5P5 {
+  @apply space-y-5 p-5;
+}
+
+.lanzadorIaMb2BlockTextXsFontBold {
+  @apply mb-2 block text-xs font-bold;
+}
+
+.lanzadorIaWFullRoundedLgBorderBorderCcd0d5 {
+  @apply w-full rounded-lg border border-[#ccd0d5] bg-white px-3 py-3 text-sm outline-none focus:border-[#1877f2];
+}
+
+.lanzadorIaMt3RoundedXlBorderBorderE4e6eb {
+  @apply mt-3 rounded-xl border border-[#e4e6eb] bg-[#f7f8fa] p-3;
+}
+
+.lanzadorIaFlexGap3 {
+  @apply flex gap-3;
+}
+
+.lanzadorIaH16W16RoundedLgObjectCover {
+  @apply h-16 w-16 rounded-lg object-cover;
+}
+
+.lanzadorIaFlexH16W16ItemsCenter {
+  @apply flex h-16 w-16 items-center justify-center rounded-lg bg-[#e4e6eb] text-center text-[9px] text-[#65676b];
+}
+
+.lanzadorIaMinW0Flex1 {
+  @apply min-w-0 flex-1;
+}
+
+.lanzadorIaTruncateTextXsFontBold {
+  @apply truncate text-xs font-bold;
+}
+
+.lanzadorIaMt1Text10pxText65676b {
+  @apply mt-1 text-[10px] text-[#65676b];
+}
+
+.lanzadorIaText1c1e21 {
+  @apply text-[#1c1e21];
+}
+
+.lanzadorIaRoundedXlBorderBorder1877f220BgE7f3ff60 {
+  @apply rounded-xl border border-[#1877f2]/20 bg-[#e7f3ff]/60 p-4;
+}
+
+.lanzadorIaTextXsFontBoldText1877f2 {
+  @apply text-xs font-bold text-[#1877f2];
+}
+
+.lanzadorIaMt1Text10pxLeading4Text65676b {
+  @apply mt-1 text-[10px] leading-4 text-[#65676b];
+}
+
+.lanzadorIaMt4OverflowHiddenRoundedXlBorder {
+  @apply mt-4 overflow-hidden rounded-xl border border-[#ccd0d5] bg-white;
+}
+
+.lanzadorIaAspectSquareWFullObjectCover {
+  @apply aspect-square w-full object-cover;
+}
+
+.lanzadorIaBorderTBorderE4e6ebP3 {
+  @apply border-t border-[#e4e6eb] p-3;
+}
+
+.lanzadorIaTruncateText10pxFontBold {
+  @apply truncate text-[10px] font-bold;
+}
+
+.lanzadorIaMt1Text9pxText31a24c {
+  @apply mt-1 text-[9px] text-[#31a24c];
+}
+
+.lanzadorIaMt3WFullRoundedLgBorder {
+  @apply mt-3 w-full rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-[10px] font-bold text-red-600 hover:bg-red-100;
+}
+
+.lanzadorIaMt4RoundedXlBorder2BorderDashed {
+  @apply mt-4 rounded-xl border-2 border-dashed border-[#ccd0d5] bg-white p-5 text-center;
+}
+
+.lanzadorIaMxAutoFlexH12W12 {
+  @apply mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-[#f0f2f5] text-xl;
+}
+
+.lanzadorIaMt3TextXsFontBold {
+  @apply mt-3 text-xs font-bold;
+}
+
+.lanzadorIaMt3BlockCursorPointerRoundedLg {
+  @apply mt-3 block cursor-pointer rounded-lg bg-[#1877f2] px-4 py-3 text-center text-xs font-bold text-white hover:bg-[#166fe5];
+}
+
+.lanzadorIaHidden {
+  @apply hidden;
+}
+
+.lanzadorIaMt3RoundedLgBorderBorderCcd0d5 {
+  @apply mt-3 rounded-lg border border-[#ccd0d5] bg-white;
+}
+
+.lanzadorIaCursorPointerPx3Py3Text10px {
+  @apply cursor-pointer px-3 py-3 text-[10px] font-bold text-[#1877f2];
+}
+
+.lanzadorIaMaxH64OverflowYAutoP2 {
+  @apply max-h-64 overflow-y-auto p-2;
+}
+
+.lanzadorIaP3TextCenterText10pxText65676b {
+  @apply p-3 text-center text-[10px] text-[#65676b];
+}
+
+.lanzadorIaGridGridCols3Gap2 {
+  @apply grid grid-cols-3 gap-2;
+}
+
+.lanzadorIaTruncatePx1Py1Text8px {
+  @apply truncate px-1 py-1 text-[8px] font-semibold text-[#65676b];
+}
+
+.lanzadorIaWFullResizeNoneRoundedLgBorder {
+  @apply w-full resize-none rounded-lg border border-[#ccd0d5] px-3 py-3 text-sm outline-none focus:border-[#1877f2];
+}
+
+.lanzadorIaGridGridCols2Gap2 {
+  @apply grid grid-cols-2 gap-2;
+}
+
+.lanzadorIaMb2FlexItemsCenterJustifyBetween {
+  @apply mb-2 flex items-center justify-between;
+}
+
+.lanzadorIaTextXsFontBold {
+  @apply text-xs font-bold;
+}
+
+.lanzadorIaRoundedFullBgE7f3ffPx3Py1 {
+  @apply rounded-full bg-[#e7f3ff] px-3 py-1 text-xs font-bold text-[#1877f2];
+}
+
+.lanzadorIaWFullAccent1877f2 {
+  @apply w-full accent-[#1877f2];
+}
+
+.lanzadorIaMt2FlexJustifyBetweenText10px {
+  @apply mt-2 flex justify-between text-[10px] text-[#8a8d91];
+}
+
+.lanzadorIaWFullRoundedXlBg1877f2Px5 {
+  @apply w-full rounded-xl bg-[#1877f2] px-5 py-4 text-sm font-bold text-white hover:bg-[#166fe5] disabled:cursor-not-allowed disabled:opacity-60;
+}
+
+.lanzadorIaRoundedLgBgF7f8faP3TextCenter {
+  @apply rounded-lg bg-[#f7f8fa] p-3 text-center text-[10px] leading-4 text-[#65676b];
+}
+
+.lanzadorIaMinW0Rounded2xlBorderBorderD8dadf {
+  @apply min-w-0 rounded-2xl border border-[#d8dadf] bg-white shadow-sm;
+}
+
+.lanzadorIaFlexFlexColGap3BorderB {
+  @apply flex flex-col gap-3 border-b border-[#e4e6eb] p-5 md:flex-row md:items-center md:justify-between;
+}
+
+.lanzadorIaFlexItemsCenterGap2 {
+  @apply flex items-center gap-2;
+}
+
+.lanzadorIaRoundedFullBgEaf7edPx3Py1 {
+  @apply rounded-full bg-[#eaf7ed] px-3 py-1 text-[10px] font-bold text-[#31a24c];
+}
+
+.lanzadorIaRoundedFullBgE7f3ffPx3Py12 {
+  @apply rounded-full bg-[#e7f3ff] px-3 py-1 text-[10px] font-bold text-[#1877f2];
+}
+
+.lanzadorIaFlexMinH560pxItemsCenterJustifyCenter {
+  @apply flex min-h-[560px] items-center justify-center p-8;
+}
+
+.lanzadorIaMaxWMdTextCenter {
+  @apply max-w-md text-center;
+}
+
+.lanzadorIaMxAutoFlexH20W20 {
+  @apply mx-auto flex h-20 w-20 items-center justify-center rounded-2xl bg-[#e7f3ff] text-3xl text-[#1877f2];
+}
+
+.lanzadorIaMt6TextLgFontBold {
+  @apply mt-6 text-lg font-bold;
+}
+
+.lanzadorIaMt2TextSmLeading6Text65676b {
+  @apply mt-2 text-sm leading-6 text-[#65676b];
+}
+
+.lanzadorIaMt6GridGap2TextLeft {
+  @apply mt-6 grid gap-2 text-left;
+}
+
+.lanzadorIaGridGap5P5GridCols2 {
+  @apply grid gap-5 p-5 md:grid-cols-2 xl:grid-cols-2;
+}
+
+.lanzadorIaOverflowHiddenRounded2xlBorderBorderD8dadf {
+  @apply overflow-hidden rounded-2xl border border-[#d8dadf] bg-white;
+}
+
+.lanzadorIaRelativeBgF7f8fa {
+  @apply relative bg-[#f7f8fa];
+}
+
+.lanzadorIaAspect45WFullObjectCover {
+  @apply aspect-[4/5] w-full object-cover;
+}
+
+.lanzadorIaFlexAspect45ItemsCenterJustifyCenter {
+  @apply flex aspect-[4/5] items-center justify-center text-sm text-[#65676b];
+}
+
+.lanzadorIaAbsoluteLeft3Top3RoundedFull {
+  @apply absolute left-3 top-3 rounded-full bg-black/70 px-3 py-1.5 text-[9px] font-bold text-white;
+}
+
+.lanzadorIaAbsoluteRight3Top3Flex {
+  @apply absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-[#1877f2] text-xs font-bold text-white shadow;
+}
+
+.lanzadorIaSpaceY4P4 {
+  @apply space-y-4 p-4;
+}
+
+.lanzadorIaMb1BlockText9pxFontBold {
+  @apply mb-1 block text-[9px] font-bold uppercase tracking-wider text-[#65676b];
+}
+
+.lanzadorIaWFullResizeNoneRoundedLgBorder2 {
+  @apply w-full resize-none rounded-lg border border-[#e4e6eb] bg-[#f7f8fa] px-3 py-2 text-sm font-semibold outline-none focus:border-[#1877f2];
+}
+
+.lanzadorIaWFullResizeNoneRoundedLgBorder3 {
+  @apply w-full resize-none rounded-lg border border-[#e4e6eb] bg-[#f7f8fa] px-3 py-2 text-xs leading-5 outline-none focus:border-[#1877f2];
+}
+
+.lanzadorIaWFullResizeNoneRoundedLgBorder4 {
+  @apply w-full resize-none rounded-lg border border-[#e4e6eb] bg-[#f7f8fa] px-3 py-2 text-xs outline-none focus:border-[#1877f2];
+}
+
+.lanzadorIaRoundedLgBorderBorderCcd0d5BgWhite3 {
+  @apply rounded-lg border border-[#ccd0d5] bg-white px-2 py-2 text-[10px] font-bold hover:bg-[#f0f2f5] disabled:cursor-not-allowed disabled:opacity-40;
+}
+
+.lanzadorIaCursorPointerRoundedLgBorderBorderCcd0d5 {
+  @apply cursor-pointer rounded-lg border border-[#ccd0d5] bg-white px-2 py-2 text-center text-[10px] font-bold hover:bg-[#f0f2f5];
+}
+
+.lanzadorIaRoundedLgBorderBorderE4e6eb {
+  @apply rounded-lg border border-[#e4e6eb];
+}
+
+.lanzadorIaCursorPointerPx3Py2Text10px {
+  @apply cursor-pointer px-3 py-2 text-[10px] font-bold text-[#1877f2];
+}
+
+.lanzadorIaMaxH48OverflowYAutoP2 {
+  @apply max-h-48 overflow-y-auto p-2;
+}
+
+.lanzadorIaP3Text10pxText65676b {
+  @apply p-3 text-[10px] text-[#65676b];
+}
+
+.lanzadorIaOverflowHiddenRoundedLgBorderBorderE4e6eb {
+  @apply overflow-hidden rounded-lg border border-[#e4e6eb] hover:border-[#1877f2];
+}
+
+.lanzadorIaH16WFullObjectCover {
+  @apply h-16 w-full object-cover;
+}
+
+.lanzadorIaFlexH16ItemsCenterJustifyCenter {
+  @apply flex h-16 items-center justify-center bg-[#f0f2f5] text-[8px];
+}
+
+.lanzadorIaWFullRoundedLgBorderBorderRed200 {
+  @apply w-full rounded-lg border border-red-200 bg-red-50 px-2 py-2 text-[10px] font-bold text-red-600 hover:bg-red-100;
+}
+
+.lanzadorIaFlexItemsCenterJustifyBetweenBorderT {
+  @apply flex items-center justify-between border-t border-[#e4e6eb] pt-3;
+}
+
+.lanzadorIaText10pxText65676b {
+  @apply text-[10px] text-[#65676b];
+}
+
+.lanzadorIaStickyBottom4Z10Mt6 {
+  @apply sticky bottom-4 z-10 mt-6 rounded-2xl border border-[#d8dadf] bg-white p-4 shadow-lg;
+}
+
+.lanzadorIaFlexFlexColGap4FlexRow {
+  @apply flex flex-col gap-4 md:flex-row md:items-center md:justify-between;
+}
+
+.lanzadorIaTextSmFontBold {
+  @apply text-sm font-bold;
+}
+
+.lanzadorIaMt1TextXsText65676b {
+  @apply mt-1 text-xs text-[#65676b];
+}
+
+.lanzadorIaFlexFlexWrapGap2 {
+  @apply flex flex-wrap gap-2;
+}
+
+.lanzadorIaRoundedLgBorderBorderCcd0d5BgWhite4 {
+  @apply rounded-lg border border-[#ccd0d5] bg-white px-5 py-2.5 text-xs font-semibold text-[#65676b] hover:bg-[#f0f2f5] disabled:opacity-50;
+}
+
+.lanzadorIaRoundedLgBg1877f2Px5Py25 {
+  @apply rounded-lg bg-[#1877f2] px-5 py-2.5 text-xs font-bold text-white hover:bg-[#166fe5] disabled:cursor-not-allowed disabled:opacity-50;
+}
+
+.lanzadorIaFlexItemsCenterGap3RoundedLg {
+  @apply flex items-center gap-3 rounded-lg border border-[#e4e6eb] bg-[#f7f8fa] px-3 py-3;
+}
+
+.lanzadorIaFlexH7W7Shrink0 {
+  @apply flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#1877f2] text-[9px] font-bold text-white;
+}
+
+.lanzadorIaTextXsFontMediumText65676b {
+  @apply text-xs font-medium text-[#65676b];
+}
+
+.lanzadorIaCreativeCard {
+  @apply overflow-hidden rounded-lg border-2 bg-white hover:border-[#1877f2];
+}
+
+.lanzadorIaCreativeCardSeleccionada {
+  @apply border-[#1877f2];
+}
+
+.lanzadorIaCreativeCardNormal {
+  @apply border-[#e4e6eb];
+}
+
+.lanzadorIaFormulaCard {
+  @apply rounded-lg border p-3 text-left;
+}
+
+.lanzadorIaFormulaCardSeleccionada {
+  @apply border-[#1877f2] bg-[#e7f3ff];
+}
+
+.lanzadorIaFormulaCardNormal {
+  @apply border-[#e4e6eb] bg-white hover:bg-[#f7f8fa];
+}
+
+.lanzadorIaFormulaTitulo {
+  @apply text-xs font-bold;
+}
+
+.lanzadorIaFormulaTituloSeleccionado {
+  @apply text-[#1877f2];
+}
+
+.lanzadorIaFormulaTituloNormal {
+  @apply text-[#1c1e21];
+}
+
+.lanzadorIaEstadoBadge {
+  @apply inline-flex rounded-full px-3 py-1 text-[10px] font-bold;
+}
+
+.lanzadorIaEstadoListo {
+  @apply bg-[#eaf7ed] text-[#31a24c];
+}
+
+.lanzadorIaEstadoRevisar {
+  @apply bg-[#fff4d6] text-[#b78103];
+}

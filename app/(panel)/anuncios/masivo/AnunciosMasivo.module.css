@@ -1,0 +1,382 @@
+.masivoLoadingPage,
+.masivoPage {
+  min-height: 100vh;
+  color: #1c1e21;
+  background: #f0f2f5;
+}
+
+.masivoLoadingPage {
+  padding: 2rem;
+}
+
+.masivoPage {
+  padding: 1.25rem;
+}
+
+.masivoLoadingCard {
+  border-radius: 1rem;
+  padding: 2rem;
+  background: #fff;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+}
+
+.masivoContainer {
+  max-width: 80rem;
+  margin-inline: auto;
+}
+
+.masivoError {
+  margin-bottom: 1.5rem;
+  border: 1px solid #fecaca;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  color: #dc2626;
+  background: #fef2f2;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.masivoFilterPanel,
+.masivoFlowPanel {
+  border: 1px solid #d8dadf;
+  border-radius: 1rem;
+  padding: 1.25rem;
+  background: #fff;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+}
+
+.masivoFilterPanel {
+  margin-bottom: 1.5rem;
+}
+
+.masivoFilterLabel,
+.masivoFieldLabel {
+  color: #65676b;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.masivoFilterLabel {
+  margin-bottom: 0.5rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
+.masivoFilterControls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.masivoProductSelect {
+  width: 100%;
+  border: 1px solid #ccd0d5;
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: #fff;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.masivoProductSelect:focus {
+  border-color: #1877f2;
+}
+
+.masivoListHeading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.masivoHeadingTitle {
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.75rem;
+}
+
+.masivoSubtleText {
+  margin-top: 0.25rem;
+  color: #65676b;
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
+.masivoEmptyState {
+  border: 1px solid #d8dadf;
+  border-radius: 1rem;
+  padding: 3rem;
+  background: #fff;
+  text-align: center;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+}
+
+.masivoEmptyIcon {
+  display: flex;
+  width: 4rem;
+  height: 4rem;
+  align-items: center;
+  justify-content: center;
+  margin-inline: auto;
+  border-radius: 1rem;
+  color: #1877f2;
+  background: #e7f3ff;
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+.masivoEmptyTitle {
+  margin-top: 1.25rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.75rem;
+}
+
+.masivoEmptyDescription {
+  max-width: 28rem;
+  margin: 0.5rem auto 0;
+  color: #65676b;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.masivoAdGrid {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.masivoAdCard {
+  overflow: hidden;
+  border: 1px solid #d8dadf;
+  border-radius: 1rem;
+  background: #fff;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+}
+
+.masivoAdCardHeader {
+  border-bottom: 1px solid #e4e6eb;
+  padding: 1.25rem;
+  background: #f7f8fa;
+}
+
+.masivoAdCardTitleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.masivoProductCode,
+.masivoStatusBadge {
+  border-radius: 9999px;
+  padding: 0.25rem 0.75rem;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.masivoProductCode {
+  color: #1877f2;
+  background: #e7f3ff;
+}
+
+.masivoStatusActive {
+  color: #31a24c;
+  background: #eaf7ed;
+}
+
+.masivoStatusPaused {
+  color: #65676b;
+  background: #f0f2f5;
+}
+
+.masivoAdName {
+  margin-top: 1rem;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.5rem;
+}
+
+.masivoProductName {
+  margin-top: 0.25rem;
+  color: #65676b;
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
+.masivoAdCardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.25rem;
+}
+
+.masivoFieldLabel {
+  margin-bottom: 0.25rem;
+  font-size: 10px;
+}
+
+.masivoAdTitle,
+.masivoAdDescription {
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+  background: #f7f8fa;
+}
+
+.masivoAdTitle {
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.25rem;
+}
+
+.masivoAdDescription {
+  color: #65676b;
+  font-size: 0.75rem;
+  line-height: 1.25rem;
+  white-space: pre-line;
+}
+
+.masivoProductPrice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #e4e6eb;
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+}
+
+.masivoSubtleText:first-child {
+  margin-top: 0;
+}
+
+.masivoPriceValue {
+  color: #1c1e21;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.masivoAdActions {
+  display: flex;
+  gap: 0.5rem;
+  border-top: 1px solid #e4e6eb;
+  padding: 1rem;
+}
+
+.masivoStatusAction,
+.masivoDeleteAction {
+  border: 1px solid;
+  border-radius: 0.75rem;
+  padding: 0.625rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.masivoStatusAction {
+  flex: 1;
+}
+
+.masivoPauseAction {
+  border-color: #fde68a;
+  color: #b45309;
+  background: #fffbeb;
+}
+
+.masivoPauseAction:hover {
+  background: #fef3c7;
+}
+
+.masivoActivateAction {
+  border-color: #bbf7d0;
+  color: #15803d;
+  background: #f0fdf4;
+}
+
+.masivoActivateAction:hover {
+  background: #dcfce7;
+}
+
+.masivoDeleteAction {
+  border-color: #fecaca;
+  color: #dc2626;
+  background: #fef2f2;
+}
+
+.masivoDeleteAction:hover {
+  background: #fee2e2;
+}
+
+.masivoFlowPanel {
+  margin-top: 2rem;
+}
+
+.masivoFlowHeading {
+  color: #1877f2;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.masivoFlowGrid {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.masivoFlowStep {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+  background: #f7f8fa;
+}
+
+.masivoFlowNumber {
+  display: flex;
+  width: 2rem;
+  height: 2rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  color: #fff;
+  background: #1877f2;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.masivoFlowText {
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1rem;
+}
+
+@media (min-width: 768px) {
+  .masivoFilterControls {
+    flex-direction: row;
+  }
+
+  .masivoAdGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .masivoFlowGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .masivoPage {
+    padding: 2rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .masivoAdGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+

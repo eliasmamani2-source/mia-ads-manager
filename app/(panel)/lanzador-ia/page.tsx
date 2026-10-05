@@ -7,6 +7,7 @@ import {
 } from "react";
 
 import { createClient } from "@supabase/supabase-js";
+import styles from "./LanzadorIA.module.css";
 
 type Product = {
   id: string;
@@ -1844,22 +1845,22 @@ No agregues texto antes ni después del JSON.
   }
 
   return (
-    <main className="min-h-screen bg-[#f0f2f5] text-[#1c1e21]">
-      <div className="p-5 lg:p-8">
+    <main className={styles.lanzadorIaMinHScreenBgF0f2f5Text1c1e21}>
+      <div className={styles.lanzadorIaP5P8}>
         {businessName && (
-          <p className="mb-4 text-xs font-semibold text-[#1877f2]">
+          <p className={styles.lanzadorIaMb4TextXsFontSemiboldText1877f2}>
             Negocio: {businessName}
           </p>
         )}
 
         {ads.length > 0 && (
-          <div className="mb-4 flex items-center justify-end gap-3">
-            <div className="rounded-lg border border-[#ccd0d5] bg-white px-4 py-2 text-xs font-semibold text-[#65676b]">
+          <div className={styles.lanzadorIaMb4FlexItemsCenterJustifyEnd}>
+            <div className={styles.lanzadorIaRoundedLgBorderBorderCcd0d5BgWhite}>
               {ads.length} anuncios generados
             </div>
             <button
               onClick={clearAds}
-              className="rounded-lg border border-[#ccd0d5] bg-white px-4 py-2.5 text-xs font-semibold text-[#65676b] hover:bg-[#f0f2f5]"
+              className={styles.lanzadorIaRoundedLgBorderBorderCcd0d5BgWhite2}
             >
               Limpiar
             </button>
@@ -1867,44 +1868,44 @@ No agregues texto antes ni después del JSON.
         )}
 
         {error && (
-          <div className="mb-6 rounded-xl border border-red-200 bg-red-50 px-5 py-4 text-sm text-red-600">
+          <div className={styles.lanzadorIaMb6RoundedXlBorderBorderRed200}>
             {error}
           </div>
         )}
 
         {success && (
-          <div className="mb-6 rounded-xl border border-green-200 bg-green-50 px-5 py-4 text-sm font-semibold text-green-700">
+          <div className={styles.lanzadorIaMb6RoundedXlBorderBorderGreen200}>
             {success}
           </div>
         )}
 
-        <section className="mb-6 overflow-hidden rounded-2xl border border-[#d8dadf] bg-white shadow-sm">
-          <div className="relative p-7 lg:p-9">
-            <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-[#1877f2]/5 blur-3xl" />
+        <section className={styles.lanzadorIaMb6OverflowHiddenRounded2xlBorder}>
+          <div className={styles.lanzadorIaRelativeP7P9}>
+            <div className={styles.lanzadorIaAbsoluteRight20Top20H64} />
 
-            <div className="relative max-w-3xl">
-              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#1877f2]/20 bg-[#e7f3ff] px-4 py-2 text-xs font-bold text-[#1877f2]">
-                <span className="h-2 w-2 rounded-full bg-[#1877f2]" />
+            <div className={styles.lanzadorIaRelativeMaxW3xl}>
+              <div className={styles.lanzadorIaMb4InlineFlexItemsCenterGap2}>
+                <span className={styles.lanzadorIaH2W2RoundedFullBg1877f2} />
                 GENERACIÓN EN LOTE
               </div>
 
-              <h2 className="text-3xl font-black tracking-tight lg:text-4xl">
+              <h2 className={styles.lanzadorIaText3xlFontBlackTrackingTightText4xl}>
                 Creá hasta{" "}
-                <span className="text-[#1877f2]">
+                <span className={styles.lanzadorIaText1877f2}>
                   10 anuncios
                 </span>{" "}
                 con imágenes
                 diferentes.
               </h2>
 
-              <p className="mt-4 max-w-2xl text-sm leading-7 text-[#65676b]">
+              <p className={styles.lanzadorIaMt4MaxW2xlTextSmLeading7}>
                 Elegí la imagen del
                 producto y MÍA ADS
                 la combinará con tus
                 fondos automáticamente.
               </p>
 
-              <div className="mt-5 flex flex-wrap gap-2">
+              <div className={styles.lanzadorIaMt5FlexFlexWrapGap2}>
                 {FONDOS.map(
                   (
                     fondo,
@@ -1912,7 +1913,7 @@ No agregues texto antes ni después del JSON.
                   ) => (
                     <span
                       key={fondo}
-                      className="rounded-full bg-[#f0f2f5] px-3 py-1.5 text-[10px] font-semibold text-[#65676b]"
+                      className={styles.lanzadorIaRoundedFullBgF0f2f5Px3Py15}
                     >
                       Fondo{" "}
                       {String(
@@ -1929,21 +1930,21 @@ No agregues texto antes ni después del JSON.
           </div>
         </section>
 
-        <section className="grid gap-6 xl:grid-cols-[380px_minmax(0,1fr)]">
-          <div className="rounded-2xl border border-[#d8dadf] bg-white shadow-sm">
-            <div className="border-b border-[#e4e6eb] p-5">
-              <div className="text-xs font-bold uppercase tracking-wider text-[#1877f2]">
+        <section className={styles.lanzadorIaGridGap6GridCols380pxMinmax01fr}>
+          <div className={styles.lanzadorIaRounded2xlBorderBorderD8dadfBgWhite}>
+            <div className={styles.lanzadorIaBorderBBorderE4e6ebP5}>
+              <div className={styles.lanzadorIaTextXsFontBoldUppercaseTrackingWider}>
                 Configuración
               </div>
 
-              <h2 className="mt-1 text-lg font-bold">
+              <h2 className={styles.lanzadorIaMt1TextLgFontBold}>
                 Prepará tu lote
               </h2>
             </div>
 
-            <div className="space-y-5 p-5">
+            <div className={styles.lanzadorIaSpaceY5P5}>
               <div>
-                <label className="mb-2 block text-xs font-bold">
+                <label className={styles.lanzadorIaMb2BlockTextXsFontBold}>
                   Producto
                 </label>
 
@@ -1962,7 +1963,7 @@ No agregues texto antes ni después del JSON.
                   disabled={
                     loadingProducts
                   }
-                  className="w-full rounded-lg border border-[#ccd0d5] bg-white px-3 py-3 text-sm outline-none focus:border-[#1877f2]"
+                  className={styles.lanzadorIaWFullRoundedLgBorderBorderCcd0d5}
                 >
                   <option value="">
                     {loadingProducts
@@ -1992,8 +1993,8 @@ No agregues texto antes ni después del JSON.
                 </select>
 
                 {product && (
-                  <div className="mt-3 rounded-xl border border-[#e4e6eb] bg-[#f7f8fa] p-3">
-                    <div className="flex gap-3">
+                  <div className={styles.lanzadorIaMt3RoundedXlBorderBorderE4e6eb}>
+                    <div className={styles.lanzadorIaFlexGap3}>
                       {product.imagen_url ? (
                         <img
                           src={
@@ -2002,33 +2003,33 @@ No agregues texto antes ni después del JSON.
                           alt={
                             product.nombre
                           }
-                          className="h-16 w-16 rounded-lg object-cover"
+                          className={styles.lanzadorIaH16W16RoundedLgObjectCover}
                         />
                       ) : (
-                        <div className="flex h-16 w-16 items-center justify-center rounded-lg bg-[#e4e6eb] text-center text-[9px] text-[#65676b]">
+                        <div className={styles.lanzadorIaFlexH16W16ItemsCenter}>
                           Imagen
                           seleccionable
                         </div>
                       )}
 
-                      <div className="min-w-0 flex-1">
-                        <div className="truncate text-xs font-bold">
+                      <div className={styles.lanzadorIaMinW0Flex1}>
+                        <div className={styles.lanzadorIaTruncateTextXsFontBold}>
                           {
                             product.nombre
                           }
                         </div>
 
-                        <div className="mt-1 text-[10px] text-[#65676b]">
+                        <div className={styles.lanzadorIaMt1Text10pxText65676b}>
                           Código:{" "}
-                          <strong className="text-[#1c1e21]">
+                          <strong className={styles.lanzadorIaText1c1e21}>
                             {product.codigo ||
                               "Sin código"}
                           </strong>
                         </div>
 
-                        <div className="mt-1 text-[10px] text-[#65676b]">
+                        <div className={styles.lanzadorIaMt1Text10pxText65676b}>
                           Precio:{" "}
-                          <strong className="text-[#1c1e21]">
+                          <strong className={styles.lanzadorIaText1c1e21}>
                             $
                             {Number(
                               product.precio ||
@@ -2045,35 +2046,35 @@ No agregues texto antes ni después del JSON.
               </div>
 
               {product && (
-                <div className="rounded-xl border border-[#1877f2]/20 bg-[#e7f3ff]/60 p-4">
-                  <div className="text-xs font-bold text-[#1877f2]">
+                <div className={styles.lanzadorIaRoundedXlBorderBorder1877f220BgE7f3ff60}>
+                  <div className={styles.lanzadorIaTextXsFontBoldText1877f2}>
                     Imagen base
                   </div>
 
-                  <p className="mt-1 text-[10px] leading-4 text-[#65676b]">
+                  <p className={styles.lanzadorIaMt1Text10pxLeading4Text65676b}>
                     Elegí exactamente qué
                     foto querés usar para
                     generar los anuncios.
                   </p>
 
                   {sourceImageUrl && (
-                    <div className="mt-4 overflow-hidden rounded-xl border border-[#ccd0d5] bg-white">
+                    <div className={styles.lanzadorIaMt4OverflowHiddenRoundedXlBorder}>
                       <img
                         src={
                           sourceImageUrl
                         }
                         alt="Imagen base seleccionada"
-                        className="aspect-square w-full object-cover"
+                        className={styles.lanzadorIaAspectSquareWFullObjectCover}
                       />
 
-                      <div className="border-t border-[#e4e6eb] p-3">
-                        <div className="truncate text-[10px] font-bold">
+                      <div className={styles.lanzadorIaBorderTBorderE4e6ebP3}>
+                        <div className={styles.lanzadorIaTruncateText10pxFontBold}>
                           {
                             sourceImageName
                           }
                         </div>
 
-                        <div className="mt-1 text-[9px] text-[#31a24c]">
+                        <div className={styles.lanzadorIaMt1Text9pxText31a24c}>
                           Imagen seleccionada
                         </div>
 
@@ -2082,7 +2083,7 @@ No agregues texto antes ni después del JSON.
                           onClick={
                             clearSourceImage
                           }
-                          className="mt-3 w-full rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-[10px] font-bold text-red-600 hover:bg-red-100"
+                          className={styles.lanzadorIaMt3WFullRoundedLgBorder}
                         >
                           Cambiar imagen
                         </button>
@@ -2091,17 +2092,17 @@ No agregues texto antes ni después del JSON.
                   )}
 
                   {!sourceImageUrl && (
-                    <div className="mt-4 rounded-xl border-2 border-dashed border-[#ccd0d5] bg-white p-5 text-center">
-                      <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-[#f0f2f5] text-xl">
+                    <div className={styles.lanzadorIaMt4RoundedXlBorder2BorderDashed}>
+                      <div className={styles.lanzadorIaMxAutoFlexH12W12}>
                         +
                       </div>
 
-                      <div className="mt-3 text-xs font-bold">
+                      <div className={styles.lanzadorIaMt3TextXsFontBold}>
                         No seleccionaste
                         una imagen
                       </div>
 
-                      <p className="mt-1 text-[10px] text-[#65676b]">
+                      <p className={styles.lanzadorIaMt1Text10pxText65676b}>
                         Subí una foto o
                         elegí un creativo
                         existente.
@@ -2109,7 +2110,7 @@ No agregues texto antes ni después del JSON.
                     </div>
                   )}
 
-                  <label className="mt-3 block cursor-pointer rounded-lg bg-[#1877f2] px-4 py-3 text-center text-xs font-bold text-white hover:bg-[#166fe5]">
+                  <label className={styles.lanzadorIaMt3BlockCursorPointerRoundedLg}>
                     {uploadingSourceImage
                       ? "Subiendo imagen..."
                       : "Subir imagen desde este dispositivo"}
@@ -2117,7 +2118,7 @@ No agregues texto antes ni después del JSON.
                     <input
                       type="file"
                       accept="image/jpeg,image/png,image/webp"
-                      className="hidden"
+                      className={styles.lanzadorIaHidden}
                       disabled={
                         uploadingSourceImage
                       }
@@ -2127,21 +2128,21 @@ No agregues texto antes ni después del JSON.
                     />
                   </label>
 
-                  <details className="mt-3 rounded-lg border border-[#ccd0d5] bg-white">
-                    <summary className="cursor-pointer px-3 py-3 text-[10px] font-bold text-[#1877f2]">
+                  <details className={styles.lanzadorIaMt3RoundedLgBorderBorderCcd0d5}>
+                    <summary className={styles.lanzadorIaCursorPointerPx3Py3Text10px}>
                       Elegir imagen de
                       Creativos
                     </summary>
 
-                    <div className="max-h-64 overflow-y-auto p-2">
+                    <div className={styles.lanzadorIaMaxH64OverflowYAutoP2}>
                       {loadingCreatives ? (
-                        <div className="p-3 text-center text-[10px] text-[#65676b]">
+                        <div className={styles.lanzadorIaP3TextCenterText10pxText65676b}>
                           Cargando
                           creativos...
                         </div>
                       ) : creatives.length ===
                         0 ? (
-                        <div className="p-3 text-center text-[10px] text-[#65676b]">
+                        <div className={styles.lanzadorIaP3TextCenterText10pxText65676b}>
                           Este producto
                           todavía no
                           tiene
@@ -2149,7 +2150,7 @@ No agregues texto antes ni después del JSON.
                           imágenes.
                         </div>
                       ) : (
-                        <div className="grid grid-cols-3 gap-2">
+                        <div className={styles.lanzadorIaGridGridCols3Gap2}>
                           {creatives.map(
                             (
                               creative
@@ -2174,12 +2175,12 @@ No agregues texto antes ni después del JSON.
                                       creative
                                     )
                                   }
-                                  className={`overflow-hidden rounded-lg border-2 ${
+                                  className={`${styles.lanzadorIaCreativeCard} ${
                                     selectedSourceCreative ===
                                     creative.id
-                                      ? "border-[#1877f2]"
-                                      : "border-[#e4e6eb]"
-                                  } bg-white hover:border-[#1877f2]`}
+                                      ? styles.lanzadorIaCreativeCardSeleccionada
+                                      : styles.lanzadorIaCreativeCardNormal
+                                  }`}
                                 >
                                   <img
                                     src={
@@ -2189,10 +2190,10 @@ No agregues texto antes ni después del JSON.
                                       creative.nombre ||
                                       "Creativo"
                                     }
-                                    className="aspect-square w-full object-cover"
+                                    className={styles.lanzadorIaAspectSquareWFullObjectCover}
                                   />
 
-                                  <div className="truncate px-1 py-1 text-[8px] font-semibold text-[#65676b]">
+                                  <div className={styles.lanzadorIaTruncatePx1Py1Text8px}>
                                     {creative.nombre ||
                                       "Creativo"}
                                   </div>
@@ -2208,7 +2209,7 @@ No agregues texto antes ni después del JSON.
               )}
 
               <div>
-                <label className="mb-2 block text-xs font-bold">
+                <label className={styles.lanzadorIaMb2BlockTextXsFontBold}>
                   Campaña
                 </label>
 
@@ -2224,7 +2225,7 @@ No agregues texto antes ni después del JSON.
                         .value
                     )
                   }
-                  className="w-full rounded-lg border border-[#ccd0d5] bg-white px-3 py-3 text-sm outline-none focus:border-[#1877f2]"
+                  className={styles.lanzadorIaWFullRoundedLgBorderBorderCcd0d5}
                 >
                   <option value="">
                     Seleccionar campaña
@@ -2252,7 +2253,7 @@ No agregues texto antes ni después del JSON.
               </div>
 
               <div>
-                <label className="mb-2 block text-xs font-bold">
+                <label className={styles.lanzadorIaMb2BlockTextXsFontBold}>
                   Público objetivo
                 </label>
 
@@ -2270,12 +2271,12 @@ No agregues texto antes ni después del JSON.
                   }
                   rows={3}
                   placeholder="Ej: Mujeres de 25 a 45 años interesadas en moda."
-                  className="w-full resize-none rounded-lg border border-[#ccd0d5] px-3 py-3 text-sm outline-none focus:border-[#1877f2]"
+                  className={styles.lanzadorIaWFullResizeNoneRoundedLgBorder}
                 />
               </div>
 
               <div>
-                <label className="mb-2 block text-xs font-bold">
+                <label className={styles.lanzadorIaMb2BlockTextXsFontBold}>
                   Ángulo / oferta
                 </label>
 
@@ -2293,12 +2294,12 @@ No agregues texto antes ni después del JSON.
                   }
                   rows={3}
                   placeholder="Ej: Nueva temporada, comodidad y talles especiales."
-                  className="w-full resize-none rounded-lg border border-[#ccd0d5] px-3 py-3 text-sm outline-none focus:border-[#1877f2]"
+                  className={styles.lanzadorIaWFullResizeNoneRoundedLgBorder}
                 />
               </div>
 
               <div>
-                <label className="mb-2 block text-xs font-bold">
+                <label className={styles.lanzadorIaMb2BlockTextXsFontBold}>
                   Tono
                 </label>
 
@@ -2312,7 +2313,7 @@ No agregues texto antes ni después del JSON.
                         .value
                     )
                   }
-                  className="w-full rounded-lg border border-[#ccd0d5] bg-white px-3 py-3 text-sm outline-none focus:border-[#1877f2]"
+                  className={styles.lanzadorIaWFullRoundedLgBorderBorderCcd0d5}
                 >
                   <option>
                     Vendedor
@@ -2337,11 +2338,11 @@ No agregues texto antes ni después del JSON.
               </div>
 
               <div>
-                <label className="mb-2 block text-xs font-bold">
+                <label className={styles.lanzadorIaMb2BlockTextXsFontBold}>
                   Fórmula de copy
                 </label>
 
-                <div className="grid grid-cols-2 gap-2">
+                <div className={styles.lanzadorIaGridGridCols2Gap2}>
                   {formulas.map(
                     (item) => (
                       <button
@@ -2354,19 +2355,19 @@ No agregues texto antes ni después del JSON.
                             item.id
                           )
                         }
-                        className={`rounded-lg border p-3 text-left ${
+                        className={`${styles.lanzadorIaFormulaCard} ${
                           formula ===
                           item.id
-                            ? "border-[#1877f2] bg-[#e7f3ff]"
-                            : "border-[#e4e6eb] bg-white hover:bg-[#f7f8fa]"
+                            ? styles.lanzadorIaFormulaCardSeleccionada
+                            : styles.lanzadorIaFormulaCardNormal
                         }`}
                       >
                         <div
-                          className={`text-xs font-bold ${
+                          className={`${styles.lanzadorIaFormulaTitulo} ${
                             formula ===
                             item.id
-                              ? "text-[#1877f2]"
-                              : "text-[#1c1e21]"
+                              ? styles.lanzadorIaFormulaTituloSeleccionado
+                              : styles.lanzadorIaFormulaTituloNormal
                           }`}
                         >
                           {
@@ -2374,7 +2375,7 @@ No agregues texto antes ni después del JSON.
                           }
                         </div>
 
-                        <div className="mt-1 text-[10px] leading-4 text-[#65676b]">
+                        <div className={styles.lanzadorIaMt1Text10pxLeading4Text65676b}>
                           {
                             item.descripcion
                           }
@@ -2386,13 +2387,13 @@ No agregues texto antes ni después del JSON.
               </div>
 
               <div>
-                <div className="mb-2 flex items-center justify-between">
-                  <label className="text-xs font-bold">
+                <div className={styles.lanzadorIaMb2FlexItemsCenterJustifyBetween}>
+                  <label className={styles.lanzadorIaTextXsFontBold}>
                     Cantidad de
                     anuncios
                   </label>
 
-                  <span className="rounded-full bg-[#e7f3ff] px-3 py-1 text-xs font-bold text-[#1877f2]">
+                  <span className={styles.lanzadorIaRoundedFullBgE7f3ffPx3Py1}>
                     {
                       cantidad
                     }
@@ -2417,10 +2418,10 @@ No agregues texto antes ni después del JSON.
                       )
                     )
                   }
-                  className="w-full accent-[#1877f2]"
+                  className={styles.lanzadorIaWFullAccent1877f2}
                 />
 
-                <div className="mt-2 flex justify-between text-[10px] text-[#8a8d91]">
+                <div className={styles.lanzadorIaMt2FlexJustifyBetweenText10px}>
                   <span>
                     5
                   </span>
@@ -2441,14 +2442,14 @@ No agregues texto antes ni después del JSON.
                   !selectedCampaign ||
                   !sourceImageUrl
                 }
-                className="w-full rounded-xl bg-[#1877f2] px-5 py-4 text-sm font-bold text-white hover:bg-[#166fe5] disabled:cursor-not-allowed disabled:opacity-60"
+                className={styles.lanzadorIaWFullRoundedXlBg1877f2Px5}
               >
                 {generating
                   ? "Generando imágenes..."
                   : `Generar ${cantidad} anuncios`}
               </button>
 
-              <div className="rounded-lg bg-[#f7f8fa] p-3 text-center text-[10px] leading-4 text-[#65676b]">
+              <div className={styles.lanzadorIaRoundedLgBgF7f8faP3TextCenter}>
                 Se utilizarán los
                 primeros{" "}
                 <strong>
@@ -2462,21 +2463,21 @@ No agregues texto antes ni después del JSON.
             </div>
           </div>
 
-          <div className="min-w-0 rounded-2xl border border-[#d8dadf] bg-white shadow-sm">
-            <div className="flex flex-col gap-3 border-b border-[#e4e6eb] p-5 md:flex-row md:items-center md:justify-between">
+          <div className={styles.lanzadorIaMinW0Rounded2xlBorderBorderD8dadf}>
+            <div className={styles.lanzadorIaFlexFlexColGap3BorderB}>
               <div>
-                <div className="text-xs font-bold uppercase tracking-wider text-[#1877f2]">
+                <div className={styles.lanzadorIaTextXsFontBoldUppercaseTrackingWider}>
                   Área de trabajo
                 </div>
 
-                <h2 className="mt-1 text-lg font-bold">
+                <h2 className={styles.lanzadorIaMt1TextLgFontBold}>
                   Anuncios generados
                 </h2>
               </div>
 
               {ads.length > 0 && (
-                <div className="flex items-center gap-2">
-                  <span className="rounded-full bg-[#eaf7ed] px-3 py-1 text-[10px] font-bold text-[#31a24c]">
+                <div className={styles.lanzadorIaFlexItemsCenterGap2}>
+                  <span className={styles.lanzadorIaRoundedFullBgEaf7edPx3Py1}>
                     {
                       ads.filter(
                         (ad) =>
@@ -2487,7 +2488,7 @@ No agregues texto antes ni después del JSON.
                     listos
                   </span>
 
-                  <span className="rounded-full bg-[#e7f3ff] px-3 py-1 text-[10px] font-bold text-[#1877f2]">
+                  <span className={styles.lanzadorIaRoundedFullBgE7f3ffPx3Py12}>
                     {
                       ads.filter(
                         (ad) =>
@@ -2504,18 +2505,18 @@ No agregues texto antes ni después del JSON.
 
             {ads.length ===
             0 ? (
-              <div className="flex min-h-[560px] items-center justify-center p-8">
-                <div className="max-w-md text-center">
-                  <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-2xl bg-[#e7f3ff] text-3xl text-[#1877f2]">
+              <div className={styles.lanzadorIaFlexMinH560pxItemsCenterJustifyCenter}>
+                <div className={styles.lanzadorIaMaxWMdTextCenter}>
+                  <div className={styles.lanzadorIaMxAutoFlexH20W20}>
                     ✦
                   </div>
 
-                  <h3 className="mt-6 text-lg font-bold">
+                  <h3 className={styles.lanzadorIaMt6TextLgFontBold}>
                     Tu espacio de
                     generación
                   </h3>
 
-                  <p className="mt-2 text-sm leading-6 text-[#65676b]">
+                  <p className={styles.lanzadorIaMt2TextSmLeading6Text65676b}>
                     Seleccioná un
                     producto,
                     campaña e
@@ -2524,7 +2525,7 @@ No agregues texto antes ni después del JSON.
                     anuncios.
                   </p>
 
-                  <div className="mt-6 grid gap-2 text-left">
+                  <div className={styles.lanzadorIaMt6GridGap2TextLeft}>
                     <InfoRow
                       number="01"
                       text="Seleccioná tu producto por código"
@@ -2558,16 +2559,16 @@ No agregues texto antes ni después del JSON.
                 </div>
               </div>
             ) : (
-              <div className="grid gap-5 p-5 md:grid-cols-2 xl:grid-cols-2">
+              <div className={styles.lanzadorIaGridGap5P5GridCols2}>
                 {ads.map(
                   (ad) => (
                     <article
                       key={
                         ad.id
                       }
-                      className="overflow-hidden rounded-2xl border border-[#d8dadf] bg-white"
+                      className={styles.lanzadorIaOverflowHiddenRounded2xlBorderBorderD8dadf}
                     >
-                      <div className="relative bg-[#f7f8fa]">
+                      <div className={styles.lanzadorIaRelativeBgF7f8fa}>
                         {ad.image
                           .url ? (
                           <img
@@ -2576,16 +2577,16 @@ No agregues texto antes ni después del JSON.
                                 .url
                             }
                             alt={`Creativo ${ad.id}`}
-                            className="aspect-[4/5] w-full object-cover"
+                            className={styles.lanzadorIaAspect45WFullObjectCover}
                           />
                         ) : (
-                          <div className="flex aspect-[4/5] items-center justify-center text-sm text-[#65676b]">
+                          <div className={styles.lanzadorIaFlexAspect45ItemsCenterJustifyCenter}>
                             Sin
                             imagen
                           </div>
                         )}
 
-                        <div className="absolute left-3 top-3 rounded-full bg-black/70 px-3 py-1.5 text-[9px] font-bold text-white">
+                        <div className={styles.lanzadorIaAbsoluteLeft3Top3RoundedFull}>
                           {ad
                             .image
                             .source ===
@@ -2609,7 +2610,7 @@ No agregues texto antes ni después del JSON.
                             : "Sin imagen"}
                         </div>
 
-                        <div className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-[#1877f2] text-xs font-bold text-white shadow">
+                        <div className={styles.lanzadorIaAbsoluteRight3Top3Flex}>
                           {String(
                             ad.id
                           ).padStart(
@@ -2619,9 +2620,9 @@ No agregues texto antes ni después del JSON.
                         </div>
                       </div>
 
-                      <div className="space-y-4 p-4">
+                      <div className={styles.lanzadorIaSpaceY4P4}>
                         <div>
-                          <label className="mb-1 block text-[9px] font-bold uppercase tracking-wider text-[#65676b]">
+                          <label className={styles.lanzadorIaMb1BlockText9pxFontBold}>
                             Título
                           </label>
 
@@ -2641,12 +2642,12 @@ No agregues texto antes ni después del JSON.
                               )
                             }
                             rows={2}
-                            className="w-full resize-none rounded-lg border border-[#e4e6eb] bg-[#f7f8fa] px-3 py-2 text-sm font-semibold outline-none focus:border-[#1877f2]"
+                            className={styles.lanzadorIaWFullResizeNoneRoundedLgBorder2}
                           />
                         </div>
 
                         <div>
-                          <label className="mb-1 block text-[9px] font-bold uppercase tracking-wider text-[#65676b]">
+                          <label className={styles.lanzadorIaMb1BlockText9pxFontBold}>
                             Texto
                             principal
                           </label>
@@ -2667,12 +2668,12 @@ No agregues texto antes ni después del JSON.
                               )
                             }
                             rows={5}
-                            className="w-full resize-none rounded-lg border border-[#e4e6eb] bg-[#f7f8fa] px-3 py-2 text-xs leading-5 outline-none focus:border-[#1877f2]"
+                            className={styles.lanzadorIaWFullResizeNoneRoundedLgBorder3}
                           />
                         </div>
 
                         <div>
-                          <label className="mb-1 block text-[9px] font-bold uppercase tracking-wider text-[#65676b]">
+                          <label className={styles.lanzadorIaMb1BlockText9pxFontBold}>
                             Descripción
                           </label>
 
@@ -2692,11 +2693,11 @@ No agregues texto antes ni después del JSON.
                               )
                             }
                             rows={2}
-                            className="w-full resize-none rounded-lg border border-[#e4e6eb] bg-[#f7f8fa] px-3 py-2 text-xs outline-none focus:border-[#1877f2]"
+                            className={styles.lanzadorIaWFullResizeNoneRoundedLgBorder4}
                           />
                         </div>
 
-                        <div className="grid grid-cols-2 gap-2">
+                        <div className={styles.lanzadorIaGridGridCols2Gap2}>
                           <button
                             type="button"
                             onClick={() =>
@@ -2707,14 +2708,14 @@ No agregues texto antes ni después del JSON.
                             disabled={
                               !sourceImageUrl
                             }
-                            className="rounded-lg border border-[#ccd0d5] bg-white px-2 py-2 text-[10px] font-bold hover:bg-[#f0f2f5] disabled:cursor-not-allowed disabled:opacity-40"
+                            className={styles.lanzadorIaRoundedLgBorderBorderCcd0d5BgWhite3}
                           >
                             Usar
                             imagen
                             base
                           </button>
 
-                          <label className="cursor-pointer rounded-lg border border-[#ccd0d5] bg-white px-2 py-2 text-center text-[10px] font-bold hover:bg-[#f0f2f5]">
+                          <label className={styles.lanzadorIaCursorPointerRoundedLgBorderBorderCcd0d5}>
                             {uploadingAdId ===
                             ad.id
                               ? "Subiendo..."
@@ -2723,7 +2724,7 @@ No agregues texto antes ni después del JSON.
                             <input
                               type="file"
                               accept="image/jpeg,image/png,image/webp"
-                              className="hidden"
+                              className={styles.lanzadorIaHidden}
                               disabled={
                                 uploadingAdId ===
                                 ad.id
@@ -2740,21 +2741,21 @@ No agregues texto antes ni después del JSON.
                           </label>
                         </div>
 
-                        <details className="rounded-lg border border-[#e4e6eb]">
-                          <summary className="cursor-pointer px-3 py-2 text-[10px] font-bold text-[#1877f2]">
+                        <details className={styles.lanzadorIaRoundedLgBorderBorderE4e6eb}>
+                          <summary className={styles.lanzadorIaCursorPointerPx3Py2Text10px}>
                             Elegir de
                             Creativos
                           </summary>
 
-                          <div className="max-h-48 overflow-y-auto p-2">
+                          <div className={styles.lanzadorIaMaxH48OverflowYAutoP2}>
                             {loadingCreatives ? (
-                              <div className="p-3 text-[10px] text-[#65676b]">
+                              <div className={styles.lanzadorIaP3Text10pxText65676b}>
                                 Cargando
                                 creativos...
                               </div>
                             ) : creatives.length ===
                               0 ? (
-                              <div className="p-3 text-[10px] text-[#65676b]">
+                              <div className={styles.lanzadorIaP3Text10pxText65676b}>
                                 No hay
                                 creativos
                                 asociados
@@ -2762,7 +2763,7 @@ No agregues texto antes ni después del JSON.
                                 producto.
                               </div>
                             ) : (
-                              <div className="grid grid-cols-3 gap-2">
+                              <div className={styles.lanzadorIaGridGridCols3Gap2}>
                                 {creatives.map(
                                   (
                                     creative
@@ -2784,7 +2785,7 @@ No agregues texto antes ni después del JSON.
                                             creative
                                           )
                                         }
-                                        className="overflow-hidden rounded-lg border border-[#e4e6eb] hover:border-[#1877f2]"
+                                        className={styles.lanzadorIaOverflowHiddenRoundedLgBorderBorderE4e6eb}
                                       >
                                         {creativeUrl ? (
                                           <img
@@ -2795,10 +2796,10 @@ No agregues texto antes ni después del JSON.
                                               creative.nombre ||
                                               "Creativo"
                                             }
-                                            className="h-16 w-full object-cover"
+                                            className={styles.lanzadorIaH16WFullObjectCover}
                                           />
                                         ) : (
-                                          <div className="flex h-16 items-center justify-center bg-[#f0f2f5] text-[8px]">
+                                          <div className={styles.lanzadorIaFlexH16ItemsCenterJustifyCenter}>
                                             Sin
                                             imagen
                                           </div>
@@ -2821,20 +2822,20 @@ No agregues texto antes ni después del JSON.
                                 ad.id
                               )
                             }
-                            className="w-full rounded-lg border border-red-200 bg-red-50 px-2 py-2 text-[10px] font-bold text-red-600 hover:bg-red-100"
+                            className={styles.lanzadorIaWFullRoundedLgBorderBorderRed200}
                           >
                             Quitar
                             imagen
                           </button>
                         )}
 
-                        <div className="flex items-center justify-between border-t border-[#e4e6eb] pt-3">
+                        <div className={styles.lanzadorIaFlexItemsCenterJustifyBetweenBorderT}>
                           <span
-                            className={`inline-flex rounded-full px-3 py-1 text-[10px] font-bold ${
+                            className={`${styles.lanzadorIaEstadoBadge} ${
                               ad.estado ===
                               "Listo"
-                                ? "bg-[#eaf7ed] text-[#31a24c]"
-                                : "bg-[#fff4d6] text-[#b78103]"
+                                ? styles.lanzadorIaEstadoListo
+                                : styles.lanzadorIaEstadoRevisar
                             }`}
                           >
                             {
@@ -2842,7 +2843,7 @@ No agregues texto antes ni después del JSON.
                             }
                           </span>
 
-                          <span className="text-[10px] text-[#65676b]">
+                          <span className={styles.lanzadorIaText10pxText65676b}>
                             {ad
                               .image
                               .source ===
@@ -2862,10 +2863,10 @@ No agregues texto antes ni después del JSON.
 
         {ads.length >
           0 && (
-          <section className="sticky bottom-4 z-10 mt-6 rounded-2xl border border-[#d8dadf] bg-white p-4 shadow-lg">
-            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <section className={styles.lanzadorIaStickyBottom4Z10Mt6}>
+            <div className={styles.lanzadorIaFlexFlexColGap4FlexRow}>
               <div>
-                <div className="text-sm font-bold">
+                <div className={styles.lanzadorIaTextSmFontBold}>
                   {
                     ads.length
                   }{" "}
@@ -2873,7 +2874,7 @@ No agregues texto antes ni después del JSON.
                   preparados
                 </div>
 
-                <div className="mt-1 text-xs text-[#65676b]">
+                <div className={styles.lanzadorIaMt1TextXsText65676b}>
                   {
                     ads.filter(
                       (
@@ -2893,7 +2894,7 @@ No agregues texto antes ni después del JSON.
                 </div>
               </div>
 
-              <div className="flex flex-wrap gap-2">
+              <div className={styles.lanzadorIaFlexFlexWrapGap2}>
                 <button
                   onClick={
                     clearAds
@@ -2901,7 +2902,7 @@ No agregues texto antes ni después del JSON.
                   disabled={
                     saving
                   }
-                  className="rounded-lg border border-[#ccd0d5] bg-white px-5 py-2.5 text-xs font-semibold text-[#65676b] hover:bg-[#f0f2f5] disabled:opacity-50"
+                  className={styles.lanzadorIaRoundedLgBorderBorderCcd0d5BgWhite4}
                 >
                   Limpiar
                 </button>
@@ -2913,7 +2914,7 @@ No agregues texto antes ni después del JSON.
                   disabled={
                     saving
                   }
-                  className="rounded-lg bg-[#1877f2] px-5 py-2.5 text-xs font-bold text-white hover:bg-[#166fe5] disabled:cursor-not-allowed disabled:opacity-50"
+                  className={styles.lanzadorIaRoundedLgBg1877f2Px5Py25}
                 >
                   {saving
                     ? "Guardando imágenes..."
@@ -2936,12 +2937,12 @@ function InfoRow({
   text: string;
 }) {
   return (
-    <div className="flex items-center gap-3 rounded-lg border border-[#e4e6eb] bg-[#f7f8fa] px-3 py-3">
-      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#1877f2] text-[9px] font-bold text-white">
+    <div className={styles.lanzadorIaFlexItemsCenterGap3RoundedLg}>
+      <span className={styles.lanzadorIaFlexH7W7Shrink0}>
         {number}
       </span>
 
-      <span className="text-xs font-medium text-[#65676b]">
+      <span className={styles.lanzadorIaTextXsFontMediumText65676b}>
         {text}
       </span>
     </div>

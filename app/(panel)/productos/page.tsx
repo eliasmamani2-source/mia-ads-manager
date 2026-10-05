@@ -4,6 +4,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import Loading from "@/components/Loading/Loading";
+import styles from "./Productos.module.css";
 
 type Product = {
   id: string;
@@ -245,28 +246,28 @@ export default function ProductosPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#f5f6f8] p-6 text-[#1c1e21] lg:p-10">
-      <div className="mx-auto max-w-7xl">
+    <main className={styles.productosMinHScreenBgF5f6f8P6Text1c1e21}>
+      <div className={styles.productosMxAutoMaxW7xl}>
 
         {errorMsg && (
-          <div className="mb-6 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-600">
+          <div className={styles.productosMb6RoundedXlBorderBorderRed200}>
             {errorMsg}
           </div>
         )}
 
-        <section className="mb-10 rounded-2xl border border-[#e4e6eb] bg-white p-6 shadow-sm">
+        <section className={styles.productosMb10Rounded2xlBorderBorderE4e6eb}>
 
-          <h2 className="mb-5 text-lg font-bold">
+          <h2 className={styles.productosMb5TextLgFontBold}>
             ＋ Cargar Nuevo Producto
           </h2>
 
           <form
             onSubmit={handleCreateProduct}
-            className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5"
+            className={styles.productosGridGridCols1Gap4GridCols2}
           >
 
             <div>
-              <label className="mb-1 block text-xs font-semibold text-[#65676b]">
+              <label className={styles.productosMb1BlockTextXsFontSemibold}>
                 Código / SKU
               </label>
 
@@ -277,12 +278,12 @@ export default function ProductosPage() {
                 onChange={(event) =>
                   setCodigo(event.target.value)
                 }
-                className="w-full rounded-xl border border-[#ccd0d5] p-2.5 text-sm outline-none focus:border-[#1877f2]"
+                className={styles.productosWFullRoundedXlBorderBorderCcd0d5}
               />
             </div>
 
             <div>
-              <label className="mb-1 block text-xs font-semibold text-[#65676b]">
+              <label className={styles.productosMb1BlockTextXsFontSemibold}>
                 Nombre del Producto *
               </label>
 
@@ -293,12 +294,12 @@ export default function ProductosPage() {
                 onChange={(event) =>
                   setNombre(event.target.value)
                 }
-                className="w-full rounded-xl border border-[#ccd0d5] p-2.5 text-sm outline-none focus:border-[#1877f2]"
+                className={styles.productosWFullRoundedXlBorderBorderCcd0d5}
               />
             </div>
 
             <div>
-              <label className="mb-1 block text-xs font-semibold text-[#65676b]">
+              <label className={styles.productosMb1BlockTextXsFontSemibold}>
                 Precio ($) *
               </label>
 
@@ -310,12 +311,12 @@ export default function ProductosPage() {
                 onChange={(event) =>
                   setPrecio(event.target.value)
                 }
-                className="w-full rounded-xl border border-[#ccd0d5] p-2.5 text-sm outline-none focus:border-[#1877f2]"
+                className={styles.productosWFullRoundedXlBorderBorderCcd0d5}
               />
             </div>
 
             <div>
-              <label className="mb-1 block text-xs font-semibold text-[#65676b]">
+              <label className={styles.productosMb1BlockTextXsFontSemibold}>
                 Stock Inicial
               </label>
 
@@ -327,15 +328,15 @@ export default function ProductosPage() {
                 onChange={(event) =>
                   setStock(event.target.value)
                 }
-                className="w-full rounded-xl border border-[#ccd0d5] p-2.5 text-sm outline-none focus:border-[#1877f2]"
+                className={styles.productosWFullRoundedXlBorderBorderCcd0d5}
               />
             </div>
 
-            <div className="flex items-end">
+            <div className={styles.productosFlexItemsEnd}>
               <button
                 type="submit"
                 disabled={saving}
-                className="w-full rounded-xl bg-[#1877f2] py-2.5 text-sm font-semibold text-white transition hover:bg-[#166fe5] disabled:cursor-not-allowed disabled:opacity-50"
+                className={styles.productosWFullRoundedXlBg1877f2Py25}
               >
                 {saving
                   ? "Guardando..."
@@ -343,8 +344,8 @@ export default function ProductosPage() {
               </button>
             </div>
 
-            <div className="sm:col-span-2 lg:col-span-5">
-              <label className="mb-1 block text-xs font-semibold text-[#65676b]">
+            <div className={styles.productosColSpan2ColSpan5}>
+              <label className={styles.productosMb1BlockTextXsFontSemibold}>
                 Descripción
               </label>
 
@@ -355,34 +356,34 @@ export default function ProductosPage() {
                 onChange={(event) =>
                   setDescripcion(event.target.value)
                 }
-                className="w-full resize-none rounded-xl border border-[#ccd0d5] p-3 text-sm outline-none focus:border-[#1877f2]"
+                className={styles.productosWFullResizeNoneRoundedXlBorder}
               />
             </div>
 
           </form>
         </section>
 
-        <div className="mb-4">
-          <h2 className="text-lg font-bold">
+        <div className={styles.productosMb4}>
+          <h2 className={styles.productosTextLgFontBold}>
             Catálogo Registrado ({productos.length})
           </h2>
         </div>
 
         {productos.length === 0 ? (
-          <div className="rounded-2xl border border-[#e4e6eb] bg-white p-10 text-center shadow-sm">
-            <div className="text-3xl">◇</div>
+          <div className={styles.productosRounded2xlBorderBorderE4e6ebBgWhite}>
+            <div className={styles.productosText3xl}>◇</div>
 
-            <h3 className="mt-3 text-base font-bold">
+            <h3 className={styles.productosMt3TextBaseFontBold}>
               Todavía no hay productos
             </h3>
 
-            <p className="mt-1 text-sm text-[#65676b]">
+            <p className={styles.productosMt1TextSmText65676b}>
               Cargá tu primer producto para comenzar a
               organizar tu catálogo.
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className={styles.productosGridGridCols1Gap4GridCols22}>
 
             {productos.map((producto) => {
               const creativosProducto =
@@ -402,20 +403,20 @@ export default function ProductosPage() {
               return (
                 <div
                   key={producto.id}
-                  className="rounded-2xl border border-[#e4e6eb] bg-white p-5 shadow-sm transition hover:shadow-md"
+                  className={styles.productosRounded2xlBorderBorderE4e6ebBgWhite2}
                 >
 
                   {/* MINIATURAS DE CREATIVOS */}
 
                   {miniaturas.length > 0 && (
-                    <div className="mb-5">
+                    <div className={styles.productosMb5}>
 
-                      <div className="mb-2 flex items-center justify-between">
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-[#65676b]">
+                      <div className={styles.productosMb2FlexItemsCenterJustifyBetween}>
+                        <span className={styles.productosText10pxFontBoldUppercaseTrackingWider}>
                           Creativos
                         </span>
 
-                        <span className="text-[10px] font-semibold text-[#1877f2]">
+                        <span className={styles.productosText10pxFontSemiboldText1877f2}>
                           {creativosProducto.length}{" "}
                           {creativosProducto.length === 1
                             ? "imagen"
@@ -423,23 +424,23 @@ export default function ProductosPage() {
                         </span>
                       </div>
 
-                      <div className="flex gap-2">
+                      <div className={styles.productosFlexGap2}>
 
                         {miniaturas.map((creativo) => (
                           <div
                             key={creativo.id}
-                            className="h-16 w-16 overflow-hidden rounded-xl border border-[#e4e6eb] bg-[#f0f2f5]"
+                            className={styles.productosH16W16OverflowHiddenRoundedXl}
                           >
                             <img
                               src={creativo.url || ""}
                               alt={creativo.nombre}
-                              className="h-full w-full object-cover"
+                              className={styles.productosHFullWFullObjectCover}
                             />
                           </div>
                         ))}
 
                         {cantidadRestante > 0 && (
-                          <div className="flex h-16 w-16 items-center justify-center rounded-xl border border-[#dbeafe] bg-[#eff6ff] text-xs font-bold text-[#1877f2]">
+                          <div className={styles.productosFlexH16W16ItemsCenter}>
                             +{cantidadRestante}
                           </div>
                         )}
@@ -449,14 +450,14 @@ export default function ProductosPage() {
                     </div>
                   )}
 
-                  <div className="flex items-start justify-between gap-4">
+                  <div className={styles.productosFlexItemsStartJustifyBetweenGap4}>
 
                     <div>
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#1877f2]">
+                      <span className={styles.productosText10pxFontBoldUppercaseTrackingWider2}>
                         {producto.codigo || "SIN CÓDIGO"}
                       </span>
 
-                      <h3 className="mt-1 text-base font-bold">
+                      <h3 className={styles.productosMt1TextBaseFontBold}>
                         {producto.nombre}
                       </h3>
                     </div>
@@ -465,7 +466,7 @@ export default function ProductosPage() {
                       onClick={() =>
                         handleDeleteProduct(producto.id)
                       }
-                      className="rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-xs font-semibold text-red-600 hover:bg-red-100"
+                      className={styles.productosRoundedXlBorderBorderRed200BgRed50}
                     >
                       Eliminar
                     </button>
@@ -473,14 +474,14 @@ export default function ProductosPage() {
                   </div>
 
                   {producto.descripcion && (
-                    <p className="mt-3 text-xs leading-5 text-[#65676b]">
+                    <p className={styles.productosMt3TextXsLeading5Text65676b}>
                       {producto.descripcion}
                     </p>
                   )}
 
-                  <div className="mt-4 flex items-center justify-between border-t border-[#e4e6eb] pt-4">
+                  <div className={styles.productosMt4FlexItemsCenterJustifyBetween}>
 
-                    <span className="font-bold text-green-700">
+                    <span className={styles.productosFontBoldTextGreen700}>
                       $
                       {Number(producto.precio).toLocaleString(
                         "es-AR"
@@ -488,10 +489,10 @@ export default function ProductosPage() {
                     </span>
 
                     <span
-                      className={`rounded-full px-3 py-1 text-[10px] font-bold ${
+                      className={`${styles.productosStockBadge} ${
                         producto.stock > 0
-                          ? "bg-green-100 text-green-800"
-                          : "bg-red-100 text-red-800"
+                          ? styles.productosStockDisponible
+                          : styles.productosStockAgotado
                       }`}
                     >
                       Stock: {producto.stock}

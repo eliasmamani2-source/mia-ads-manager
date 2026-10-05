@@ -1,0 +1,289 @@
+@reference "../../../globals.css";
+
+.campanaDetalleFlexMinHScreenItemsCenterJustifyCenter {
+  @apply flex min-h-screen items-center justify-center bg-[#090b0f] text-white;
+}
+
+.campanaDetalleTextSmTextWhite40 {
+  @apply text-sm text-white/40;
+}
+
+.campanaDetalleMinHScreenBg090b0fTextWhite {
+  @apply min-h-screen bg-[#090b0f] text-white;
+}
+
+.campanaDetalleMxAutoMaxW4xlPx6Py16 {
+  @apply mx-auto max-w-4xl px-6 py-16;
+}
+
+.campanaDetalleMb6RoundedXlBorderBorderWhite10 {
+  @apply mb-6 rounded-xl border border-white/10 px-4 py-2 text-sm text-white/60 hover:bg-white/5 hover:text-white;
+}
+
+.campanaDetalleRounded2xlBorderBorderRed50020BgRed50010 {
+  @apply rounded-2xl border border-red-500/20 bg-red-500/10 p-6;
+}
+
+.campanaDetalleFontSemiboldTextRed300 {
+  @apply font-semibold text-red-300;
+}
+
+.campanaDetalleMt2TextSmTextRed20060 {
+  @apply mt-2 text-sm text-red-200/60;
+}
+
+.campanaDetalleFlexMinHScreen {
+  @apply flex min-h-screen;
+}
+
+.campanaDetalleHiddenW64FlexColBorderR {
+  @apply hidden w-64 flex-col border-r border-white/10 bg-[#0d1015] lg:flex;
+}
+
+.campanaDetalleBorderBBorderWhite10P6 {
+  @apply border-b border-white/10 p-6;
+}
+
+.campanaDetalleText2xlFontBlack {
+  @apply text-2xl font-black;
+}
+
+.campanaDetalleTextF0b90b {
+  @apply text-[#f0b90b];
+}
+
+.campanaDetalleMt1Text9pxUppercaseTracking035em {
+  @apply mt-1 text-[9px] uppercase tracking-[0.35em] text-white/25;
+}
+
+.campanaDetalleFlex1P4 {
+  @apply flex-1 p-4;
+}
+
+.campanaDetalleMy4BorderTBorderWhite10 {
+  @apply my-4 border-t border-white/10;
+}
+
+.campanaDetalleBorderTBorderWhite10P4 {
+  @apply border-t border-white/10 p-4;
+}
+
+.campanaDetalleWFullRoundedXlPx4Py3 {
+  @apply w-full rounded-xl px-4 py-3 text-left text-sm text-white/40 transition hover:bg-white/5 hover:text-white;
+}
+
+.campanaDetalleFlex1 {
+  @apply flex-1;
+}
+
+.campanaDetalleP6P10 {
+  @apply p-6 lg:p-10;
+}
+
+.campanaDetalleMb6FlexJustifyEnd {
+  @apply mb-6 flex justify-end;
+}
+
+.campanaDetalleRoundedXlBorderBorderWhite10Px5 {
+  @apply rounded-xl border border-white/10 px-5 py-3 text-sm font-semibold text-white/60 transition hover:bg-white/5 hover:text-white;
+}
+
+.campanaDetalleMb6RoundedXlBorderBorderRed50020 {
+  @apply mb-6 rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-300;
+}
+
+.campanaDetalleMb8GridGap4GridCols3 {
+  @apply mb-8 grid gap-4 sm:grid-cols-3;
+}
+
+.campanaDetalleMb8 {
+  @apply mb-8;
+}
+
+.campanaDetalleMb5FlexItemsEndJustifyBetween {
+  @apply mb-5 flex items-end justify-between;
+}
+
+.campanaDetalleTextXlFontBold {
+  @apply text-xl font-bold;
+}
+
+.campanaDetalleMt1TextSmTextWhite30 {
+  @apply mt-1 text-sm text-white/30;
+}
+
+.campanaDetalleRoundedXlBorderBorderWhite10Px4 {
+  @apply rounded-xl border border-white/10 px-4 py-2 text-xs text-white/50 hover:bg-white/5 hover:text-white;
+}
+
+.campanaDetalleRounded2xlBorderBorderDashedBorderWhite10 {
+  @apply rounded-2xl border border-dashed border-white/10 bg-[#0d1015] p-10 text-center;
+}
+
+.campanaDetalleMt5RoundedXlBgF0b90bPx5 {
+  @apply mt-5 rounded-xl bg-[#f0b90b] px-5 py-3 text-sm font-bold text-black hover:bg-[#ffc928];
+}
+
+.campanaDetalleSpaceY5 {
+  @apply space-y-5;
+}
+
+.campanaDetalleOverflowHiddenRounded2xlBorderBorderWhite10 {
+  @apply overflow-hidden rounded-2xl border border-white/10 bg-[#0d1015];
+}
+
+.campanaDetalleFlexFlexColJustifyBetweenGap4 {
+  @apply flex flex-col justify-between gap-4 md:flex-row md:items-start;
+}
+
+.campanaDetalleFlexFlexWrapItemsCenterGap3 {
+  @apply flex flex-wrap items-center gap-3;
+}
+
+.campanaDetalleTextLgFontBold {
+  @apply text-lg font-bold;
+}
+
+.campanaDetalleMt2TextXsTextWhite25 {
+  @apply mt-2 text-xs text-white/25;
+}
+
+.campanaDetalleRoundedLgBorderBorderWhite10Px4 {
+  @apply rounded-lg border border-white/10 px-4 py-2 text-xs text-white/50 hover:bg-white/5 hover:text-white;
+}
+
+.campanaDetalleMt5 {
+  @apply mt-5;
+}
+
+.campanaDetalleText10pxUppercaseTrackingWiderTextWhite25 {
+  @apply text-[10px] uppercase tracking-wider text-white/25;
+}
+
+.campanaDetalleMt1TextSmTextWhite70 {
+  @apply mt-1 text-sm text-white/70;
+}
+
+.campanaDetalleMt4 {
+  @apply mt-4;
+}
+
+.campanaDetalleMt1TextSmLeading6TextWhite45 {
+  @apply mt-1 text-sm leading-6 text-white/45;
+}
+
+.campanaDetalleP6 {
+  @apply p-6;
+}
+
+.campanaDetalleMb4FlexItemsCenterJustifyBetween {
+  @apply mb-4 flex items-center justify-between;
+}
+
+.campanaDetalleTextSmFontSemibold {
+  @apply text-sm font-semibold;
+}
+
+.campanaDetalleMt1TextXsTextWhite25 {
+  @apply mt-1 text-xs text-white/25;
+}
+
+.campanaDetalleRoundedLgBorderBorderWhite10Px3 {
+  @apply rounded-lg border border-white/10 px-3 py-2 text-xs text-white/50 hover:bg-white/5 hover:text-white;
+}
+
+.campanaDetalleRoundedXlBorderBorderDashedBorderWhite10 {
+  @apply rounded-xl border border-dashed border-white/10 px-5 py-8 text-center;
+}
+
+.campanaDetalleTextSmTextWhite30 {
+  @apply text-sm text-white/30;
+}
+
+.campanaDetalleMt4RoundedLgBorderBorderF0b90b30 {
+  @apply mt-4 rounded-lg border border-[#f0b90b]/30 px-4 py-2 text-xs text-[#f0b90b] hover:bg-[#f0b90b]/10;
+}
+
+.campanaDetalleGridGap4GridCols2GridCols3 {
+  @apply grid gap-4 sm:grid-cols-2 lg:grid-cols-3;
+}
+
+.campanaDetalleOverflowHiddenRoundedXlBorderBorderWhite10 {
+  @apply overflow-hidden rounded-xl border border-white/10 bg-[#090b0f];
+}
+
+.campanaDetalleAspectVideoOverflowHiddenBgBlack {
+  @apply aspect-video overflow-hidden bg-black;
+}
+
+.campanaDetalleHFullWFullObjectCover {
+  @apply h-full w-full object-cover;
+}
+
+.campanaDetalleFlexAspectVideoItemsCenterJustifyCenter {
+  @apply flex aspect-video items-center justify-center bg-white/[0.02];
+}
+
+.campanaDetalleTextXsTextWhite20 {
+  @apply text-xs text-white/20;
+}
+
+.campanaDetalleP4 {
+  @apply p-4;
+}
+
+.campanaDetalleFontSemiboldTextSm {
+  @apply font-semibold text-sm;
+}
+
+.campanaDetalleMt2TextXsTextWhite30 {
+  @apply mt-2 text-xs text-white/30;
+}
+
+.campanaDetalleMt2Text10pxTextWhite20 {
+  @apply mt-2 text-[10px] text-white/20;
+}
+
+.campanaDetalleMt4WFullRoundedLgBgF0b90b {
+  @apply mt-4 w-full rounded-lg bg-[#f0b90b] px-4 py-2.5 text-xs font-bold text-black transition hover:bg-[#ffc928];
+}
+
+.campanaDetalleRounded2xlBorderBorderWhite10Bg0d1015 {
+  @apply rounded-2xl border border-white/10 bg-[#0d1015] p-5;
+}
+
+.campanaDetalleTextXsTextWhite30 {
+  @apply text-xs text-white/30;
+}
+
+.campanaDetalleMt2Text2xlFontBold {
+  @apply mt-2 text-2xl font-bold;
+}
+
+.campanaDetalleEstadoBadge {
+  @apply rounded-full px-3 py-1 text-xs;
+}
+
+.campanaDetalleEstadoActivo {
+  @apply bg-green-500/10 text-green-400;
+}
+
+.campanaDetalleEstadoPausado {
+  @apply bg-yellow-500/10 text-yellow-400;
+}
+
+.campanaDetalleEstadoOtro {
+  @apply bg-white/5 text-white/40;
+}
+
+.campanaDetalleNavItem {
+  @apply mb-1 block rounded-xl px-4 py-3 text-sm transition;
+}
+
+.campanaDetalleNavItemActivo {
+  @apply bg-[#f0b90b]/10 font-semibold text-[#f0b90b];
+}
+
+.campanaDetalleNavItemInactivo {
+  @apply text-white/40 hover:bg-white/5 hover:text-white;
+}
