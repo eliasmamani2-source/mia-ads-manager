@@ -4,6 +4,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
+import styles from "./CampanaDetalle.module.css";
 
 type Campaign = {
   id: string;
@@ -308,8 +309,8 @@ export default function CampaignDetailPage() {
 
   if (loading) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-[#090b0f] text-white">
-        <div className="text-sm text-white/40">
+      <main className={styles.campanaDetalleFlexMinHScreenItemsCenterJustifyCenter}>
+        <div className={styles.campanaDetalleTextSmTextWhite40}>
           Cargando campaña...
         </div>
       </main>
@@ -318,26 +319,26 @@ export default function CampaignDetailPage() {
 
   if (!campaign) {
     return (
-      <main className="min-h-screen bg-[#090b0f] text-white">
+      <main className={styles.campanaDetalleMinHScreenBg090b0fTextWhite}>
 
-        <div className="mx-auto max-w-4xl px-6 py-16">
+        <div className={styles.campanaDetalleMxAutoMaxW4xlPx6Py16}>
 
           <button
             onClick={() =>
               router.push("/campanas")
             }
-            className="mb-6 rounded-xl border border-white/10 px-4 py-2 text-sm text-white/60 hover:bg-white/5 hover:text-white"
+            className={styles.campanaDetalleMb6RoundedXlBorderBorderWhite10}
           >
             ← Volver a campañas
           </button>
 
-          <div className="rounded-2xl border border-red-500/20 bg-red-500/10 p-6">
+          <div className={styles.campanaDetalleRounded2xlBorderBorderRed50020BgRed50010}>
 
-            <div className="font-semibold text-red-300">
+            <div className={styles.campanaDetalleFontSemiboldTextRed300}>
               No se pudo cargar la campaña
             </div>
 
-            <p className="mt-2 text-sm text-red-200/60">
+            <p className={styles.campanaDetalleMt2TextSmTextRed20060}>
               {error ||
                 "La campaña no existe o no tenés acceso."}
             </p>
@@ -351,30 +352,30 @@ export default function CampaignDetailPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#090b0f] text-white">
+    <main className={styles.campanaDetalleMinHScreenBg090b0fTextWhite}>
 
-      <div className="flex min-h-screen">
+      <div className={styles.campanaDetalleFlexMinHScreen}>
 
         {/* SIDEBAR */}
 
-        <aside className="hidden w-64 flex-col border-r border-white/10 bg-[#0d1015] lg:flex">
+        <aside className={styles.campanaDetalleHiddenW64FlexColBorderR}>
 
-          <div className="border-b border-white/10 p-6">
+          <div className={styles.campanaDetalleBorderBBorderWhite10P6}>
 
-            <div className="text-2xl font-black">
+            <div className={styles.campanaDetalleText2xlFontBlack}>
               MÍA{" "}
-              <span className="text-[#f0b90b]">
+              <span className={styles.campanaDetalleTextF0b90b}>
                 ADS
               </span>
             </div>
 
-            <div className="mt-1 text-[9px] uppercase tracking-[0.35em] text-white/25">
+            <div className={styles.campanaDetalleMt1Text9pxUppercaseTracking035em}>
               Manager
             </div>
 
           </div>
 
-          <nav className="flex-1 p-4">
+          <nav className={styles.campanaDetalleFlex1P4}>
 
             <NavItem
               label="Inicio"
@@ -412,7 +413,7 @@ export default function CampaignDetailPage() {
               href="/automatizaciones"
             />
 
-            <div className="my-4 border-t border-white/10" />
+            <div className={styles.campanaDetalleMy4BorderTBorderWhite10} />
 
             <NavItem
               label="Configuración"
@@ -421,11 +422,11 @@ export default function CampaignDetailPage() {
 
           </nav>
 
-          <div className="border-t border-white/10 p-4">
+          <div className={styles.campanaDetalleBorderTBorderWhite10P4}>
 
             <button
               onClick={logout}
-              className="w-full rounded-xl px-4 py-3 text-left text-sm text-white/40 transition hover:bg-white/5 hover:text-white"
+              className={styles.campanaDetalleWFullRoundedXlPx4Py3}
             >
               Cerrar sesión
             </button>
@@ -436,107 +437,30 @@ export default function CampaignDetailPage() {
 
         {/* CONTENIDO */}
 
-        <section className="flex-1">
+        <section className={styles.campanaDetalleFlex1}>
 
-          {/* HEADER */}
+          <div className={styles.campanaDetalleP6P10}>
 
-          <header className="border-b border-white/10 bg-[#0d1015] px-6 py-5 lg:px-10">
-
-            <button
-              onClick={() =>
-                router.push("/campanas")
-              }
-              className="mb-5 text-sm text-white/40 transition hover:text-white"
-            >
-              ← Volver a campañas
-            </button>
-
-            <div className="flex flex-col justify-between gap-5 md:flex-row md:items-center">
-
-              <div>
-
-                <div className="text-xs text-white/30">
-                  Gestión de publicidad
-                </div>
-
-                <h1 className="mt-1 text-2xl font-bold">
-                  {campaign.nombre}
-                </h1>
-
-                <div className="mt-2 flex flex-wrap items-center gap-3">
-
-                  <span className="text-xs text-white/30">
-                    ID {campaign.id.slice(0, 8)}
-                  </span>
-
-                  <span className="rounded-full bg-white/5 px-3 py-1 text-xs text-white/50">
-                    {campaign.objetivo}
-                  </span>
-
-                  <span
-                    className={`rounded-full px-3 py-1 text-xs ${
-                      campaign.estado ===
-                      "Activa"
-                        ? "bg-green-500/10 text-green-400"
-                        : campaign.estado ===
-                          "Pausada"
-                        ? "bg-yellow-500/10 text-yellow-400"
-                        : "bg-white/5 text-white/40"
-                    }`}
-                  >
-                    {campaign.estado}
-                  </span>
-
-                </div>
-
-              </div>
-
-              <div className="flex items-center gap-3">
-
-                <div className="rounded-xl border border-white/10 bg-[#090b0f] px-5 py-3">
-
-                  <div className="text-[10px] uppercase tracking-wider text-white/25">
-                    Presupuesto
-                  </div>
-
-                  <div className="mt-1 text-lg font-bold">
-                    $
-                    {formatBudget(
-                      campaign.presupuesto
-                    )}
-                  </div>
-
-                </div>
-
-                <button
-                  onClick={toggleCampaign}
-                  className="rounded-xl border border-white/10 px-5 py-3 text-sm font-semibold text-white/60 transition hover:bg-white/5 hover:text-white"
-                >
-                  {campaign.estado ===
-                  "Activa"
-                    ? "Pausar"
-                    : "Activar"}
-                </button>
-
-              </div>
-
+            <div className={styles.campanaDetalleMb6FlexJustifyEnd}>
+              <button
+                onClick={toggleCampaign}
+                className={styles.campanaDetalleRoundedXlBorderBorderWhite10Px5}
+              >
+                {campaign.estado === "Activa" ? "Pausar" : "Activar"}
+              </button>
             </div>
-
-          </header>
-
-          <div className="p-6 lg:p-10">
 
             {/* ERROR */}
 
             {error && (
-              <div className="mb-6 rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-300">
+              <div className={styles.campanaDetalleMb6RoundedXlBorderBorderRed50020}>
                 {error}
               </div>
             )}
 
             {/* RESUMEN */}
 
-            <div className="mb-8 grid gap-4 sm:grid-cols-3">
+            <div className={styles.campanaDetalleMb8GridGap4GridCols3}>
 
               <SummaryCard
                 label="Anuncios"
@@ -559,17 +483,17 @@ export default function CampaignDetailPage() {
 
             {/* ANUNCIOS */}
 
-            <div className="mb-8">
+            <div className={styles.campanaDetalleMb8}>
 
-              <div className="mb-5 flex items-end justify-between">
+              <div className={styles.campanaDetalleMb5FlexItemsEndJustifyBetween}>
 
                 <div>
 
-                  <h2 className="text-xl font-bold">
+                  <h2 className={styles.campanaDetalleTextXlFontBold}>
                     Anuncios
                   </h2>
 
-                  <p className="mt-1 text-sm text-white/30">
+                  <p className={styles.campanaDetalleMt1TextSmTextWhite30}>
                     Anuncios asociados a esta campaña.
                   </p>
 
@@ -579,7 +503,7 @@ export default function CampaignDetailPage() {
                   onClick={() =>
                     router.push("/anuncios")
                   }
-                  className="rounded-xl border border-white/10 px-4 py-2 text-xs text-white/50 hover:bg-white/5 hover:text-white"
+                  className={styles.campanaDetalleRoundedXlBorderBorderWhite10Px4}
                 >
                   Administrar anuncios
                 </button>
@@ -588,9 +512,9 @@ export default function CampaignDetailPage() {
 
               {ads.length === 0 ? (
 
-                <div className="rounded-2xl border border-dashed border-white/10 bg-[#0d1015] p-10 text-center">
+                <div className={styles.campanaDetalleRounded2xlBorderBorderDashedBorderWhite10}>
 
-                  <div className="text-sm text-white/40">
+                  <div className={styles.campanaDetalleTextSmTextWhite40}>
                     Esta campaña todavía no tiene anuncios.
                   </div>
 
@@ -598,7 +522,7 @@ export default function CampaignDetailPage() {
                     onClick={() =>
                       router.push("/anuncios")
                     }
-                    className="mt-5 rounded-xl bg-[#f0b90b] px-5 py-3 text-sm font-bold text-black hover:bg-[#ffc928]"
+                    className={styles.campanaDetalleMt5RoundedXlBgF0b90bPx5}
                   >
                     Crear anuncio
                   </button>
@@ -607,7 +531,7 @@ export default function CampaignDetailPage() {
 
               ) : (
 
-                <div className="space-y-5">
+                <div className={styles.campanaDetalleSpaceY5}>
 
                   {ads.map((ad) => {
 
@@ -617,32 +541,32 @@ export default function CampaignDetailPage() {
                     return (
                       <div
                         key={ad.id}
-                        className="overflow-hidden rounded-2xl border border-white/10 bg-[#0d1015]"
+                        className={styles.campanaDetalleOverflowHiddenRounded2xlBorderBorderWhite10}
                       >
 
                         {/* ANUNCIO */}
 
-                        <div className="border-b border-white/10 p-6">
+                        <div className={styles.campanaDetalleBorderBBorderWhite10P6}>
 
-                          <div className="flex flex-col justify-between gap-4 md:flex-row md:items-start">
+                          <div className={styles.campanaDetalleFlexFlexColJustifyBetweenGap4}>
 
                             <div>
 
-                              <div className="flex flex-wrap items-center gap-3">
+                              <div className={styles.campanaDetalleFlexFlexWrapItemsCenterGap3}>
 
-                                <h3 className="text-lg font-bold">
+                                <h3 className={styles.campanaDetalleTextLgFontBold}>
                                   {ad.nombre}
                                 </h3>
 
                                 <span
-                                  className={`rounded-full px-3 py-1 text-xs ${
+                                  className={`${styles.campanaDetalleEstadoBadge} ${
                                     ad.estado ===
                                     "Activo"
-                                      ? "bg-green-500/10 text-green-400"
+                                      ? styles.campanaDetalleEstadoActivo
                                       : ad.estado ===
                                         "Pausado"
-                                      ? "bg-yellow-500/10 text-yellow-400"
-                                      : "bg-white/5 text-white/40"
+                                      ? styles.campanaDetalleEstadoPausado
+                                      : styles.campanaDetalleEstadoOtro
                                   }`}
                                 >
                                   {ad.estado}
@@ -650,7 +574,7 @@ export default function CampaignDetailPage() {
 
                               </div>
 
-                              <div className="mt-2 text-xs text-white/25">
+                              <div className={styles.campanaDetalleMt2TextXsTextWhite25}>
                                 ID {ad.id.slice(0, 8)}
                               </div>
 
@@ -660,7 +584,7 @@ export default function CampaignDetailPage() {
                               onClick={() =>
                                 toggleAd(ad)
                               }
-                              className="rounded-lg border border-white/10 px-4 py-2 text-xs text-white/50 hover:bg-white/5 hover:text-white"
+                              className={styles.campanaDetalleRoundedLgBorderBorderWhite10Px4}
                             >
                               {ad.estado ===
                               "Activo"
@@ -671,13 +595,13 @@ export default function CampaignDetailPage() {
                           </div>
 
                           {ad.titulo && (
-                            <div className="mt-5">
+                            <div className={styles.campanaDetalleMt5}>
 
-                              <div className="text-[10px] uppercase tracking-wider text-white/25">
+                              <div className={styles.campanaDetalleText10pxUppercaseTrackingWiderTextWhite25}>
                                 Título
                               </div>
 
-                              <div className="mt-1 text-sm text-white/70">
+                              <div className={styles.campanaDetalleMt1TextSmTextWhite70}>
                                 {ad.titulo}
                               </div>
 
@@ -685,13 +609,13 @@ export default function CampaignDetailPage() {
                           )}
 
                           {ad.descripcion && (
-                            <div className="mt-4">
+                            <div className={styles.campanaDetalleMt4}>
 
-                              <div className="text-[10px] uppercase tracking-wider text-white/25">
+                              <div className={styles.campanaDetalleText10pxUppercaseTrackingWiderTextWhite25}>
                                 Descripción
                               </div>
 
-                              <div className="mt-1 text-sm leading-6 text-white/45">
+                              <div className={styles.campanaDetalleMt1TextSmLeading6TextWhite45}>
                                 {ad.descripcion}
                               </div>
 
@@ -702,17 +626,17 @@ export default function CampaignDetailPage() {
 
                         {/* CREATIVOS */}
 
-                        <div className="p-6">
+                        <div className={styles.campanaDetalleP6}>
 
-                          <div className="mb-4 flex items-center justify-between">
+                          <div className={styles.campanaDetalleMb4FlexItemsCenterJustifyBetween}>
 
                             <div>
 
-                              <h4 className="text-sm font-semibold">
+                              <h4 className={styles.campanaDetalleTextSmFontSemibold}>
                                 Creativos
                               </h4>
 
-                              <p className="mt-1 text-xs text-white/25">
+                              <p className={styles.campanaDetalleMt1TextXsTextWhite25}>
                                 {adCreatives.length} recurso
                                 {adCreatives.length ===
                                 1
@@ -732,7 +656,7 @@ export default function CampaignDetailPage() {
                                   "/creativos"
                                 )
                               }
-                              className="rounded-lg border border-white/10 px-3 py-2 text-xs text-white/50 hover:bg-white/5 hover:text-white"
+                              className={styles.campanaDetalleRoundedLgBorderBorderWhite10Px3}
                             >
                               Administrar
                             </button>
@@ -742,9 +666,9 @@ export default function CampaignDetailPage() {
                           {adCreatives.length ===
                           0 ? (
 
-                            <div className="rounded-xl border border-dashed border-white/10 px-5 py-8 text-center">
+                            <div className={styles.campanaDetalleRoundedXlBorderBorderDashedBorderWhite10}>
 
-                              <div className="text-sm text-white/30">
+                              <div className={styles.campanaDetalleTextSmTextWhite30}>
                                 Este anuncio todavía no tiene creativos.
                               </div>
 
@@ -754,7 +678,7 @@ export default function CampaignDetailPage() {
                                     "/creativos"
                                   )
                                 }
-                                className="mt-4 rounded-lg border border-[#f0b90b]/30 px-4 py-2 text-xs text-[#f0b90b] hover:bg-[#f0b90b]/10"
+                                className={styles.campanaDetalleMt4RoundedLgBorderBorderF0b90b30}
                               >
                                 Crear creativo
                               </button>
@@ -763,7 +687,7 @@ export default function CampaignDetailPage() {
 
                           ) : (
 
-                            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                            <div className={styles.campanaDetalleGridGap4GridCols2GridCols3}>
 
                               {adCreatives.map(
                                 (creative) => {
@@ -778,14 +702,14 @@ export default function CampaignDetailPage() {
                                       key={
                                         creative.id
                                       }
-                                      className="overflow-hidden rounded-xl border border-white/10 bg-[#090b0f]"
+                                      className={styles.campanaDetalleOverflowHiddenRoundedXlBorderBorderWhite10}
                                     >
 
                                       {/* IMAGEN */}
 
                                       {imageUrl ? (
 
-                                        <div className="aspect-video overflow-hidden bg-black">
+                                        <div className={styles.campanaDetalleAspectVideoOverflowHiddenBgBlack}>
 
                                           <img
                                             src={
@@ -795,16 +719,16 @@ export default function CampaignDetailPage() {
                                               creative.nombre ||
                                               "Creativo"
                                             }
-                                            className="h-full w-full object-cover"
+                                            className={styles.campanaDetalleHFullWFullObjectCover}
                                           />
 
                                         </div>
 
                                       ) : (
 
-                                        <div className="flex aspect-video items-center justify-center bg-white/[0.02]">
+                                        <div className={styles.campanaDetalleFlexAspectVideoItemsCenterJustifyCenter}>
 
-                                          <div className="text-xs text-white/20">
+                                          <div className={styles.campanaDetalleTextXsTextWhite20}>
                                             Sin vista previa
                                           </div>
 
@@ -814,19 +738,19 @@ export default function CampaignDetailPage() {
 
                                       {/* INFORMACIÓN */}
 
-                                      <div className="p-4">
+                                      <div className={styles.campanaDetalleP4}>
 
-                                        <div className="font-semibold text-sm">
+                                        <div className={styles.campanaDetalleFontSemiboldTextSm}>
                                           {creative.nombre ||
                                             "Creativo sin nombre"}
                                         </div>
 
-                                        <div className="mt-2 text-xs text-white/30">
+                                        <div className={styles.campanaDetalleMt2TextXsTextWhite30}>
                                           {creative.tipo ||
                                             "Recurso"}
                                         </div>
 
-                                        <div className="mt-2 text-[10px] text-white/20">
+                                        <div className={styles.campanaDetalleMt2Text10pxTextWhite20}>
                                           ID{" "}
                                           {creative.id.slice(
                                             0,
@@ -842,7 +766,7 @@ export default function CampaignDetailPage() {
                                               `/creativos/${creative.id}`
                                             )
                                           }
-                                          className="mt-4 w-full rounded-lg bg-[#f0b90b] px-4 py-2.5 text-xs font-bold text-black transition hover:bg-[#ffc928]"
+                                          className={styles.campanaDetalleMt4WFullRoundedLgBgF0b90b}
                                         >
                                           Ver creativo
                                         </button>
@@ -892,10 +816,10 @@ function NavItem({
   return (
     <a
       href={href}
-      className={`mb-1 block rounded-xl px-4 py-3 text-sm transition ${
+      className={`${styles.campanaDetalleNavItem} ${
         active
-          ? "bg-[#f0b90b]/10 font-semibold text-[#f0b90b]"
-          : "text-white/40 hover:bg-white/5 hover:text-white"
+          ? styles.campanaDetalleNavItemActivo
+          : styles.campanaDetalleNavItemInactivo
       }`}
     >
       {label}
@@ -911,17 +835,16 @@ function SummaryCard({
   value: string;
 }) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-[#0d1015] p-5">
+    <div className={styles.campanaDetalleRounded2xlBorderBorderWhite10Bg0d1015}>
 
-      <div className="text-xs text-white/30">
+      <div className={styles.campanaDetalleTextXsTextWhite30}>
         {label}
       </div>
 
-      <div className="mt-2 text-2xl font-bold">
+      <div className={styles.campanaDetalleMt2Text2xlFontBold}>
         {value}
       </div>
 
     </div>
   );
 }
-

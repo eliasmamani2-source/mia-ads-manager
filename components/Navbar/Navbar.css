@@ -1,0 +1,266 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e4e6eb;
+}
+
+.navbar-contenido {
+  width: 100%;
+  max-width: 1280px;
+  min-height: 68px;
+  margin: 0 auto;
+  padding: 12px 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+/* =========================
+   LOGO
+   ========================= */
+
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  color: inherit;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.navbar-logo-icono {
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+  background-color: #1877f2;
+
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.navbar-logo-texto {
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar-logo-nombre {
+  display: block;
+
+  color: #1c1e21;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.navbar-logo-subtitulo {
+  display: block;
+  margin-top: 4px;
+
+  color: #1877f2;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+/* =========================
+   NAVEGACIÓN
+   ========================= */
+
+.navbar-navegacion {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-navegacion-desktop {
+  gap: 24px;
+}
+
+.navbar-enlace {
+  position: relative;
+
+  padding: 6px 0;
+
+  color: #65676b;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+
+  transition: color 0.2s ease;
+}
+
+.navbar-enlace:hover {
+  color: #1877f2;
+}
+
+.navbar-enlace.activo {
+  color: #1877f2;
+  font-weight: 700;
+}
+
+.navbar-navegacion-desktop .navbar-enlace.activo::after {
+  content: "";
+
+  position: absolute;
+  right: 0;
+  bottom: -2px;
+  left: 0;
+
+  height: 2px;
+  border-radius: 2px;
+
+  background-color: #1877f2;
+}
+
+/* =========================
+   ACCIONES
+   ========================= */
+
+.navbar-acciones {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  flex-shrink: 0;
+}
+
+.navbar-boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 36px;
+  padding: 0 16px;
+
+  border-radius: 10px;
+
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.navbar-boton-secundario {
+  border: 1px solid #ccd0d5;
+  background-color: #ffffff;
+  color: #1c1e21;
+}
+
+.navbar-boton-secundario:hover {
+  background-color: #f0f2f5;
+}
+
+.navbar-boton-principal {
+  border: 1px solid #1877f2;
+  background-color: #1877f2;
+  color: #ffffff;
+}
+
+.navbar-boton-principal:hover {
+  border-color: #166fe5;
+  background-color: #166fe5;
+}
+
+/* =========================
+   NAVEGACIÓN MOBILE
+   ========================= */
+
+.navbar-navegacion-mobile {
+  display: none;
+}
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 1200px) {
+  .navbar-contenido {
+    min-height: 64px;
+  }
+
+  .navbar-navegacion-desktop {
+    display: none;
+  }
+
+  .navbar-navegacion-mobile {
+    display: flex;
+
+    overflow-x: auto;
+    gap: 20px;
+
+    padding: 10px 24px;
+
+    border-top: 1px solid #e4e6eb;
+    background-color: #f8f9fa;
+
+    scrollbar-width: none;
+  }
+
+  .navbar-navegacion-mobile::-webkit-scrollbar {
+    display: none;
+  }
+
+  .navbar-navegacion-mobile .navbar-enlace {
+    padding: 2px 0;
+  }
+
+  .navbar-navegacion-mobile .navbar-enlace.activo::after {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .navbar-contenido {
+    padding: 10px 16px;
+  }
+
+  .navbar-logo-icono {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    font-size: 18px;
+  }
+
+  .navbar-logo-nombre {
+    font-size: 14px;
+  }
+
+  .navbar-logo-subtitulo {
+    font-size: 9px;
+  }
+
+  .navbar-acciones {
+    gap: 8px;
+  }
+
+  .navbar-boton {
+    padding: 0 11px;
+    font-size: 11px;
+  }
+
+  .navbar-boton-secundario {
+    display: none;
+  }
+
+  .navbar-navegacion-mobile {
+    gap: 18px;
+    padding: 9px 16px;
+  }
+}

@@ -4,6 +4,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
+import styles from "./ProductoDetalle.module.css";
 
 type Product = {
   id: string;
@@ -187,9 +188,9 @@ export default function VerProductoPage() {
 
   if (loading) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-[#f5f6f8] text-[#1c1e21]">
-        <div className="rounded-2xl border border-[#e4e6eb] bg-white px-8 py-6 shadow-sm">
-          <div className="text-sm text-[#65676b]">
+      <main className={styles.productoDetalleFlexMinHScreenItemsCenterJustifyCenter}>
+        <div className={styles.productoDetalleRounded2xlBorderBorderE4e6ebBgWhite}>
+          <div className={styles.productoDetalleTextSmText65676b}>
             Cargando producto...
           </div>
         </div>
@@ -199,28 +200,18 @@ export default function VerProductoPage() {
 
   if (!product) {
     return (
-      <main className="min-h-screen bg-[#f5f6f8] text-[#1c1e21]">
-        <div className="flex min-h-screen">
+      <main className={styles.productoDetalleMinHScreenBgF5f6f8Text1c1e21}>
+        <div className={styles.productoDetalleFlexMinHScreen}>
           <Sidebar logout={logout} />
 
-          <section className="flex-1">
-            <header className="border-b border-[#e4e6eb] bg-white px-6 py-5 lg:px-10">
-              <div className="text-xs text-[#65676b]">
-                Catálogo
-              </div>
-
-              <h1 className="mt-1 text-2xl font-bold">
-                Producto
-              </h1>
-            </header>
-
-            <div className="p-6 lg:p-10">
-              <div className="mb-6 rounded-2xl border border-red-200 bg-red-50 p-5">
-                <div className="font-semibold text-red-700">
+          <section className={styles.productoDetalleFlex1}>
+            <div className={styles.productoDetalleP6P10}>
+              <div className={styles.productoDetalleMb6Rounded2xlBorderBorderRed200}>
+                <div className={styles.productoDetalleFontSemiboldTextRed700}>
                   No se pudo encontrar el producto
                 </div>
 
-                <p className="mt-1 text-sm text-red-600">
+                <p className={styles.productoDetalleMt1TextSmTextRed600}>
                   {error ||
                     "El producto no existe o ya fue eliminado."}
                 </p>
@@ -228,7 +219,7 @@ export default function VerProductoPage() {
 
               <button
                 onClick={() => router.push("/productos")}
-                className="rounded-xl bg-[#1877f2] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#166fe5]"
+                className={styles.productoDetalleRoundedXlBg1877f2Px5Py3}
               >
                 ← Volver a productos
               </button>
@@ -243,74 +234,45 @@ export default function VerProductoPage() {
   const active = isActive();
 
   return (
-    <main className="min-h-screen bg-[#f5f6f8] text-[#1c1e21]">
-      <div className="flex min-h-screen">
+    <main className={styles.productoDetalleMinHScreenBgF5f6f8Text1c1e21}>
+      <div className={styles.productoDetalleFlexMinHScreen}>
         <Sidebar logout={logout} />
 
-        <section className="min-w-0 flex-1">
-          <header className="border-b border-[#e4e6eb] bg-white px-6 py-5 lg:px-10">
-            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-              <div>
-                <div className="text-xs text-[#65676b]">
-                  Catálogo / Productos
-                </div>
-
-                <h1 className="mt-1 text-2xl font-bold">
-                  Ver producto
-                </h1>
-
-                <p className="mt-1 text-xs text-[#65676b]">
-                  Información y configuración del producto.
-                </p>
-              </div>
-
-              <div className="flex gap-2">
-                <button
-                  onClick={() => router.push("/productos")}
-                  className="rounded-xl border border-[#ccd0d5] bg-white px-5 py-3 text-sm font-semibold text-[#1c1e21] transition hover:bg-[#f0f2f5]"
-                >
-                  ← Productos
-                </button>
-
-                <button
-                  onClick={() =>
-                    router.push(
-                      `/productos?editar=${product.id}`
-                    )
-                  }
-                  className="rounded-xl bg-[#1877f2] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#166fe5]"
-                >
-                  Editar producto
-                </button>
-              </div>
+        <section className={styles.productoDetalleMinW0Flex1}>
+          <div className={styles.productoDetalleP6P10}>
+            <div className={styles.productoDetalleMb6FlexJustifyEnd}>
+              <button
+                onClick={() => router.push(`/productos?editar=${product.id}`)}
+                className={styles.productoDetalleRoundedXlBg1877f2Px5Py3}
+              >
+                Editar producto
+              </button>
             </div>
-          </header>
 
-          <div className="p-6 lg:p-10">
             {error && (
-              <div className="mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+              <div className={styles.productoDetalleMb6RoundedXlBorderBorderRed200}>
                 {error}
               </div>
             )}
 
-            <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
-              <div className="overflow-hidden rounded-2xl border border-[#e4e6eb] bg-white shadow-sm">
-                <div className="grid gap-0 lg:grid-cols-2">
-                  <div className="flex min-h-[420px] items-center justify-center bg-[#f0f2f5] p-8">
+            <div className={styles.productoDetalleGridGap6GridColsMinmax01fr360px}>
+              <div className={styles.productoDetalleOverflowHiddenRounded2xlBorderBorderE4e6eb}>
+                <div className={styles.productoDetalleGridGap0GridCols2}>
+                  <div className={styles.productoDetalleFlexMinH420pxItemsCenterJustifyCenter}>
                     {product.imagen_url ? (
                       <img
                         src={product.imagen_url}
                         alt={product.nombre}
-                        className="max-h-[500px] w-full rounded-xl object-contain"
+                        className={styles.productoDetalleMaxH500pxWFullRoundedXlObjectContain}
                       />
                     ) : (
-                      <div className="flex min-h-[350px] w-full items-center justify-center rounded-xl border border-[#e4e6eb] bg-white">
-                        <div className="text-center">
-                          <div className="text-6xl text-[#bcc0c4]">
+                      <div className={styles.productoDetalleFlexMinH350pxWFullItemsCenter}>
+                        <div className={styles.productoDetalleTextCenter}>
+                          <div className={styles.productoDetalleText6xlTextBcc0c4}>
                             ◈
                           </div>
 
-                          <div className="mt-4 text-sm text-[#65676b]">
+                          <div className={styles.productoDetalleMt4TextSmText65676b}>
                             Sin imagen
                           </div>
                         </div>
@@ -318,66 +280,66 @@ export default function VerProductoPage() {
                     )}
                   </div>
 
-                  <div className="p-8">
-                    <div className="mb-5 flex flex-wrap items-center gap-3">
-                      <span className="rounded-lg bg-[#e7f3ff] px-3 py-1.5 font-mono text-xs font-bold text-[#1877f2]">
+                  <div className={styles.productoDetalleP8}>
+                    <div className={styles.productoDetalleMb5FlexFlexWrapItemsCenter}>
+                      <span className={styles.productoDetalleRoundedLgBgE7f3ffPx3Py15}>
                         {product.codigo || "SIN CÓDIGO"}
                       </span>
 
                       <span
-                        className={
+                        className={`${styles.productoDetalleEstadoBadge} ${
                           active
-                            ? "rounded-full bg-[#e7f7ee] px-3 py-1.5 text-xs font-semibold text-[#16834a]"
-                            : "rounded-full bg-[#f0f2f5] px-3 py-1.5 text-xs font-semibold text-[#65676b]"
-                        }
+                            ? styles.productoDetalleEstadoActivo
+                            : styles.productoDetalleEstadoPausado
+                        }`}
                       >
                         {active ? "Activo" : "Pausado"}
                       </span>
                     </div>
 
-                    <h2 className="text-3xl font-bold leading-tight text-[#1c1e21]">
+                    <h2 className={styles.productoDetalleText3xlFontBoldLeadingTightText1c1e21}>
                       {product.nombre}
                     </h2>
 
                     {product.categoria && (
-                      <div className="mt-3">
-                        <span className="rounded-lg bg-[#f0f2f5] px-3 py-1.5 text-xs font-semibold text-[#65676b]">
+                      <div className={styles.productoDetalleMt3}>
+                        <span className={styles.productoDetalleRoundedLgBgF0f2f5Px3Py15}>
                           {product.categoria}
                         </span>
                       </div>
                     )}
 
-                    <div className="mt-6">
-                      <div className="text-xs font-medium uppercase tracking-wide text-[#65676b]">
+                    <div className={styles.productoDetalleMt6}>
+                      <div className={styles.productoDetalleTextXsFontMediumUppercaseTrackingWide}>
                         Precio
                       </div>
 
-                      <div className="mt-1 text-3xl font-bold text-[#1877f2]">
+                      <div className={styles.productoDetalleMt1Text3xlFontBoldText1877f2}>
                         {formatPrice(product.precio)}
                       </div>
                     </div>
 
-                    <div className="my-7 border-t border-[#e4e6eb]" />
+                    <div className={styles.productoDetalleMy7BorderTBorderE4e6eb} />
 
                     <div>
-                      <div className="text-xs font-medium uppercase tracking-wide text-[#65676b]">
+                      <div className={styles.productoDetalleTextXsFontMediumUppercaseTrackingWide}>
                         Descripción
                       </div>
 
-                      <p className="mt-3 whitespace-pre-wrap text-sm leading-7 text-[#4b4f56]">
+                      <p className={styles.productoDetalleMt3WhitespacePreWrapTextSmLeading7}>
                         {product.descripcion ||
                           "Este producto no tiene una descripción cargada."}
                       </p>
                     </div>
 
-                    <div className="mt-8 grid grid-cols-2 gap-4">
+                    <div className={styles.productoDetalleMt8GridGridCols2Gap4}>
                       <InfoBox
                         label="Stock"
                         value={stockValue.toLocaleString("es-AR")}
                         valueClass={
                           stockValue > 0
-                            ? "text-[#1c1e21]"
-                            : "text-red-600"
+                            ? styles.productoDetalleInfoValorNormal
+                            : styles.productoDetalleInfoValorNegativo
                         }
                       />
 
@@ -386,8 +348,8 @@ export default function VerProductoPage() {
                         value={active ? "Activo" : "Pausado"}
                         valueClass={
                           active
-                            ? "text-[#16834a]"
-                            : "text-[#65676b]"
+                            ? styles.productoDetalleInfoValorActivo
+                            : styles.productoDetalleInfoValorInactivo
                         }
                       />
                     </div>
@@ -395,21 +357,21 @@ export default function VerProductoPage() {
                 </div>
               </div>
 
-              <div className="space-y-5">
-                <div className="rounded-2xl border border-[#e4e6eb] bg-white p-6 shadow-sm">
-                  <div className="text-sm font-bold">
+              <div className={styles.productoDetalleSpaceY5}>
+                <div className={styles.productoDetalleRounded2xlBorderBorderE4e6ebBgWhite2}>
+                  <div className={styles.productoDetalleTextSmFontBold}>
                     Estado del producto
                   </div>
 
-                  <div className="mt-4 flex items-center justify-between rounded-xl bg-[#f5f6f8] p-4">
+                  <div className={styles.productoDetalleMt4FlexItemsCenterJustifyBetween}>
                     <div>
-                      <div className="text-sm font-semibold">
+                      <div className={styles.productoDetalleTextSmFontSemibold}>
                         {active
                           ? "Producto activo"
                           : "Producto pausado"}
                       </div>
 
-                      <div className="mt-1 text-xs text-[#65676b]">
+                      <div className={styles.productoDetalleMt1TextXsText65676b}>
                         {active
                           ? "Puede utilizarse en campañas y anuncios."
                           : "No está disponible para nuevas campañas."}
@@ -417,18 +379,18 @@ export default function VerProductoPage() {
                     </div>
 
                     <div
-                      className={
+                      className={`${styles.productoDetalleEstadoIndicador} ${
                         active
-                          ? "h-3 w-3 rounded-full bg-[#31a24c]"
-                          : "h-3 w-3 rounded-full bg-[#bcc0c4]"
-                      }
+                          ? styles.productoDetalleIndicadorActivo
+                          : styles.productoDetalleIndicadorPausado
+                      }`}
                     />
                   </div>
 
                   <button
                     onClick={toggleStatus}
                     disabled={changingStatus}
-                    className="mt-4 w-full rounded-xl border border-[#ccd0d5] bg-white px-4 py-3 text-sm font-semibold text-[#1c1e21] transition hover:bg-[#f0f2f5] disabled:opacity-50"
+                    className={styles.productoDetalleMt4WFullRoundedXlBorder}
                   >
                     {changingStatus
                       ? "Actualizando..."
@@ -438,12 +400,12 @@ export default function VerProductoPage() {
                   </button>
                 </div>
 
-                <div className="rounded-2xl border border-[#e4e6eb] bg-white p-6 shadow-sm">
-                  <div className="text-sm font-bold">
+                <div className={styles.productoDetalleRounded2xlBorderBorderE4e6ebBgWhite2}>
+                  <div className={styles.productoDetalleTextSmFontBold}>
                     Información
                   </div>
 
-                  <div className="mt-5 space-y-4">
+                  <div className={styles.productoDetalleMt5SpaceY4}>
                     <DetailRow
                       label="Código"
                       value={product.codigo || "Sin código"}
@@ -481,33 +443,33 @@ export default function VerProductoPage() {
                   </div>
                 </div>
 
-                <div className="rounded-2xl border border-[#e4e6eb] bg-white p-6 shadow-sm">
-                  <div className="text-sm font-bold">
+                <div className={styles.productoDetalleRounded2xlBorderBorderE4e6ebBgWhite2}>
+                  <div className={styles.productoDetalleTextSmFontBold}>
                     Acciones
                   </div>
 
-                  <div className="mt-4 space-y-2">
+                  <div className={styles.productoDetalleMt4SpaceY2}>
                     <button
                       onClick={() =>
                         router.push(
                           `/productos?editar=${product.id}`
                         )
                       }
-                      className="w-full rounded-xl bg-[#1877f2] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#166fe5]"
+                      className={styles.productoDetalleWFullRoundedXlBg1877f2Px4}
                     >
                       Editar producto
                     </button>
 
                     <button
                       onClick={() => router.push("/productos")}
-                      className="w-full rounded-xl border border-[#ccd0d5] bg-white px-4 py-3 text-sm font-semibold text-[#1c1e21] transition hover:bg-[#f0f2f5]"
+                      className={styles.productoDetalleWFullRoundedXlBorderBorderCcd0d5}
                     >
                       Volver a productos
                     </button>
 
                     <button
                       onClick={deleteProduct}
-                      className="w-full rounded-xl border border-red-200 bg-white px-4 py-3 text-sm font-semibold text-red-600 transition hover:bg-red-50"
+                      className={styles.productoDetalleWFullRoundedXlBorderBorderRed200}
                     >
                       Eliminar producto
                     </button>
@@ -516,18 +478,18 @@ export default function VerProductoPage() {
               </div>
             </div>
 
-            <div className="mt-8 rounded-2xl border border-[#dbeafe] bg-[#eff6ff] p-5">
-              <div className="flex gap-3">
-                <div className="text-xl text-[#1877f2]">
+            <div className={styles.productoDetalleMt8Rounded2xlBorderBorderDbeafe}>
+              <div className={styles.productoDetalleFlexGap3}>
+                <div className={styles.productoDetalleTextXlText1877f2}>
                   ⓘ
                 </div>
 
                 <div>
-                  <div className="font-semibold text-[#1d4ed8]">
+                  <div className={styles.productoDetalleFontSemiboldText1d4ed8}>
                     Producto en MÍA ADS
                   </div>
 
-                  <p className="mt-1 text-sm leading-6 text-[#4b5563]">
+                  <p className={styles.productoDetalleMt1TextSmLeading6Text4b5563}>
                     Este producto puede utilizarse para
                     crear campañas, anuncios y creativos
                     dentro de MÍA ADS Manager.
@@ -536,7 +498,7 @@ export default function VerProductoPage() {
               </div>
             </div>
 
-            <footer className="py-8 text-center text-xs text-[#8a8d91]">
+            <footer className={styles.productoDetallePy8TextCenterTextXsText8a8d91}>
               MÍA ADS MANAGER · Producto
             </footer>
           </div>
@@ -552,21 +514,21 @@ function Sidebar({
   logout: () => void;
 }) {
   return (
-    <aside className="hidden w-64 flex-col border-r border-[#e4e6eb] bg-white lg:flex">
-      <div className="border-b border-[#e4e6eb] px-6 py-6">
-        <div className="text-2xl font-black tracking-tight text-[#1c1e21]">
+    <aside className={styles.productoDetalleHiddenW64FlexColBorderR}>
+      <div className={styles.productoDetalleBorderBBorderE4e6ebPx6Py6}>
+        <div className={styles.productoDetalleText2xlFontBlackTrackingTightText1c1e21}>
           MÍA{" "}
-          <span className="text-[#1877f2]">
+          <span className={styles.productoDetalleText1877f2}>
             ADS
           </span>
         </div>
 
-        <div className="mt-1 text-[9px] uppercase tracking-[0.35em] text-[#65676b]">
+        <div className={styles.productoDetalleMt1Text9pxUppercaseTracking035em}>
           Manager
         </div>
       </div>
 
-      <nav className="flex-1 p-4">
+      <nav className={styles.productoDetalleFlex1P4}>
         <NavItem label="Inicio" href="/dashboard" />
         <NavItem label="Campañas" href="/campanas" />
         <NavItem label="Anuncios" href="/anuncios" />
@@ -582,7 +544,7 @@ function Sidebar({
           href="/automatizaciones"
         />
 
-        <div className="my-4 border-t border-[#e4e6eb]" />
+        <div className={styles.productoDetalleMy4BorderTBorderE4e6eb} />
 
         <NavItem
           label="Configuración"
@@ -590,10 +552,10 @@ function Sidebar({
         />
       </nav>
 
-      <div className="border-t border-[#e4e6eb] p-4">
+      <div className={styles.productoDetalleBorderTBorderE4e6ebP4}>
         <button
           onClick={logout}
-          className="w-full rounded-xl px-4 py-3 text-left text-sm text-[#65676b] transition hover:bg-[#f0f2f5] hover:text-[#1c1e21]"
+          className={styles.productoDetalleWFullRoundedXlPx4Py3}
         >
           Cerrar sesión
         </button>
@@ -614,10 +576,10 @@ function NavItem({
   return (
     <a
       href={href}
-      className={`mb-1 block rounded-xl px-4 py-3 text-sm transition ${
+      className={`${styles.productoDetalleNavItem} ${
         active
-          ? "bg-[#e7f3ff] font-semibold text-[#1877f2]"
-          : "text-[#65676b] hover:bg-[#f0f2f5] hover:text-[#1c1e21]"
+          ? styles.productoDetalleNavItemActivo
+          : styles.productoDetalleNavItemInactivo
       }`}
     >
       {label}
@@ -635,14 +597,14 @@ function InfoBox({
   valueClass?: string;
 }) {
   return (
-    <div className="rounded-xl border border-[#e4e6eb] bg-[#f5f6f8] p-4">
-      <div className="text-[10px] font-semibold uppercase tracking-wider text-[#65676b]">
+    <div className={styles.productoDetalleRoundedXlBorderBorderE4e6ebBgF5f6f8}>
+      <div className={styles.productoDetalleText10pxFontSemiboldUppercaseTrackingWider}>
         {label}
       </div>
 
       <div
-        className={`mt-2 text-lg font-bold ${
-          valueClass || "text-[#1c1e21]"
+        className={`${styles.productoDetalleInfoValor} ${
+          valueClass || styles.productoDetalleInfoValorNormal
         }`}
       >
         {value}
@@ -659,15 +621,14 @@ function DetailRow({
   value: string;
 }) {
   return (
-    <div className="flex items-center justify-between gap-4 border-b border-[#f0f2f5] pb-3 last:border-0 last:pb-0">
-      <span className="text-xs text-[#65676b]">
+    <div className={styles.productoDetalleFlexItemsCenterJustifyBetweenGap4}>
+      <span className={styles.productoDetalleTextXsText65676b}>
         {label}
       </span>
 
-      <span className="max-w-[190px] truncate text-right text-xs font-semibold text-[#1c1e21]">
+      <span className={styles.productoDetalleMaxW190pxTruncateTextRightTextXs}>
         {value}
       </span>
     </div>
   );
 }
-

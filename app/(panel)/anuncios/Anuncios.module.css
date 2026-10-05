@@ -1,0 +1,927 @@
+.anunciosPage {
+  min-height: 100vh;
+  color: #1c1e21;
+  background: #f5f6f8;
+}
+
+.anunciosContainer {
+  max-width: 1500px;
+  margin-inline: auto;
+  padding: 1.25rem;
+}
+
+.anunciosErrorMessage,
+.anunciosSuccessMessage {
+  margin-bottom: 1.25rem;
+  border: 1px solid;
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.25rem;
+}
+
+.anunciosErrorMessage {
+  border-color: #fecaca;
+  color: #dc2626;
+  background: #fef2f2;
+}
+
+.anunciosSuccessMessage {
+  border-color: #bbf7d0;
+  color: #15803d;
+  background: #f0fdf4;
+}
+
+.anunciosStatsGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.anunciosCreatePanel,
+.anunciosFiltersPanel,
+.anunciosStatCard {
+  border: 1px solid #e4e6eb;
+  border-radius: 1rem;
+  background: #fff;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+}
+
+.anunciosCreatePanel {
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.anunciosCreatePanelHeader {
+  border-bottom: 1px solid #e4e6eb;
+  padding: 1.5rem;
+}
+
+.anunciosEyebrow {
+  color: #1877f2;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.anunciosSectionTitle {
+  margin-top: 0.25rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.75rem;
+}
+
+.anunciosMutedText {
+  margin-top: 0.25rem;
+  color: #65676b;
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
+.anunciosCreateForm {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.25rem;
+  padding: 1.5rem;
+}
+
+.anunciosFormLabel {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1rem;
+}
+
+.anunciosFormControl,
+.anunciosSearchInput,
+.anunciosFilterSelect {
+  width: 100%;
+  border: 1px solid #ccd0d5;
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.anunciosFormControl,
+.anunciosFilterSelect {
+  background: #fff;
+}
+
+.anunciosFormControl:focus,
+.anunciosSearchInput:focus,
+.anunciosFilterSelect:focus {
+  border-color: #1877f2;
+}
+
+.anunciosFormControl:disabled {
+  background: #f0f2f5;
+}
+
+.anunciosSubmitCell {
+  display: flex;
+  align-items: flex-end;
+}
+
+.anunciosPrimaryButton,
+.anunciosViewAdButton {
+  border: 0;
+  border-radius: 0.75rem;
+  color: #fff;
+  background: #1877f2;
+  font-weight: 700;
+  transition: background-color 120ms ease;
+}
+
+.anunciosPrimaryButton {
+  width: 100%;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.anunciosPrimaryButton:hover,
+.anunciosViewAdButton:hover {
+  background: #166fe5;
+}
+
+.anunciosPrimaryButton:disabled,
+.anunciosBulkDeleteButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.anunciosLibraryHeading {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.anunciosCountBadge {
+  border-radius: 9999px;
+  padding: 0.5rem 1rem;
+  color: #65676b;
+  background: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1rem;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+}
+
+.anunciosFiltersPanel {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+}
+
+.anunciosFiltersGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.75rem;
+}
+
+.anunciosFilterLabel {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #65676b;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.anunciosSearchInput {
+  background: transparent;
+}
+
+.anunciosClearFilters {
+  margin-top: 0.75rem;
+  color: #1877f2;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1rem;
+}
+
+.anunciosClearFilters:hover {
+  text-decoration: underline;
+}
+
+.anunciosSelectionToolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+  border: 1px solid #d8e9ff;
+  border-radius: 1rem;
+  padding: 1rem;
+  background: #f7fbff;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+}
+
+.anunciosSelectionStatus {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.anunciosCheckbox {
+  width: 1.25rem;
+  height: 1.25rem;
+  cursor: pointer;
+  accent-color: #1877f2;
+}
+
+.anunciosSelectionTitle {
+  color: #1c1e21;
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.25rem;
+}
+
+.anunciosSelectionDescription {
+  color: #65676b;
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
+.anunciosBulkDeleteButton,
+.anunciosDeleteButton,
+.anunciosModalDeleteButton {
+  border: 1px solid #fecaca;
+  border-radius: 0.75rem;
+  color: #dc2626;
+  background: #fef2f2;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1rem;
+}
+
+.anunciosBulkDeleteButton {
+  padding: 0.75rem 1.25rem;
+  transition: background-color 120ms ease;
+}
+
+.anunciosBulkDeleteButton:hover,
+.anunciosDeleteButton:hover {
+  background: #fee2e2;
+}
+
+.anunciosBulkDeleteButton:disabled {
+  opacity: 0.4;
+}
+
+.anunciosEmptyState {
+  border: 1px dashed #ccd0d5;
+  border-radius: 1rem;
+  padding: 3rem;
+  background: #fff;
+  text-align: center;
+}
+
+.anunciosEmptyIcon {
+  display: flex;
+  width: 4rem;
+  height: 4rem;
+  align-items: center;
+  justify-content: center;
+  margin-inline: auto;
+  border-radius: 1rem;
+  color: #1877f2;
+  background: #e7f3ff;
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+.anunciosEmptyTitle {
+  margin-top: 1.25rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.75rem;
+}
+
+.anunciosEmptyDescription {
+  max-width: 28rem;
+  margin: 0.5rem auto 0;
+  color: #65676b;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.anunciosAdGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.25rem;
+}
+
+.anunciosAdCard {
+  overflow: hidden;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 1rem;
+  background: #fff;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.anunciosAdCard:hover {
+  transform: translateY(-0.125rem);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+.anunciosAdCardSelected {
+  border-color: #1877f2;
+  box-shadow: 0 0 0 2px rgb(24 119 242 / 0.2), 0 1px 2px rgb(0 0 0 / 0.05);
+}
+
+.anunciosAdCardDefault {
+  border-color: #e4e6eb;
+}
+
+.anunciosAdImageArea {
+  position: relative;
+  height: 14rem;
+  background: #f0f2f5;
+}
+
+.anunciosAdImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.anunciosAdImagePlaceholder,
+.anunciosModalImagePlaceholder {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #8a8d91;
+}
+
+.anunciosPlaceholderIcon {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+}
+
+.anunciosPlaceholderText {
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1rem;
+}
+
+.anunciosPreviewButton {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  display: flex;
+  width: 2.25rem;
+  height: 2.25rem;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 0.5rem;
+  background: rgb(255 255 255 / 0.95);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  backdrop-filter: blur(8px);
+}
+
+.anunciosAdStatusBadge,
+.anunciosAdCampaignBadge {
+  position: absolute;
+  top: 0.75rem;
+  border-radius: 9999px;
+  padding: 0.25rem 0.75rem;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1rem;
+}
+
+.anunciosAdStatusBadge {
+  left: 3.5rem;
+}
+
+.anunciosAdStatusActive {
+  background: #31a24c;
+}
+
+.anunciosAdStatusPaused {
+  background: #65676b;
+}
+
+.anunciosAdCampaignBadge {
+  right: 0.75rem;
+  background: #1877f2;
+}
+
+.anunciosAdDetails {
+  padding: 1.25rem;
+}
+
+.anunciosAdMetadata {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.anunciosCampaignName {
+  overflow: hidden;
+  color: #1877f2;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1rem;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+  letter-spacing: 0.05em;
+}
+
+.anunciosProductCode {
+  flex-shrink: 0;
+  border-radius: 0.375rem;
+  padding: 0.25rem 0.5rem;
+  color: #65676b;
+  background: #f0f2f5;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1rem;
+}
+
+.anunciosAdName {
+  display: -webkit-box;
+  overflow: hidden;
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.5rem;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.anunciosGeneratedTitle {
+  margin-top: 1rem;
+  border: 1px solid #e7f3ff;
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+  background: #f7fbff;
+}
+
+.anunciosGeneratedTitleLabel {
+  color: #1877f2;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.anunciosGeneratedTitleText {
+  display: -webkit-box;
+  overflow: hidden;
+  margin-top: 0.25rem;
+  color: #1c1e21;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.25rem;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.anunciosDescriptionSection {
+  margin-top: 0.75rem;
+}
+
+.anunciosFieldLabel {
+  color: #65676b;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.anunciosDescriptionText {
+  display: -webkit-box;
+  overflow: hidden;
+  margin-top: 0.25rem;
+  color: #65676b;
+  font-size: 0.75rem;
+  line-height: 1.25rem;
+  white-space: pre-line;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+}
+
+.anunciosProductCard {
+  margin-top: 1rem;
+  border: 1px solid #e4e6eb;
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+  background: #f7f8fa;
+}
+
+.anunciosProductName {
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.25rem;
+}
+
+.anunciosProductCodeText {
+  margin-top: 0.25rem;
+  color: #65676b;
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
+.anunciosProductPriceText {
+  margin-top: 0.25rem;
+  color: #31a24c;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1rem;
+}
+
+.anunciosCreativeDetails {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.75rem;
+  border: 1px solid #e4e6eb;
+  border-radius: 0.75rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.anunciosCreativeType {
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1rem;
+}
+
+.anunciosCreativeStatus {
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1rem;
+}
+
+.anunciosCreativeLinked {
+  color: #31a24c;
+  background: #eaf7ed;
+}
+
+.anunciosCreativeMissing {
+  color: #65676b;
+  background: #f0f2f5;
+}
+
+.anunciosAdActions {
+  display: flex;
+  gap: 0.5rem;
+  border-top: 1px solid #e4e6eb;
+  padding: 1rem;
+}
+
+.anunciosViewAdButton {
+  flex: 1;
+  padding: 0.625rem 1rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
+.anunciosToggleAdButton,
+.anunciosDeleteButton,
+.anunciosModalToggleButton,
+.anunciosModalDeleteButton {
+  border: 1px solid;
+  border-radius: 0.75rem;
+  padding: 0.625rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1rem;
+}
+
+.anunciosPauseButton {
+  border-color: #fde68a;
+  color: #b45309;
+  background: #fffbeb;
+}
+
+.anunciosPauseButton:hover {
+  background: #fef3c7;
+}
+
+.anunciosActivateButton {
+  border-color: #bbf7d0;
+  color: #15803d;
+  background: #f0fdf4;
+}
+
+.anunciosActivateButton:hover {
+  background: #dcfce7;
+}
+
+.anunciosDeleteButton {
+  padding: 0.625rem 1rem;
+}
+
+.anunciosModalOverlay {
+  position: fixed;
+  z-index: 50;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgb(0 0 0 / 0.5);
+}
+
+.anunciosModal {
+  width: 100%;
+  max-width: 56rem;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 1rem;
+  background: #fff;
+  box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+}
+
+.anunciosModalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e4e6eb;
+  padding: 1.25rem;
+}
+
+.anunciosModalClose {
+  display: flex;
+  width: 2.25rem;
+  height: 2.25rem;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 9999px;
+  color: #65676b;
+  background: #f0f2f5;
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.anunciosModalClose:hover {
+  background: #e4e6eb;
+}
+
+.anunciosModalBody {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+}
+
+.anunciosModalImageArea {
+  min-height: 400px;
+  background: #f0f2f5;
+}
+
+.anunciosModalImage {
+  width: 100%;
+  min-height: 400px;
+  height: 100%;
+  object-fit: cover;
+}
+
+.anunciosModalImagePlaceholder {
+  min-height: 400px;
+}
+
+.anunciosModalPlaceholderIcon {
+  font-size: 3rem;
+  line-height: 1;
+}
+
+.anunciosModalPlaceholderText {
+  margin-top: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.25rem;
+}
+
+.anunciosModalContent {
+  padding: 1.5rem;
+}
+
+.anunciosModalBadges,
+.anunciosModalActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.anunciosModalStatus,
+.anunciosGeneratedBadge {
+  border-radius: 9999px;
+  padding: 0.25rem 0.75rem;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1rem;
+}
+
+.anunciosModalStatusActive {
+  color: #31a24c;
+  background: #eaf7ed;
+}
+
+.anunciosModalStatusPaused {
+  color: #65676b;
+  background: #f0f2f5;
+}
+
+.anunciosGeneratedBadge {
+  color: #1877f2;
+  background: #e7f3ff;
+}
+
+.anunciosModalTitleSection {
+  margin-top: 1.5rem;
+}
+
+.anunciosModalDescriptionSection,
+.anunciosDetailGrid {
+  margin-top: 1.25rem;
+}
+
+.anunciosModalTitleText,
+.anunciosModalDescriptionText {
+  margin-top: 0.5rem;
+  border: 1px solid #e4e6eb;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  font-size: 0.875rem;
+  line-height: 1.5rem;
+}
+
+.anunciosModalTitleText {
+  background: #f7f8fa;
+  font-weight: 700;
+}
+
+.anunciosModalDescriptionText {
+  color: #444;
+  background: #fff;
+}
+
+.anunciosPreformattedText {
+  white-space: pre-line;
+}
+
+.anunciosDetailGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.anunciosModalActions {
+  margin-top: 1.5rem;
+}
+
+.anunciosModalToggleButton {
+  padding: 0.75rem 1.25rem;
+}
+
+.anunciosModalDeleteButton {
+  padding: 0.75rem 1.25rem;
+}
+
+.anunciosStatCard {
+  padding: 1.25rem;
+}
+
+.anunciosStatLabel,
+.anunciosDetailLabel {
+  color: #65676b;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.anunciosStatValue {
+  margin-top: 0.5rem;
+  font-size: 1.875rem;
+  font-weight: 900;
+  line-height: 2.25rem;
+}
+
+.anunciosStatBlue {
+  color: #1877f2;
+}
+
+.anunciosStatGreen {
+  color: #31a24c;
+}
+
+.anunciosStatGray {
+  color: #65676b;
+}
+
+.anunciosDetailBox {
+  border: 1px solid #e4e6eb;
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+  background: #f7f8fa;
+}
+
+.anunciosDetailLabel {
+  font-size: 9px;
+}
+
+.anunciosDetailValue {
+  display: -webkit-box;
+  overflow: hidden;
+  margin-top: 0.25rem;
+  color: #1c1e21;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1rem;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+@media (min-width: 640px) {
+  .anunciosStatsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .anunciosSelectionToolbar {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+@media (min-width: 768px) {
+  .anunciosCreateForm {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .anunciosFiltersGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .anunciosAdGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .anunciosContainer {
+    padding: 2rem;
+  }
+
+  .anunciosCreateForm {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .anunciosLibraryHeading {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+
+  .anunciosModalBody {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1280px) {
+  .anunciosStatsGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .anunciosFiltersGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .anunciosSearchColumn {
+    grid-column: span 1;
+  }
+
+  .anunciosAdGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

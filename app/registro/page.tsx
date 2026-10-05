@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
+import styles from "./RegistroPage.module.css";
 
 export default function RegistroPage() {
   const router = useRouter();
@@ -73,29 +74,29 @@ export default function RegistroPage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col justify-between bg-[#f0f2f5] font-sans text-[#1c1e21]">
+    <div className={styles.registerPage}>
 
       {/* HEADER */}
-      <header className="border-b border-[#e4e6eb] bg-white shadow-sm">
+      <header className={styles.registerHeader}>
 
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+        <div className={styles.registerHeaderInner}>
 
           <Link
             href="/"
-            className="flex items-center gap-3"
+            className={styles.registerBrand}
           >
 
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#1877f2] text-xl font-black text-white shadow-sm">
+            <div className={styles.registerBrandMark}>
               M
             </div>
 
             <div>
 
-              <span className="block text-base font-black leading-none tracking-tight text-[#1877f2]">
+              <span className={styles.registerBrandName}>
                 MÍA ADS
               </span>
 
-              <span className="text-[10px] font-bold uppercase tracking-wider text-[#65676b]">
+              <span className={styles.registerBrandDescriptor}>
                 Manager
               </span>
 
@@ -105,7 +106,7 @@ export default function RegistroPage() {
 
           <Link
             href="/"
-            className="text-xs font-bold text-[#1877f2] hover:underline"
+            className={styles.registerBackLink}
           >
             ← Volver al inicio
           </Link>
@@ -115,47 +116,47 @@ export default function RegistroPage() {
       </header>
 
       {/* FORMULARIO */}
-      <main className="mx-auto flex w-full max-w-md flex-col px-6 py-12">
+      <main className={styles.registerMain}>
 
-        <div className="rounded-2xl border border-[#e4e6eb] bg-white p-8 shadow-sm">
+        <div className={styles.registerCard}>
 
-          <div className="mb-6 text-center">
+          <div className={styles.registerIntro}>
 
-            <span className="mb-2 inline-block rounded-full bg-[#e7f3ff] px-3 py-1 text-[11px] font-bold text-[#1877f2]">
+            <span className={styles.registerEyebrow}>
               Creá tu cuenta gratis
             </span>
 
-            <h1 className="text-2xl font-black text-[#1c1e21]">
+            <h1 className={styles.registerTitle}>
               Registrarse
             </h1>
 
-            <p className="mt-1 text-xs text-[#65676b]">
+            <p className={styles.registerDescription}>
               Creá tu cuenta para comenzar a utilizar MÍA ADS.
             </p>
 
           </div>
 
           {error && (
-            <div className="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-xs font-medium text-red-600">
+            <div className={styles.registerError}>
               {error}
             </div>
           )}
 
           {mensaje && (
-            <div className="mb-5 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-xs font-medium text-green-700">
+            <div className={styles.registerSuccess}>
               {mensaje}
             </div>
           )}
 
           <form
             onSubmit={handleRegister}
-            className="space-y-4"
+            className={styles.registerForm}
           >
 
             {/* NEGOCIO */}
             <div>
 
-              <label className="mb-1 block text-xs font-bold text-[#65676b]">
+              <label className={styles.registerLabel}>
                 Nombre del Negocio / Tienda
               </label>
 
@@ -167,7 +168,7 @@ export default function RegistroPage() {
                   setNombreNegocio(e.target.value)
                 }
                 placeholder="Ej. Mía Sofía Moda"
-                className="w-full rounded-xl border border-[#ccd0d5] bg-[#f7f8fa] px-3.5 py-2.5 text-sm text-[#1c1e21] outline-none transition focus:border-[#1877f2] focus:bg-white"
+                className={styles.registerInput}
               />
 
             </div>
@@ -175,7 +176,7 @@ export default function RegistroPage() {
             {/* EMAIL */}
             <div>
 
-              <label className="mb-1 block text-xs font-bold text-[#65676b]">
+              <label className={styles.registerLabel}>
                 Correo electrónico
               </label>
 
@@ -187,7 +188,7 @@ export default function RegistroPage() {
                   setEmail(e.target.value)
                 }
                 placeholder="tu@correo.com"
-                className="w-full rounded-xl border border-[#ccd0d5] bg-[#f7f8fa] px-3.5 py-2.5 text-sm text-[#1c1e21] outline-none transition focus:border-[#1877f2] focus:bg-white"
+                className={styles.registerInput}
               />
 
             </div>
@@ -195,7 +196,7 @@ export default function RegistroPage() {
             {/* PASSWORD */}
             <div>
 
-              <label className="mb-1 block text-xs font-bold text-[#65676b]">
+              <label className={styles.registerLabel}>
                 Contraseña
               </label>
 
@@ -208,7 +209,7 @@ export default function RegistroPage() {
                   setPassword(e.target.value)
                 }
                 placeholder="Mínimo 6 caracteres"
-                className="w-full rounded-xl border border-[#ccd0d5] bg-[#f7f8fa] px-3.5 py-2.5 text-sm text-[#1c1e21] outline-none transition focus:border-[#1877f2] focus:bg-white"
+                className={styles.registerInput}
               />
 
             </div>
@@ -217,7 +218,7 @@ export default function RegistroPage() {
             <button
               type="submit"
               disabled={loading}
-              className="mt-2 w-full rounded-xl bg-[#1877f2] py-3 text-xs font-bold text-white shadow-sm transition hover:bg-[#166fe5] disabled:cursor-not-allowed disabled:opacity-60"
+              className={styles.registerSubmit}
             >
               {loading
                 ? "Creando cuenta..."
@@ -227,11 +228,11 @@ export default function RegistroPage() {
           </form>
 
           {/* LOGIN */}
-          <div className="mt-6 border-t border-[#e4e6eb] pt-4 text-center">
+          <div className={styles.registerAccountFooter}>
 
             <Link
               href="/login"
-              className="text-xs font-bold text-[#1877f2] hover:underline"
+              className={styles.registerAccountLink}
             >
               ¿Ya tenés una cuenta? Ingresar sistema
             </Link>
@@ -243,7 +244,7 @@ export default function RegistroPage() {
       </main>
 
       {/* FOOTER */}
-      <footer className="border-t border-[#e4e6eb] bg-white py-6 text-center text-xs text-[#65676b]">
+      <footer className={styles.registerFooter}>
 
         <p>
           © 2026 MÍA ADS MANAGER · Sistema de Gestión Publicitaria e Inventario
@@ -254,4 +255,3 @@ export default function RegistroPage() {
     </div>
   );
 }
-

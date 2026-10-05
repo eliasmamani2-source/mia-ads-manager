@@ -1,0 +1,385 @@
+.alertasPage {
+  min-height: 100vh;
+  background: #f0f2f5;
+  color: #1c1e21;
+}
+
+.alertasContenedor {
+  min-height: 100vh;
+}
+
+.alertasContenido {
+  width: 100%;
+  max-width: 1152px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+/* Acciones */
+
+.alertasAcciones {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.alertasPendientes {
+  padding: 12px 20px;
+  border: 1px solid #e4e6eb;
+  border-radius: 16px;
+  background: #ffffff;
+}
+
+.alertasPendientesTitulo {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #8a8d91;
+}
+
+.alertasPendientesCantidad {
+  margin-top: 4px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #1877f2;
+}
+
+.alertasBotonLeerTodo {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 12px;
+  background: #1877f2;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 8%);
+  transition: background-color 0.2s ease;
+}
+
+.alertasBotonLeerTodo:hover {
+  background: #166fe5;
+}
+
+.alertasBotonLeerTodo:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Resumen */
+
+.alertasResumen {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.alertasTarjetaResumen {
+  padding: 20px;
+  border: 1px solid #d8dadf;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 8%);
+}
+
+.alertasTarjetaResumenContenido {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.alertasTarjetaResumenTitulo {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #8a8d91;
+}
+
+.alertasTarjetaResumenValor {
+  margin-top: 8px;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.alertasTarjetaResumenValor.alertasTarjetaResumenValorAzul {
+  color: #1877f2;
+}
+
+.alertasTarjetaResumenValor.alertasTarjetaResumenValorVerde {
+  color: #31a24c;
+}
+
+.alertasTarjetaResumenDescripcion {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #65676b;
+}
+
+.alertasTarjetaResumenIcono {
+  display: flex;
+  width: 36px;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: #f0f2f5;
+  color: #65676b;
+}
+
+.alertasTarjetaResumenIcono.alertasTarjetaResumenIconoAzul {
+  background: #e7f3ff;
+  color: #1877f2;
+}
+
+.alertasTarjetaResumenIcono.alertasTarjetaResumenIconoVerde {
+  background: #eaf7ed;
+  color: #31a24c;
+}
+
+/* Panel */
+
+.alertasPanel {
+  border: 1px solid #d8dadf;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 8%);
+}
+
+.alertasPanelEncabezado {
+  padding: 20px 24px;
+  border-bottom: 1px solid #e4e6eb;
+}
+
+.alertasPanelTitulo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.alertasPanelTitulo h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1c1e21;
+}
+
+.alertasPanelTitulo p {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: #65676b;
+}
+
+.alertasContadorAvisos {
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #e7f3ff;
+  color: #1877f2;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* Listado */
+
+.alertasPanelListado {
+  padding: 16px;
+}
+
+.alertasLista {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.alertasItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px;
+  border-radius: 16px;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.alertasItemLeida {
+  border: 1px solid #e4e6eb;
+  background: #ffffff;
+}
+
+.alertasItemNueva {
+  border: 1px solid rgb(24 119 242 / 25%);
+  background: #f7fbff;
+}
+
+.alertasItemInformacion {
+  display: flex;
+  min-width: 0;
+  gap: 16px;
+}
+
+.alertasItemIcono {
+  display: flex;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.alertasItemIconoLeida {
+  background: #f0f2f5;
+  color: #65676b;
+}
+
+.alertasItemIconoNuevo {
+  background: #e7f3ff;
+  color: #1877f2;
+}
+
+.alertasItemTexto {
+  min-width: 0;
+}
+
+.alertasItemTitulo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.alertasItemTitulo h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1c1e21;
+}
+
+.alertasEtiquetaNuevo {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #1877f2;
+  color: #ffffff;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.alertasItemTexto p {
+  margin: 4px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #65676b;
+}
+
+.alertasItemTiempo {
+  margin-top: 8px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #8a8d91;
+}
+
+/* Botón eliminar */
+
+.alertasBotonEliminar {
+  align-self: center;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #8a8d91;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.alertasBotonEliminar:hover {
+  background: #fff0f0;
+  color: #fa383e;
+}
+
+/* Sin alertas */
+
+.alertasEstadoVacio {
+  padding: 56px 24px;
+  border: 1px dashed #ccd0d5;
+  border-radius: 16px;
+  background: #f7f8fa;
+  text-align: center;
+}
+
+.alertasEstadoVacioIcono {
+  display: flex;
+  width: 56px;
+  height: 56px;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  background: #e7f3ff;
+  color: #1877f2;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.alertasEstadoVacio h3 {
+  margin: 16px 0 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1c1e21;
+}
+
+.alertasEstadoVacio p {
+  max-width: 448px;
+  margin: 8px auto 0;
+  font-size: 14px;
+  color: #65676b;
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+  .alertasPage {
+    padding-left: 0;
+  }
+
+  .alertasContenido {
+    padding: 24px 16px;
+  }
+
+  .alertasAcciones {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .alertasBotonLeerTodo {
+    width: 100%;
+  }
+
+  .alertasResumen {
+    grid-template-columns: 1fr;
+  }
+
+  .alertasContadorAvisos {
+    display: none;
+  }
+
+  .alertasItem {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .alertasBotonEliminar {
+    align-self: flex-start;
+  }
+}

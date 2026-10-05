@@ -1,0 +1,241 @@
+@reference "../../globals.css";
+
+.stockMinHScreenBgF5f6f8P6Text1c1e21 {
+  @apply min-h-screen bg-[#f5f6f8] p-6 text-[#1c1e21] lg:p-10;
+}
+
+.stockMxAutoMaxW7xl {
+  @apply mx-auto max-w-7xl;
+}
+
+.stockMb6RoundedXlBorderBorderRed200 {
+  @apply mb-6 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-600;
+}
+
+.stockMb8GridGridCols1Gap4 {
+  @apply mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4;
+}
+
+.stockRounded2xlBorderBorderE4e6ebBgWhite {
+  @apply rounded-2xl border border-[#e4e6eb] bg-white p-5 shadow-sm;
+}
+
+.stockTextXsFontBoldUppercaseTrackingWider {
+  @apply text-xs font-bold uppercase tracking-wider text-[#65676b];
+}
+
+.stockMt2Text3xlFontBlack {
+  @apply mt-2 text-3xl font-black;
+}
+
+.stockMt1TextXsText65676b {
+  @apply mt-1 text-xs text-[#65676b];
+}
+
+.stockMt2Text3xlFontBlackText1877f2 {
+  @apply mt-2 text-3xl font-black text-[#1877f2];
+}
+
+.stockRounded2xlBorderBorderOrange200BgOrange50 {
+  @apply rounded-2xl border border-orange-200 bg-orange-50 p-5 shadow-sm;
+}
+
+.stockTextXsFontBoldUppercaseTrackingWider2 {
+  @apply text-xs font-bold uppercase tracking-wider text-orange-600;
+}
+
+.stockMt2Text3xlFontBlackTextOrange600 {
+  @apply mt-2 text-3xl font-black text-orange-600;
+}
+
+.stockMt1TextXsTextOrange600 {
+  @apply mt-1 text-xs text-orange-600;
+}
+
+.stockRounded2xlBorderBorderRed200BgRed50 {
+  @apply rounded-2xl border border-red-200 bg-red-50 p-5 shadow-sm;
+}
+
+.stockTextXsFontBoldUppercaseTrackingWider3 {
+  @apply text-xs font-bold uppercase tracking-wider text-red-600;
+}
+
+.stockMt2Text3xlFontBlackTextRed600 {
+  @apply mt-2 text-3xl font-black text-red-600;
+}
+
+.stockMt1TextXsTextRed600 {
+  @apply mt-1 text-xs text-red-600;
+}
+
+.stockMb8Rounded2xlBorderBorderE4e6eb {
+  @apply mb-8 rounded-2xl border border-[#e4e6eb] bg-white p-6 shadow-sm;
+}
+
+.stockMb5 {
+  @apply mb-5;
+}
+
+.stockTextXsFontBoldUppercaseTrackingWider4 {
+  @apply text-xs font-bold uppercase tracking-wider text-[#1877f2];
+}
+
+.stockMt1TextXlFontBold {
+  @apply mt-1 text-xl font-bold;
+}
+
+.stockSpaceY3 {
+  @apply space-y-3;
+}
+
+.stockFlexFlexColGap3RoundedXl {
+  @apply flex flex-col gap-3 rounded-xl border border-[#e4e6eb] bg-[#f8f9fa] p-4 sm:flex-row sm:items-center sm:justify-between;
+}
+
+.stockFlexItemsCenterGap2 {
+  @apply flex items-center gap-2;
+}
+
+.stockText10pxFontBoldUppercaseTrackingWider {
+  @apply text-[10px] font-bold uppercase tracking-wider text-[#1877f2];
+}
+
+.stockMt1TextSmFontBold {
+  @apply mt-1 text-sm font-bold;
+}
+
+.stockTextSmFontBlack {
+  @apply text-sm font-black;
+}
+
+.stockRounded2xlBorderBorderE4e6ebBgWhite2 {
+  @apply rounded-2xl border border-[#e4e6eb] bg-white shadow-sm;
+}
+
+.stockBorderBBorderE4e6ebP6 {
+  @apply border-b border-[#e4e6eb] p-6;
+}
+
+.stockP12TextCenter {
+  @apply p-12 text-center;
+}
+
+.stockText4xl {
+  @apply text-4xl;
+}
+
+.stockMt4TextBaseFontBold {
+  @apply mt-4 text-base font-bold;
+}
+
+.stockMt1TextSmText65676b {
+  @apply mt-1 text-sm text-[#65676b];
+}
+
+.stockMt5InlineFlexRoundedXlBg1877f2 {
+  @apply mt-5 inline-flex rounded-xl bg-[#1877f2] px-5 py-3 text-xs font-bold text-white hover:bg-[#166fe5];
+}
+
+.stockDivideYDivideE4e6eb {
+  @apply divide-y divide-[#e4e6eb];
+}
+
+.stockP5TransitionBgF8f9fa {
+  @apply p-5 transition hover:bg-[#f8f9fa];
+}
+
+.stockFlexFlexColGap4FlexRow {
+  @apply flex flex-col gap-4 lg:flex-row lg:items-center;
+}
+
+.stockMinW0Flex1 {
+  @apply min-w-0 flex-1;
+}
+
+.stockRoundedMdBgE7f3ffPx2Py1 {
+  @apply rounded-md bg-[#e7f3ff] px-2 py-1 text-[10px] font-bold text-[#1877f2];
+}
+
+.stockMt2TruncateTextSmFontBold {
+  @apply mt-2 truncate text-sm font-bold;
+}
+
+.stockWFullW32 {
+  @apply w-full lg:w-32;
+}
+
+.stockText10pxFontBoldUppercaseTrackingWider2 {
+  @apply text-[10px] font-bold uppercase tracking-wider text-[#65676b];
+}
+
+.stockMt1TextSmFontBlack {
+  @apply mt-1 text-sm font-black;
+}
+
+.stockWFullW48 {
+  @apply w-full lg:w-48;
+}
+
+.stockFlexItemsCenterJustifyBetween {
+  @apply flex items-center justify-between;
+}
+
+.stockMt2H2OverflowHiddenRoundedFull {
+  @apply mt-2 h-2 overflow-hidden rounded-full bg-[#e4e6eb];
+}
+
+.stockWFullW28TextRight {
+  @apply w-full lg:w-28 lg:text-right;
+}
+
+.stockMt8Rounded2xlBorderBorderDbeafe {
+  @apply mt-8 rounded-2xl border border-[#dbeafe] bg-[#eff6ff] p-6;
+}
+
+.stockFlexFlexColGap3FlexRow {
+  @apply flex flex-col gap-3 sm:flex-row sm:items-start;
+}
+
+.stockFlexH10W10Shrink0 {
+  @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#1877f2] text-white;
+}
+
+.stockMt1TextXsLeading5Text65676b {
+  @apply mt-1 text-xs leading-5 text-[#65676b];
+}
+
+.stockEstadoBadge {
+  @apply rounded-full px-2 py-1 text-[9px] font-bold;
+}
+
+.stockEstadoBadgeGrande {
+  @apply inline-flex rounded-full px-3 py-1 text-[10px] font-bold;
+}
+
+.stockEstadoAgotado {
+  @apply bg-red-100 text-red-700;
+}
+
+.stockEstadoBajo {
+  @apply bg-orange-100 text-orange-700;
+}
+
+.stockEstadoDisponible {
+  @apply bg-green-100 text-green-700;
+}
+
+.stockBarraBase {
+  @apply h-full rounded-full;
+}
+
+.stockBarraAgotado {
+  @apply bg-red-500;
+}
+
+.stockBarraBajo {
+  @apply bg-orange-500;
+}
+
+.stockBarraDisponible {
+  @apply bg-green-500;
+}

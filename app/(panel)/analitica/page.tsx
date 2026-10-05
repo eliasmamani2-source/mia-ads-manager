@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import Loading from "@/components/Loading/Loading";
+import styles from "./Analitica.module.css";
 
 type AnalyticsRow = {
   id: string;
@@ -70,79 +72,63 @@ export default function AnaliticaPage() {
   const roasGlobal = totalGasto > 0 ? (totalIngresos / totalGasto).toFixed(2) : "0.00";
   const ctrGlobal = totalImpresiones > 0 ? ((totalClics / totalImpresiones) * 100).toFixed(2) : "0.00";
 
-  if (loading) return <main className="p-8 text-[#65676b]">Cargando métricas de rendimiento...</main>;
+  if (loading) return <Loading />;
 
   return (
-    <main className="min-h-screen bg-[#f5f6f8] p-6 lg:p-10 text-[#1c1e21]">
-      <div className="mx-auto max-w-7xl">
-        {/* ENCABEZADO */}
-        <div className="mb-8 flex items-center justify-between">
-          <div>
-            <span className="text-xs font-bold uppercase tracking-wider text-[#1877f2]">
-              Rendimiento & ROI
-            </span>
-            <h1 className="text-2xl font-bold">Métricas de Analítica</h1>
-          </div>
-          <button
-            onClick={fetchAnalytics}
-            className="rounded-xl border border-[#ccd0d5] bg-white px-4 py-2 text-sm font-semibold hover:bg-[#f0f2f5]"
-          >
-            ↻ Actualizar
-          </button>
-        </div>
-
+    <main className={styles.analiticaPage}>
+      <div className={styles.analiticaContainer}>
         {/* TARJETAS DE KPIS PRINCIPALES */}
-        <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <div className="rounded-2xl border border-[#e4e6eb] bg-white p-5 shadow-sm">
-            <span className="text-xs font-semibold text-[#65676b]">Inversión Total</span>
-            <div className="mt-1 text-2xl font-bold text-[#1c1e21]">
+        <div className={styles.analiticaKpiGrid}>
+          <div className={styles.analiticaKpiCard}>
+            <span className={styles.analiticaKpiLabel}>Inversión Total</span>
+            <div className={styles.analiticaKpiValue}>
               ${totalGasto.toLocaleString("es-AR")}
             </div>
           </div>
 
-          <div className="rounded-2xl border border-[#e4e6eb] bg-white p-5 shadow-sm">
-            <span className="text-xs font-semibold text-[#65676b]">Ingresos Estimados</span>
-            <div className="mt-1 text-2xl font-bold text-green-600">
+          <div className={styles.analiticaKpiCard}>
+            <span className={styles.analiticaKpiLabel}>Ingresos Estimados</span>
+            <div className={`${styles.analiticaKpiValue} ${styles.analiticaRevenueValue}`}>
               ${totalIngresos.toLocaleString("es-AR")}
             </div>
           </div>
 
-          <div className="rounded-2xl border border-[#e4e6eb] bg-white p-5 shadow-sm">
-            <span className="text-xs font-semibold text-[#65676b]">ROAS Promedio</span>
-            <div className="mt-1 text-2xl font-bold text-[#1877f2]">
+          <div className={styles.analiticaKpiCard}>
+            <span className={styles.analiticaKpiLabel}>ROAS Promedio</span>
+            <div className={`${styles.analiticaKpiValue} ${styles.analiticaRoasValue}`}>
               {roasGlobal}x
             </div>
           </div>
 
-          <div className="rounded-2xl border border-[#e4e6eb] bg-white p-5 shadow-sm">
-            <span className="text-xs font-semibold text-[#65676b]">CTR Promedio</span>
-            <div className="mt-1 text-2xl font-bold text-[#1c1e21]">
+          <div className={styles.analiticaKpiCard}>
+            <span className={styles.analiticaKpiLabel}>CTR Promedio</span>
+            <div className={styles.analiticaKpiValue}>
               {ctrGlobal}%
             </div>
           </div>
         </div>
 
         {/* TABLA DE DETALLE POR ANUNCIO */}
-        <div className="overflow-hidden rounded-2xl border border-[#e4e6eb] bg-white shadow-sm">
-          <div className="border-b border-[#e4e6eb] p-4 font-bold text-sm text-[#1c1e21]">
+        <div className={styles.analiticaTableCard}>
+          <div className={styles.analiticaTableHeading}>
             Rendimiento por Anuncio
           </div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
-              <thead className="bg-[#f0f2f5] text-[#65676b] uppercase font-semibold">
+          <div className={styles.analiticaTableScroll}>
+            <table className={styles.analiticaTable}>
+              <thead className={styles.analiticaTableHead}>
                 <tr>
-                  <th className="p-3">Anuncio / Producto</th>
-                  <th className="p-3">Impresiones</th>
-                  <th className="p-3">Clics</th>
-                  <th className="p-3">Ventas</th>
-                  <th className="p-3">Gasto</th>
-                  <th className="p-3">ROAS</th>
+                  <th className={styles.analiticaCell}>Anuncio / Producto</th>
+                  <th className={styles.analiticaCell}>Impresiones</th>
+                  <th className={styles.analiticaCell}>Clics</th>
+                  <th className={styles.analiticaCell}>Ventas</th>
+                  <th className={styles.analiticaCell}>Gasto</th>
+                  <th className={styles.analiticaCell}>ROAS</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#e4e6eb]">
+              <tbody className={styles.analiticaTableBody}>
                 {metricas.length === 0 ? (
                   <tr>
-                    <td colSpan={6} className="p-6 text-center text-[#65676b]">
+                    <td colSpan={6} className={styles.analiticaEmptyCell}>
                       No hay métricas registradas.
                     </td>
                   </tr>
@@ -153,25 +139,25 @@ export default function AnaliticaPage() {
                     const roas = m.gasto > 0 ? (ingresos / m.gasto).toFixed(2) : "0.00";
 
                     return (
-                      <tr key={m.id} className="hover:bg-[#f9fafb]">
-                        <td className="p-3">
-                          <div className="font-bold text-[#1c1e21]">{m.ads?.nombre || "Sin Nombre"}</div>
-                          <div className="text-[10px] text-[#65676b]">
+                      <tr key={m.id} className={styles.analiticaTableRow}>
+                        <td className={styles.analiticaCell}>
+                          <div className={styles.analiticaAdName}>{m.ads?.nombre || "Sin Nombre"}</div>
+                          <div className={styles.analiticaProductName}>
                             {m.ads?.products?.nombre ? `Prod: ${m.ads.products.nombre}` : "Sin producto"}
                           </div>
                         </td>
-                        <td className="p-3 font-medium">{m.impresiones?.toLocaleString()}</td>
-                        <td className="p-3 font-medium">{m.clics?.toLocaleString()}</td>
-                        <td className="p-3 font-semibold text-green-700">{m.conversiones}</td>
-                        <td className="p-3 font-semibold">${m.gasto?.toLocaleString("es-AR")}</td>
-                        <td className="p-3">
+                        <td className={`${styles.analiticaCell} ${styles.analiticaMetricValue}`}>{m.impresiones?.toLocaleString()}</td>
+                        <td className={`${styles.analiticaCell} ${styles.analiticaMetricValue}`}>{m.clics?.toLocaleString()}</td>
+                        <td className={`${styles.analiticaCell} ${styles.analiticaConversionValue}`}>{m.conversiones}</td>
+                        <td className={`${styles.analiticaCell} ${styles.analiticaSpendValue}`}>${m.gasto?.toLocaleString("es-AR")}</td>
+                        <td className={styles.analiticaCell}>
                           <span
-                            className={`rounded-md px-2 py-0.5 font-bold ${
+                            className={`${styles.analiticaRoasBadge} ${
                               Number(roas) >= 2.0
-                                ? "bg-green-100 text-green-800"
+                                ? styles.analiticaRoasGood
                                 : Number(roas) >= 1.0
-                                ? "bg-amber-100 text-amber-800"
-                                : "bg-red-100 text-red-800"
+                                ? styles.analiticaRoasWarning
+                                : styles.analiticaRoasPoor
                             }`}
                           >
                             {roas}x

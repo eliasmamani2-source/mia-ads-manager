@@ -1,0 +1,153 @@
+@reference "../../globals.css";
+
+.productosMinHScreenBgF5f6f8P6Text1c1e21 {
+  @apply min-h-screen bg-[#f5f6f8] p-6 text-[#1c1e21] lg:p-10;
+}
+
+.productosMxAutoMaxW7xl {
+  @apply mx-auto max-w-7xl;
+}
+
+.productosMb6RoundedXlBorderBorderRed200 {
+  @apply mb-6 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-600;
+}
+
+.productosMb10Rounded2xlBorderBorderE4e6eb {
+  @apply mb-10 rounded-2xl border border-[#e4e6eb] bg-white p-6 shadow-sm;
+}
+
+.productosMb5TextLgFontBold {
+  @apply mb-5 text-lg font-bold;
+}
+
+.productosGridGridCols1Gap4GridCols2 {
+  @apply grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5;
+}
+
+.productosMb1BlockTextXsFontSemibold {
+  @apply mb-1 block text-xs font-semibold text-[#65676b];
+}
+
+.productosWFullRoundedXlBorderBorderCcd0d5 {
+  @apply w-full rounded-xl border border-[#ccd0d5] p-2.5 text-sm outline-none focus:border-[#1877f2];
+}
+
+.productosFlexItemsEnd {
+  @apply flex items-end;
+}
+
+.productosWFullRoundedXlBg1877f2Py25 {
+  @apply w-full rounded-xl bg-[#1877f2] py-2.5 text-sm font-semibold text-white transition hover:bg-[#166fe5] disabled:cursor-not-allowed disabled:opacity-50;
+}
+
+.productosColSpan2ColSpan5 {
+  @apply sm:col-span-2 lg:col-span-5;
+}
+
+.productosWFullResizeNoneRoundedXlBorder {
+  @apply w-full resize-none rounded-xl border border-[#ccd0d5] p-3 text-sm outline-none focus:border-[#1877f2];
+}
+
+.productosMb4 {
+  @apply mb-4;
+}
+
+.productosTextLgFontBold {
+  @apply text-lg font-bold;
+}
+
+.productosRounded2xlBorderBorderE4e6ebBgWhite {
+  @apply rounded-2xl border border-[#e4e6eb] bg-white p-10 text-center shadow-sm;
+}
+
+.productosText3xl {
+  @apply text-3xl;
+}
+
+.productosMt3TextBaseFontBold {
+  @apply mt-3 text-base font-bold;
+}
+
+.productosMt1TextSmText65676b {
+  @apply mt-1 text-sm text-[#65676b];
+}
+
+.productosGridGridCols1Gap4GridCols22 {
+  @apply grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3;
+}
+
+.productosRounded2xlBorderBorderE4e6ebBgWhite2 {
+  @apply rounded-2xl border border-[#e4e6eb] bg-white p-5 shadow-sm transition hover:shadow-md;
+}
+
+.productosMb5 {
+  @apply mb-5;
+}
+
+.productosMb2FlexItemsCenterJustifyBetween {
+  @apply mb-2 flex items-center justify-between;
+}
+
+.productosText10pxFontBoldUppercaseTrackingWider {
+  @apply text-[10px] font-bold uppercase tracking-wider text-[#65676b];
+}
+
+.productosText10pxFontSemiboldText1877f2 {
+  @apply text-[10px] font-semibold text-[#1877f2];
+}
+
+.productosFlexGap2 {
+  @apply flex gap-2;
+}
+
+.productosH16W16OverflowHiddenRoundedXl {
+  @apply h-16 w-16 overflow-hidden rounded-xl border border-[#e4e6eb] bg-[#f0f2f5];
+}
+
+.productosHFullWFullObjectCover {
+  @apply h-full w-full object-cover;
+}
+
+.productosFlexH16W16ItemsCenter {
+  @apply flex h-16 w-16 items-center justify-center rounded-xl border border-[#dbeafe] bg-[#eff6ff] text-xs font-bold text-[#1877f2];
+}
+
+.productosFlexItemsStartJustifyBetweenGap4 {
+  @apply flex items-start justify-between gap-4;
+}
+
+.productosText10pxFontBoldUppercaseTrackingWider2 {
+  @apply text-[10px] font-bold uppercase tracking-wider text-[#1877f2];
+}
+
+.productosMt1TextBaseFontBold {
+  @apply mt-1 text-base font-bold;
+}
+
+.productosRoundedXlBorderBorderRed200BgRed50 {
+  @apply rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-xs font-semibold text-red-600 hover:bg-red-100;
+}
+
+.productosMt3TextXsLeading5Text65676b {
+  @apply mt-3 text-xs leading-5 text-[#65676b];
+}
+
+.productosMt4FlexItemsCenterJustifyBetween {
+  @apply mt-4 flex items-center justify-between border-t border-[#e4e6eb] pt-4;
+}
+
+.productosFontBoldTextGreen700 {
+  @apply font-bold text-green-700;
+}
+
+.productosStockBadge {
+  @apply rounded-full px-3 py-1 text-[10px] font-bold;
+}
+
+.productosStockDisponible {
+  @apply bg-green-100 text-green-800;
+}
+
+.productosStockAgotado {
+  @apply bg-red-100 text-red-800;
+}

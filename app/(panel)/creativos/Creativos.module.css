@@ -1,0 +1,434 @@
+.CreativosPage {
+  min-height: 100vh;
+  padding: 1.5rem;
+  background-color: #f5f6f8;
+  color: #1c1e21;
+}
+
+.CreativosContainer {
+  width: 100%;
+  max-width: 80rem;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.CreativosError {
+  margin-bottom: 1.5rem;
+  border: 1px solid #fecaca;
+  border-radius: 0.75rem;
+  background-color: #fef2f2;
+  padding: 1rem;
+  color: #dc2626;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.CreativosFormSection {
+  margin-bottom: 2.5rem;
+  border: 1px solid #e4e6eb;
+  border-radius: 1rem;
+  background-color: #fff;
+  padding: 1.5rem;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+.CreativosSectionTitle {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.75rem;
+}
+
+.CreativosFormSection .CreativosSectionTitle {
+  margin-bottom: 1.25rem;
+}
+
+.CreativosProductForm,
+.CreativosProductGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+}
+
+.CreativosLabel {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: #65676b;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1rem;
+}
+
+.CreativosInput,
+.CreativosTextarea {
+  width: 100%;
+  border: 1px solid #ccd0d5;
+  border-radius: 0.75rem;
+  background: #fff;
+  color: inherit;
+  font: inherit;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.CreativosInput {
+  padding: 0.625rem;
+}
+
+.CreativosTextarea {
+  resize: none;
+  padding: 0.75rem;
+}
+
+.CreativosInput:focus,
+.CreativosTextarea:focus {
+  border-color: #1877f2;
+}
+
+.CreativosSubmitWrap {
+  display: flex;
+  align-items: flex-end;
+}
+
+.CreativosPrimaryButton {
+  width: 100%;
+  border: 0;
+  border-radius: 0.75rem;
+  background-color: #1877f2;
+  padding: 0.625rem 0;
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.25rem;
+  transition: background-color 150ms ease;
+}
+
+.CreativosPrimaryButton:hover:not(:disabled) {
+  background-color: #166fe5;
+}
+
+.CreativosPrimaryButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.CreativosDescriptionField {
+  grid-column: 1 / -1;
+}
+
+.CreativosCatalogHeading {
+  margin-bottom: 1rem;
+}
+
+.CreativosEmptyState {
+  border: 1px solid #e4e6eb;
+  border-radius: 1rem;
+  background-color: #fff;
+  padding: 2.5rem;
+  text-align: center;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+.CreativosEmptyIcon {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+}
+
+.CreativosEmptyTitle {
+  margin: 0.75rem 0 0;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.5rem;
+}
+
+.CreativosEmptyCopy {
+  margin: 0.25rem 0 0;
+  color: #65676b;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.CreativosProductCard {
+  overflow: hidden;
+  border: 1px solid #e4e6eb;
+  border-radius: 1rem;
+  background-color: #fff;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  transition: box-shadow 150ms ease;
+}
+
+.CreativosProductCard:hover {
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+.CreativosThumbnail {
+  position: relative;
+  width: 100%;
+  height: 13rem;
+  overflow: hidden;
+  background-color: #f0f2f5;
+}
+
+.CreativosProductImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 300ms ease;
+}
+
+.CreativosProductImage:hover {
+  transform: scale(1.05);
+}
+
+.CreativosImagePlaceholder {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #8a8d91;
+}
+
+.CreativosPlaceholderIcon {
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+}
+
+.CreativosPlaceholderText {
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1rem;
+}
+
+.CreativosCodePosition,
+.CreativosLinkedPosition {
+  position: absolute;
+}
+
+.CreativosCodePosition {
+  top: 0.75rem;
+  left: 0.75rem;
+}
+
+.CreativosLinkedPosition {
+  right: 0.75rem;
+  bottom: 0.75rem;
+}
+
+.CreativosCodeBadge,
+.CreativosLinkedBadge,
+.CreativosStockBadge {
+  display: inline-block;
+  border-radius: 9999px;
+  padding: 0.25rem 0.75rem;
+  font-size: 10px;
+  line-height: 1rem;
+}
+
+.CreativosCodeBadge {
+  background-color: rgb(255 255 255 / 0.95);
+  color: #1877f2;
+  font-weight: 900;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+.CreativosLinkedBadge {
+  background-color: rgb(0 0 0 / 0.7);
+  color: #fff;
+  font-weight: 700;
+}
+
+.CreativosProductInfo {
+  padding: 1.25rem;
+}
+
+.CreativosProductHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.CreativosProductNameWrap {
+  min-width: 0;
+}
+
+.CreativosProductName {
+  overflow: hidden;
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.5rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.CreativosProductType {
+  margin: 0.25rem 0 0;
+  color: #65676b;
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
+.CreativosDeleteButton {
+  flex-shrink: 0;
+  border: 1px solid #fecaca;
+  border-radius: 0.75rem;
+  background-color: #fef2f2;
+  padding: 0.5rem 0.75rem;
+  color: #dc2626;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1rem;
+  transition: background-color 150ms ease;
+}
+
+.CreativosDeleteButton:hover {
+  background-color: #fee2e2;
+}
+
+.CreativosDescription {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 0.75rem 0 0;
+  color: #65676b;
+  font-size: 0.75rem;
+  line-height: 1.25rem;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.CreativosProductStats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
+  border-top: 1px solid #e4e6eb;
+  padding-top: 1rem;
+}
+
+.CreativosPrice {
+  color: #15803d;
+  font-weight: 700;
+}
+
+.CreativosStockBadge {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  font-weight: 700;
+}
+
+.CreativosStockAvailable {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.CreativosStockUnavailable {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.CreativosProductCreatives {
+  margin-top: 1rem;
+}
+
+.CreativosCreativesLink {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #1877f2;
+  border-radius: 0.75rem;
+  background-color: #e7f3ff;
+  padding: 0.625rem 1rem;
+  color: #1877f2;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1rem;
+  text-decoration: none;
+  transition: background-color 150ms ease;
+}
+
+.CreativosCreativesLink:hover {
+  background-color: #dbeafe;
+}
+
+.CreativosExplanation {
+  margin-top: 2rem;
+  border: 1px solid #dbeafe;
+  border-radius: 1rem;
+  background-color: #eff6ff;
+  padding: 1.5rem;
+}
+
+.CreativosExplanationContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.CreativosAiIcon {
+  display: flex;
+  width: 2.5rem;
+  height: 2.5rem;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.75rem;
+  background-color: #1877f2;
+  color: #fff;
+  font-size: 1.125rem;
+  font-weight: 900;
+  line-height: 1.75rem;
+}
+
+.CreativosExplanationTitle {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 900;
+  line-height: 1.25rem;
+}
+
+.CreativosExplanationText,
+.CreativosExplanationSecondaryText {
+  color: #65676b;
+  font-size: 0.75rem;
+  line-height: 1.25rem;
+}
+
+.CreativosExplanationText {
+  margin: 0.25rem 0 0;
+}
+
+.CreativosExplanationSecondaryText {
+  margin: 0.5rem 0 0;
+}
+
+@media (min-width: 640px) {
+  .CreativosProductForm,
+  .CreativosProductGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .CreativosExplanationContent {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
+@media (min-width: 1024px) {
+  .CreativosPage {
+    padding: 2.5rem;
+  }
+
+  .CreativosProductForm {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .CreativosProductGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

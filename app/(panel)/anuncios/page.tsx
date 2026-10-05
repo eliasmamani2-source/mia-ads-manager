@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
+import Loading from "@/components/Loading/Loading";
+import styles from "./Anuncios.module.css";
 
 type Product = {
   id: string;
@@ -51,8 +52,6 @@ type Ad = {
 };
 
 export default function AnunciosPage() {
-  const router = useRouter();
-
   const [anuncios, setAnuncios] = useState<Ad[]>([]);
   const [productos, setProductos] = useState<Product[]>([]);
   const [campanas, setCampanas] = useState<Campaign[]>([]);
@@ -614,86 +613,27 @@ export default function AnunciosPage() {
       (ad) => ad.creative_id
     ).length;
 
-  /*
-   * LOADING
-   */
   if (loading) {
-    return (
-      <main className="min-h-screen bg-[#f5f6f8] p-8 text-[#65676b]">
-        <div className="mx-auto max-w-7xl">
-          <div className="animate-pulse">
-            Cargando administrador de anuncios...
-          </div>
-        </div>
-      </main>
-    );
+    return <Loading />;
   }
 
   return (
-    <main className="min-h-screen bg-[#f5f6f8] text-[#1c1e21]">
+    <main className={styles.anunciosPage}>
 
-      <div className="mx-auto max-w-[1500px] p-5 lg:p-8">
-
-        {/* ===================================================== */}
-        {/* HEADER */}
-        {/* ===================================================== */}
-
-        <div className="mb-7 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-
-          <div>
-            <div className="text-xs font-bold uppercase tracking-wider text-[#1877f2]">
-              Gestión de publicidad
-            </div>
-
-            <h1 className="mt-1 text-3xl font-black tracking-tight">
-              Anuncios
-            </h1>
-
-            <p className="mt-2 max-w-3xl text-sm leading-6 text-[#65676b]">
-              Administrá los anuncios creados
-              desde MÍA ADS, revisá el contenido
-              generado por Lanzador IA y controlá
-              producto, código, creativo, campaña
-              y estado desde un solo lugar.
-            </p>
-          </div>
-
-          {/* BOTONES SUPERIORES */}
-
-          <div className="flex flex-wrap items-center gap-2">
-
-            <button
-              onClick={() =>
-                router.push("/dashboard")
-              }
-              className="rounded-xl border border-[#ccd0d5] bg-white px-5 py-3 text-sm font-bold text-[#1c1e21] shadow-sm transition hover:bg-[#f0f2f5]"
-            >
-              ← Volver al inicio
-            </button>
-
-            <button
-              onClick={fetchData}
-              className="rounded-xl border border-[#ccd0d5] bg-white px-5 py-3 text-sm font-bold shadow-sm transition hover:bg-[#f0f2f5]"
-            >
-              ↻ Actualizar
-            </button>
-
-          </div>
-
-        </div>
+      <div className={styles.anunciosContainer}>
 
         {/* ===================================================== */}
         {/* MENSAJES */}
         {/* ===================================================== */}
 
         {errorMsg && (
-          <div className="mb-5 rounded-xl border border-red-200 bg-red-50 px-5 py-4 text-sm font-medium text-red-600">
+          <div className={styles.anunciosErrorMessage}>
             {errorMsg}
           </div>
         )}
 
         {successMsg && (
-          <div className="mb-5 rounded-xl border border-green-200 bg-green-50 px-5 py-4 text-sm font-medium text-green-700">
+          <div className={styles.anunciosSuccessMessage}>
             {successMsg}
           </div>
         )}
@@ -702,7 +642,7 @@ export default function AnunciosPage() {
         {/* ESTADÍSTICAS */}
         {/* ===================================================== */}
 
-        <section className="mb-7 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <section className={styles.anunciosStatsGrid}>
 
           <StatCard
             label="Total anuncios"
@@ -734,19 +674,19 @@ export default function AnunciosPage() {
         {/* NUEVO ANUNCIO */}
         {/* ===================================================== */}
 
-        <section className="mb-8 rounded-2xl border border-[#e4e6eb] bg-white shadow-sm">
+        <section className={styles.anunciosCreatePanel}>
 
-          <div className="border-b border-[#e4e6eb] p-6">
+          <div className={styles.anunciosCreatePanelHeader}>
 
-            <div className="text-xs font-bold uppercase tracking-wider text-[#1877f2]">
+            <div className={styles.anunciosEyebrow}>
               Nuevo anuncio
             </div>
 
-            <h2 className="mt-1 text-xl font-bold">
+            <h2 className={styles.anunciosSectionTitle}>
               Armar anuncio
             </h2>
 
-            <p className="mt-1 text-xs text-[#65676b]">
+            <p className={styles.anunciosMutedText}>
               Seleccioná el producto primero.
               Los creativos disponibles se
               limitarán a ese producto.
@@ -756,13 +696,13 @@ export default function AnunciosPage() {
 
           <form
             onSubmit={handleCreateAd}
-            className="grid grid-cols-1 gap-5 p-6 md:grid-cols-2 lg:grid-cols-5"
+            className={styles.anunciosCreateForm}
           >
 
             {/* NOMBRE */}
 
             <div>
-              <label className="mb-2 block text-xs font-bold">
+              <label className={styles.anunciosFormLabel}>
                 Nombre del anuncio
               </label>
 
@@ -775,14 +715,14 @@ export default function AnunciosPage() {
                   )
                 }
                 placeholder="Ej. Jeans Mossa 01"
-                className="w-full rounded-xl border border-[#ccd0d5] bg-white px-3 py-3 text-sm outline-none focus:border-[#1877f2]"
+                className={styles.anunciosFormControl}
               />
             </div>
 
             {/* PRODUCTO */}
 
             <div>
-              <label className="mb-2 block text-xs font-bold">
+              <label className={styles.anunciosFormLabel}>
                 Producto
               </label>
 
@@ -795,7 +735,7 @@ export default function AnunciosPage() {
 
                   setSelectedCreativeId("");
                 }}
-                className="w-full rounded-xl border border-[#ccd0d5] bg-white px-3 py-3 text-sm outline-none focus:border-[#1877f2]"
+                className={styles.anunciosFormControl}
               >
                 <option value="">
                   Seleccionar producto
@@ -817,7 +757,7 @@ export default function AnunciosPage() {
             {/* CREATIVO */}
 
             <div>
-              <label className="mb-2 block text-xs font-bold">
+              <label className={styles.anunciosFormLabel}>
                 Creativo
               </label>
 
@@ -829,7 +769,7 @@ export default function AnunciosPage() {
                   )
                 }
                 disabled={!selectedProductId}
-                className="w-full rounded-xl border border-[#ccd0d5] bg-white px-3 py-3 text-sm outline-none focus:border-[#1877f2] disabled:bg-[#f0f2f5]"
+                className={styles.anunciosFormControl}
               >
                 <option value="">
                   {!selectedProductId
@@ -856,7 +796,7 @@ export default function AnunciosPage() {
             {/* CAMPAÑA */}
 
             <div>
-              <label className="mb-2 block text-xs font-bold">
+              <label className={styles.anunciosFormLabel}>
                 Campaña
               </label>
 
@@ -867,7 +807,7 @@ export default function AnunciosPage() {
                     event.target.value
                   )
                 }
-                className="w-full rounded-xl border border-[#ccd0d5] bg-white px-3 py-3 text-sm outline-none focus:border-[#1877f2]"
+                className={styles.anunciosFormControl}
               >
                 <option value="">
                   Sin campaña
@@ -886,7 +826,7 @@ export default function AnunciosPage() {
 
             {/* BOTÓN */}
 
-            <div className="flex items-end">
+            <div className={styles.anunciosSubmitCell}>
 
               <button
                 type="submit"
@@ -894,7 +834,7 @@ export default function AnunciosPage() {
                   saving ||
                   !selectedProductId
                 }
-                className="w-full rounded-xl bg-[#1877f2] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#166fe5] disabled:cursor-not-allowed disabled:opacity-50"
+                className={styles.anunciosPrimaryButton}
               >
                 {saving
                   ? "Creando..."
@@ -913,24 +853,24 @@ export default function AnunciosPage() {
 
         <section>
 
-          <div className="mb-5 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <div className={styles.anunciosLibraryHeading}>
 
             <div>
-              <div className="text-xs font-bold uppercase tracking-wider text-[#1877f2]">
+              <div className={styles.anunciosEyebrow}>
                 Biblioteca publicitaria
               </div>
 
-              <h2 className="mt-1 text-xl font-bold">
+              <h2 className={styles.anunciosSectionTitle}>
                 Anuncios configurados
               </h2>
 
-              <p className="mt-1 text-xs text-[#65676b]">
+              <p className={styles.anunciosMutedText}>
                 {anunciosFiltrados.length} de{" "}
                 {anuncios.length} anuncios visibles
               </p>
             </div>
 
-            <div className="rounded-full bg-white px-4 py-2 text-xs font-bold text-[#65676b] shadow-sm">
+            <div className={styles.anunciosCountBadge}>
               {anuncios.length} anuncios
             </div>
 
@@ -940,15 +880,15 @@ export default function AnunciosPage() {
           {/* FILTROS */}
           {/* ================================================= */}
 
-          <div className="mb-6 rounded-2xl border border-[#e4e6eb] bg-white p-4 shadow-sm">
+          <div className={styles.anunciosFiltersPanel}>
 
-            <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4">
+            <div className={styles.anunciosFiltersGrid}>
 
               {/* BUSCAR */}
 
-              <div className="xl:col-span-1">
+              <div className={styles.anunciosSearchColumn}>
 
-                <label className="mb-2 block text-[10px] font-bold uppercase tracking-wider text-[#65676b]">
+                <label className={styles.anunciosFilterLabel}>
                   Buscar
                 </label>
 
@@ -960,7 +900,7 @@ export default function AnunciosPage() {
                     )
                   }
                   placeholder="Buscar anuncio, código, producto..."
-                  className="w-full rounded-xl border border-[#ccd0d5] px-3 py-3 text-sm outline-none focus:border-[#1877f2]"
+                  className={styles.anunciosSearchInput}
                 />
 
               </div>
@@ -969,7 +909,7 @@ export default function AnunciosPage() {
 
               <div>
 
-                <label className="mb-2 block text-[10px] font-bold uppercase tracking-wider text-[#65676b]">
+                <label className={styles.anunciosFilterLabel}>
                   Estado
                 </label>
 
@@ -980,7 +920,7 @@ export default function AnunciosPage() {
                       event.target.value
                     )
                   }
-                  className="w-full rounded-xl border border-[#ccd0d5] bg-white px-3 py-3 text-sm outline-none focus:border-[#1877f2]"
+                  className={styles.anunciosFilterSelect}
                 >
                   <option value="Todos">
                     Todos
@@ -1001,7 +941,7 @@ export default function AnunciosPage() {
 
               <div>
 
-                <label className="mb-2 block text-[10px] font-bold uppercase tracking-wider text-[#65676b]">
+                <label className={styles.anunciosFilterLabel}>
                   Producto
                 </label>
 
@@ -1012,7 +952,7 @@ export default function AnunciosPage() {
                       event.target.value
                     )
                   }
-                  className="w-full rounded-xl border border-[#ccd0d5] bg-white px-3 py-3 text-sm outline-none focus:border-[#1877f2]"
+                  className={styles.anunciosFilterSelect}
                 >
                   <option value="Todos">
                     Todos los productos
@@ -1036,7 +976,7 @@ export default function AnunciosPage() {
 
               <div>
 
-                <label className="mb-2 block text-[10px] font-bold uppercase tracking-wider text-[#65676b]">
+                <label className={styles.anunciosFilterLabel}>
                   Campaña
                 </label>
 
@@ -1047,7 +987,7 @@ export default function AnunciosPage() {
                       event.target.value
                     )
                   }
-                  className="w-full rounded-xl border border-[#ccd0d5] bg-white px-3 py-3 text-sm outline-none focus:border-[#1877f2]"
+                  className={styles.anunciosFilterSelect}
                 >
                   <option value="Todas">
                     Todas las campañas
@@ -1079,7 +1019,7 @@ export default function AnunciosPage() {
                   setFiltroProducto("Todos");
                   setFiltroCampana("Todas");
                 }}
-                className="mt-3 text-xs font-bold text-[#1877f2] hover:underline"
+                className={styles.anunciosClearFilters}
               >
                 Limpiar filtros
               </button>
@@ -1092,9 +1032,9 @@ export default function AnunciosPage() {
           {/* ================================================= */}
 
           {anunciosFiltrados.length > 0 && (
-            <div className="mb-5 flex flex-col gap-3 rounded-2xl border border-[#d8e9ff] bg-[#f7fbff] p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between">
+            <div className={styles.anunciosSelectionToolbar}>
 
-              <div className="flex items-center gap-3">
+              <div className={styles.anunciosSelectionStatus}>
 
                 <input
                   type="checkbox"
@@ -1104,15 +1044,15 @@ export default function AnunciosPage() {
                   onChange={
                     toggleSeleccionarTodos
                   }
-                  className="h-5 w-5 cursor-pointer accent-[#1877f2]"
+                  className={styles.anunciosCheckbox}
                 />
 
                 <div>
-                  <div className="text-sm font-bold text-[#1c1e21]">
+                  <div className={styles.anunciosSelectionTitle}>
                     Seleccionar todos
                   </div>
 
-                  <div className="text-xs text-[#65676b]">
+                  <div className={styles.anunciosSelectionDescription}>
                     {anunciosSeleccionados.length > 0
                       ? `${anunciosSeleccionados.length} seleccionados`
                       : "Seleccioná anuncios para realizar acciones"}
@@ -1131,7 +1071,7 @@ export default function AnunciosPage() {
                     0 ||
                   deletingMultiple
                 }
-                className="rounded-xl border border-red-200 bg-red-50 px-5 py-3 text-xs font-bold text-red-600 transition hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-40"
+                className={styles.anunciosBulkDeleteButton}
               >
                 {deletingMultiple
                   ? "Eliminando..."
@@ -1152,17 +1092,17 @@ export default function AnunciosPage() {
 
           {anunciosFiltrados.length === 0 ? (
 
-            <div className="rounded-2xl border border-dashed border-[#ccd0d5] bg-white p-12 text-center">
+            <div className={styles.anunciosEmptyState}>
 
-              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[#e7f3ff] text-2xl text-[#1877f2]">
+              <div className={styles.anunciosEmptyIcon}>
                 ◇
               </div>
 
-              <h3 className="mt-5 text-lg font-bold">
+              <h3 className={styles.anunciosEmptyTitle}>
                 No encontramos anuncios
               </h3>
 
-              <p className="mx-auto mt-2 max-w-md text-sm text-[#65676b]">
+              <p className={styles.anunciosEmptyDescription}>
                 Probá cambiando los filtros o
                 generá nuevos anuncios desde
                 Lanzador IA.
@@ -1176,7 +1116,7 @@ export default function AnunciosPage() {
             /* TARJETAS */
             /* ================================================= */
 
-            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+            <div className={styles.anunciosAdGrid}>
 
               {anunciosFiltrados.map((ad) => {
 
@@ -1188,16 +1128,16 @@ export default function AnunciosPage() {
                 return (
                   <article
                     key={ad.id}
-                    className={`overflow-hidden rounded-2xl border bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md ${
+                    className={`${styles.anunciosAdCard} ${
                       estaSeleccionado
-                        ? "border-[#1877f2] ring-2 ring-[#1877f2]/20"
-                        : "border-[#e4e6eb]"
+                        ? styles.anunciosAdCardSelected
+                        : styles.anunciosAdCardDefault
                     }`}
                   >
 
                     {/* FOTO */}
 
-                    <div className="relative h-56 bg-[#f0f2f5]">
+                    <div className={styles.anunciosAdImageArea}>
 
                       {ad.creatives?.imagen_url ? (
 
@@ -1209,18 +1149,18 @@ export default function AnunciosPage() {
                             ad.products?.nombre ||
                             ad.nombre
                           }
-                          className="h-full w-full object-cover"
+                          className={styles.anunciosAdImage}
                         />
 
                       ) : (
 
-                        <div className="flex h-full flex-col items-center justify-center text-[#8a8d91]">
+                        <div className={styles.anunciosAdImagePlaceholder}>
 
-                          <div className="text-3xl">
+                          <div className={styles.anunciosPlaceholderIcon}>
                             ◇
                           </div>
 
-                          <div className="mt-2 text-xs font-semibold">
+                          <div className={styles.anunciosPlaceholderText}>
                             Sin creativo asignado
                           </div>
 
@@ -1231,7 +1171,7 @@ export default function AnunciosPage() {
                       {/* CHECKBOX DE SELECCIÓN */}
 
                       <label
-                        className="absolute left-3 top-3 flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg bg-white/95 shadow-md backdrop-blur"
+                        className={styles.anunciosPreviewButton}
                         onClick={(event) =>
                           event.stopPropagation()
                         }
@@ -1246,7 +1186,7 @@ export default function AnunciosPage() {
                               ad.id
                             )
                           }
-                          className="h-5 w-5 cursor-pointer accent-[#1877f2]"
+                          className={styles.anunciosCheckbox}
                           aria-label={`Seleccionar ${ad.nombre}`}
                         />
                       </label>
@@ -1254,10 +1194,10 @@ export default function AnunciosPage() {
                       {/* ESTADO */}
 
                       <span
-                        className={`absolute left-14 top-3 rounded-full px-3 py-1 text-[10px] font-bold text-white ${
+                        className={`${styles.anunciosAdStatusBadge} ${
                           ad.estado === "Activo"
-                            ? "bg-[#31a24c]"
-                            : "bg-[#65676b]"
+                            ? styles.anunciosAdStatusActive
+                            : styles.anunciosAdStatusPaused
                         }`}
                       >
                         {ad.estado}
@@ -1266,7 +1206,7 @@ export default function AnunciosPage() {
                       {/* IA */}
 
                       {ad.titulo && (
-                        <span className="absolute right-3 top-3 rounded-full bg-[#1877f2] px-3 py-1 text-[10px] font-bold text-white">
+                        <span className={styles.anunciosAdCampaignBadge}>
                           IA
                         </span>
                       )}
@@ -1275,37 +1215,37 @@ export default function AnunciosPage() {
 
                     {/* INFORMACIÓN */}
 
-                    <div className="p-5">
+                    <div className={styles.anunciosAdDetails}>
 
-                      <div className="flex items-center justify-between gap-3">
+                      <div className={styles.anunciosAdMetadata}>
 
-                        <span className="truncate text-[10px] font-bold uppercase tracking-wider text-[#1877f2]">
+                        <span className={styles.anunciosCampaignName}>
                           {ad.campaigns?.nombre ||
                             "Sin campaña"}
                         </span>
 
                         {ad.products?.codigo && (
-                          <span className="shrink-0 rounded-md bg-[#f0f2f5] px-2 py-1 text-[10px] font-bold text-[#65676b]">
+                          <span className={styles.anunciosProductCode}>
                             {ad.products.codigo}
                           </span>
                         )}
 
                       </div>
 
-                      <h3 className="mt-2 line-clamp-2 text-base font-bold">
+                      <h3 className={styles.anunciosAdName}>
                         {ad.nombre}
                       </h3>
 
                       {/* TÍTULO IA */}
 
                       {ad.titulo && (
-                        <div className="mt-4 rounded-xl border border-[#e7f3ff] bg-[#f7fbff] p-3">
+                        <div className={styles.anunciosGeneratedTitle}>
 
-                          <div className="text-[10px] font-bold uppercase tracking-wider text-[#1877f2]">
+                          <div className={styles.anunciosGeneratedTitleLabel}>
                             Título del anuncio
                           </div>
 
-                          <div className="mt-1 line-clamp-3 text-xs font-semibold leading-5 text-[#1c1e21]">
+                          <div className={styles.anunciosGeneratedTitleText}>
                             {ad.titulo}
                           </div>
 
@@ -1315,13 +1255,13 @@ export default function AnunciosPage() {
                       {/* TEXTO */}
 
                       {ad.descripcion && (
-                        <div className="mt-3">
+                        <div className={styles.anunciosDescriptionSection}>
 
-                          <div className="text-[10px] font-bold uppercase tracking-wider text-[#65676b]">
+                          <div className={styles.anunciosFieldLabel}>
                             Texto principal
                           </div>
 
-                          <p className="mt-1 line-clamp-4 whitespace-pre-line text-xs leading-5 text-[#65676b]">
+                          <p className={styles.anunciosDescriptionText}>
                             {ad.descripcion}
                           </p>
 
@@ -1330,19 +1270,19 @@ export default function AnunciosPage() {
 
                       {/* PRODUCTO */}
 
-                      <div className="mt-4 rounded-xl border border-[#e4e6eb] bg-[#f7f8fa] p-3">
+                      <div className={styles.anunciosProductCard}>
 
-                        <div className="text-[10px] font-bold uppercase tracking-wider text-[#65676b]">
+                        <div className={styles.anunciosFieldLabel}>
                           Producto vinculado
                         </div>
 
-                        <div className="mt-1 text-sm font-bold">
+                        <div className={styles.anunciosProductName}>
                           {ad.products?.nombre ||
                             "Sin producto"}
                         </div>
 
                         {ad.products?.codigo && (
-                          <div className="mt-1 text-xs text-[#65676b]">
+                          <div className={styles.anunciosProductCodeText}>
                             Código:{" "}
                             <strong>
                               {ad.products.codigo}
@@ -1354,7 +1294,7 @@ export default function AnunciosPage() {
                           null &&
                           ad.products?.precio !==
                             undefined && (
-                            <div className="mt-1 text-xs font-bold text-[#31a24c]">
+                            <div className={styles.anunciosProductPriceText}>
                               $
                               {Number(
                                 ad.products.precio
@@ -1368,15 +1308,15 @@ export default function AnunciosPage() {
 
                       {/* CREATIVO */}
 
-                      <div className="mt-3 flex items-center justify-between rounded-xl border border-[#e4e6eb] px-3 py-2">
+                      <div className={styles.anunciosCreativeDetails}>
 
                         <div>
 
-                          <div className="text-[10px] font-bold uppercase tracking-wider text-[#65676b]">
+                          <div className={styles.anunciosFieldLabel}>
                             Creativo
                           </div>
 
-                          <div className="mt-1 text-xs font-semibold">
+                          <div className={styles.anunciosCreativeType}>
                             {ad.creatives?.tipo ||
                               "Sin creativo"}
                           </div>
@@ -1384,10 +1324,10 @@ export default function AnunciosPage() {
                         </div>
 
                         <div
-                          className={`rounded-lg px-3 py-2 text-[10px] font-bold ${
+                          className={`${styles.anunciosCreativeStatus} ${
                             ad.creatives
-                              ? "bg-[#eaf7ed] text-[#31a24c]"
-                              : "bg-[#f0f2f5] text-[#65676b]"
+                              ? styles.anunciosCreativeLinked
+                              : styles.anunciosCreativeMissing
                           }`}
                         >
                           {ad.creatives
@@ -1401,7 +1341,7 @@ export default function AnunciosPage() {
 
                     {/* ACCIONES */}
 
-                    <div className="flex gap-2 border-t border-[#e4e6eb] p-4">
+                    <div className={styles.anunciosAdActions}>
 
                       <button
                         onClick={() =>
@@ -1409,7 +1349,7 @@ export default function AnunciosPage() {
                             ad
                           )
                         }
-                        className="flex-1 rounded-xl bg-[#1877f2] px-4 py-2.5 text-xs font-bold text-white transition hover:bg-[#166fe5]"
+                        className={styles.anunciosViewAdButton}
                       >
                         Ver anuncio
                       </button>
@@ -1421,10 +1361,10 @@ export default function AnunciosPage() {
                             ad.estado
                           )
                         }
-                        className={`rounded-xl border px-4 py-2.5 text-xs font-bold ${
+                        className={`${styles.anunciosToggleAdButton} ${
                           ad.estado === "Activo"
-                            ? "border-amber-200 bg-amber-50 text-amber-700 hover:bg-amber-100"
-                            : "border-green-200 bg-green-50 text-green-700 hover:bg-green-100"
+                            ? styles.anunciosPauseButton
+                            : styles.anunciosActivateButton
                         }`}
                       >
                         {ad.estado === "Activo"
@@ -1436,7 +1376,7 @@ export default function AnunciosPage() {
                         onClick={() =>
                           handleDeleteAd(ad.id)
                         }
-                        className="rounded-xl border border-red-200 bg-red-50 px-4 py-2.5 text-xs font-bold text-red-600 hover:bg-red-100"
+                        className={styles.anunciosDeleteButton}
                       >
                         Eliminar
                       </button>
@@ -1462,14 +1402,14 @@ export default function AnunciosPage() {
       {anuncioSeleccionado && (
 
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+          className={styles.anunciosModalOverlay}
           onClick={() =>
             setAnuncioSeleccionado(null)
           }
         >
 
           <div
-            className="max-h-[90vh] w-full max-w-4xl overflow-y-auto rounded-2xl bg-white shadow-2xl"
+            className={styles.anunciosModal}
             onClick={(event) =>
               event.stopPropagation()
             }
@@ -1477,15 +1417,15 @@ export default function AnunciosPage() {
 
             {/* MODAL HEADER */}
 
-            <div className="flex items-center justify-between border-b border-[#e4e6eb] p-5">
+            <div className={styles.anunciosModalHeader}>
 
               <div>
 
-                <div className="text-[10px] font-bold uppercase tracking-wider text-[#1877f2]">
+                <div className={styles.anunciosEyebrow}>
                   Vista previa del anuncio
                 </div>
 
-                <h2 className="mt-1 text-xl font-bold">
+                <h2 className={styles.anunciosSectionTitle}>
                   {anuncioSeleccionado.nombre}
                 </h2>
 
@@ -1495,18 +1435,18 @@ export default function AnunciosPage() {
                 onClick={() =>
                   setAnuncioSeleccionado(null)
                 }
-                className="flex h-9 w-9 items-center justify-center rounded-full bg-[#f0f2f5] text-lg font-bold text-[#65676b] hover:bg-[#e4e6eb]"
+                className={styles.anunciosModalClose}
               >
                 ×
               </button>
 
             </div>
 
-            <div className="grid grid-cols-1 gap-0 lg:grid-cols-2">
+            <div className={styles.anunciosModalBody}>
 
               {/* FOTO */}
 
-              <div className="min-h-[400px] bg-[#f0f2f5]">
+              <div className={styles.anunciosModalImageArea}>
 
                 {anuncioSeleccionado.creatives
                   ?.imagen_url ? (
@@ -1521,18 +1461,18 @@ export default function AnunciosPage() {
                         ?.nombre ||
                       anuncioSeleccionado.nombre
                     }
-                    className="h-full min-h-[400px] w-full object-cover"
+                    className={styles.anunciosModalImage}
                   />
 
                 ) : (
 
-                  <div className="flex min-h-[400px] flex-col items-center justify-center text-[#8a8d91]">
+                  <div className={styles.anunciosModalImagePlaceholder}>
 
-                    <div className="text-5xl">
+                    <div className={styles.anunciosModalPlaceholderIcon}>
                       ◇
                     </div>
 
-                    <div className="mt-3 text-sm font-semibold">
+                    <div className={styles.anunciosModalPlaceholderText}>
                       Sin creativo asignado
                     </div>
 
@@ -1544,23 +1484,23 @@ export default function AnunciosPage() {
 
               {/* CONTENIDO */}
 
-              <div className="p-6">
+              <div className={styles.anunciosModalContent}>
 
-                <div className="flex flex-wrap gap-2">
+                <div className={styles.anunciosModalBadges}>
 
                   <span
-                    className={`rounded-full px-3 py-1 text-[10px] font-bold ${
+                    className={`${styles.anunciosModalStatus} ${
                       anuncioSeleccionado.estado ===
                       "Activo"
-                        ? "bg-[#eaf7ed] text-[#31a24c]"
-                        : "bg-[#f0f2f5] text-[#65676b]"
+                        ? styles.anunciosModalStatusActive
+                        : styles.anunciosModalStatusPaused
                     }`}
                   >
                     {anuncioSeleccionado.estado}
                   </span>
 
                   {anuncioSeleccionado.titulo && (
-                    <span className="rounded-full bg-[#e7f3ff] px-3 py-1 text-[10px] font-bold text-[#1877f2]">
+                    <span className={styles.anunciosGeneratedBadge}>
                       Generado por IA
                     </span>
                   )}
@@ -1569,13 +1509,13 @@ export default function AnunciosPage() {
 
                 {/* TÍTULO */}
 
-                <div className="mt-6">
+                <div className={styles.anunciosModalTitleSection}>
 
-                  <div className="text-[10px] font-bold uppercase tracking-wider text-[#65676b]">
+                  <div className={styles.anunciosFieldLabel}>
                     Título
                   </div>
 
-                  <div className="mt-2 rounded-xl border border-[#e4e6eb] bg-[#f7f8fa] p-4 text-sm font-bold leading-6">
+                  <div className={styles.anunciosModalTitleText}>
                     {anuncioSeleccionado.titulo ||
                       "Este anuncio no tiene título generado."}
                   </div>
@@ -1584,15 +1524,15 @@ export default function AnunciosPage() {
 
                 {/* TEXTO */}
 
-                <div className="mt-5">
+                <div className={styles.anunciosModalDescriptionSection}>
 
-                  <div className="text-[10px] font-bold uppercase tracking-wider text-[#65676b]">
+                  <div className={styles.anunciosFieldLabel}>
                     Texto principal
                   </div>
 
-                  <div className="mt-2 rounded-xl border border-[#e4e6eb] bg-white p-4 text-sm leading-6 text-[#444]">
+                  <div className={styles.anunciosModalDescriptionText}>
                     {anuncioSeleccionado.descripcion ? (
-                      <div className="whitespace-pre-line">
+                      <div className={styles.anunciosPreformattedText}>
                         {anuncioSeleccionado.descripcion}
                       </div>
                     ) : (
@@ -1604,7 +1544,7 @@ export default function AnunciosPage() {
 
                 {/* DATOS */}
 
-                <div className="mt-5 grid grid-cols-2 gap-3">
+                <div className={styles.anunciosDetailGrid}>
 
                   <DetailBox
                     label="Producto"
@@ -1646,7 +1586,7 @@ export default function AnunciosPage() {
 
                 {/* ACCIONES */}
 
-                <div className="mt-6 flex flex-wrap gap-2">
+                <div className={styles.anunciosModalActions}>
 
                   <button
                     onClick={() =>
@@ -1655,11 +1595,11 @@ export default function AnunciosPage() {
                         anuncioSeleccionado.estado
                       )
                     }
-                    className={`rounded-xl px-5 py-3 text-xs font-bold ${
+                    className={`${styles.anunciosModalToggleButton} ${
                       anuncioSeleccionado.estado ===
                       "Activo"
-                        ? "border border-amber-200 bg-amber-50 text-amber-700"
-                        : "border border-green-200 bg-green-50 text-green-700"
+                        ? styles.anunciosPauseButton
+                        : styles.anunciosActivateButton
                     }`}
                   >
                     {anuncioSeleccionado.estado ===
@@ -1674,7 +1614,7 @@ export default function AnunciosPage() {
                         anuncioSeleccionado.id
                       )
                     }
-                    className="rounded-xl border border-red-200 bg-red-50 px-5 py-3 text-xs font-bold text-red-600"
+                    className={styles.anunciosModalDeleteButton}
                   >
                     Eliminar
                   </button>
@@ -1710,22 +1650,21 @@ function StatCard({
   value: number;
   color: "blue" | "green" | "gray";
 }) {
-  const colorClass =
-    color === "blue"
-      ? "text-[#1877f2]"
-      : color === "green"
-      ? "text-[#31a24c]"
-      : "text-[#65676b]";
-
   return (
-    <div className="rounded-2xl border border-[#e4e6eb] bg-white p-5 shadow-sm">
+    <div className={styles.anunciosStatCard}>
 
-      <div className="text-xs font-bold uppercase tracking-wider text-[#65676b]">
+      <div className={styles.anunciosStatLabel}>
         {label}
       </div>
 
       <div
-        className={`mt-2 text-3xl font-black ${colorClass}`}
+        className={`${styles.anunciosStatValue} ${
+          color === "blue"
+            ? styles.anunciosStatBlue
+            : color === "green"
+            ? styles.anunciosStatGreen
+            : styles.anunciosStatGray
+        }`}
       >
         {value}
       </div>
@@ -1742,13 +1681,13 @@ function DetailBox({
   value: string;
 }) {
   return (
-    <div className="rounded-xl border border-[#e4e6eb] bg-[#f7f8fa] p-3">
+    <div className={styles.anunciosDetailBox}>
 
-      <div className="text-[9px] font-bold uppercase tracking-wider text-[#65676b]">
+      <div className={styles.anunciosDetailLabel}>
         {label}
       </div>
 
-      <div className="mt-1 line-clamp-2 text-xs font-bold text-[#1c1e21]">
+      <div className={styles.anunciosDetailValue}>
         {value}
       </div>
 

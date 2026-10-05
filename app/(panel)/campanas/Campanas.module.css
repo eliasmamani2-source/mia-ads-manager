@@ -1,0 +1,385 @@
+.campanasPage {
+  min-height: 100vh;
+  background: #f0f2f5;
+  color: #1c1e21;
+}
+
+.campanasContenido {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  padding: 32px;
+}
+
+/* ERROR */
+
+.campanasError {
+  margin-bottom: 24px;
+  border: 1px solid #fecaca;
+  border-radius: 12px;
+  background: #fef2f2;
+  padding: 16px;
+  color: #dc2626;
+  font-size: 14px;
+}
+
+/* FORMULARIO */
+
+.campanasFormulario {
+  margin-bottom: 40px;
+  border: 1px solid #e4e6eb;
+  border-radius: 16px;
+  background: #ffffff;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.05);
+}
+
+.campanasFormularioEncabezado {
+  margin-bottom: 20px;
+}
+
+.campanasEtiqueta {
+  color: #1877f2;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.campanasFormularioEncabezado h2,
+.campanasListadoEncabezado h2 {
+  margin: 4px 0 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.campanasFormularioEncabezado p,
+.campanasListadoEncabezado p {
+  margin: 4px 0 0;
+  color: #65676b;
+  font-size: 12px;
+}
+
+/* CAMPOS */
+
+.campanasFormularioCampos {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.campanasCampo {
+  min-width: 0;
+}
+
+.campanasCampo label {
+  display: block;
+  margin-bottom: 4px;
+  color: #65676b;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.campanasCampo input,
+.campanasCampo select {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #ccd0d5;
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 10px;
+  color: #1c1e21;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.campanasCampo input:focus,
+.campanasCampo select:focus {
+  border-color: #1877f2;
+}
+
+.campanasAyuda {
+  margin: 4px 0 0;
+  color: #8a8d91;
+  font-size: 10px;
+}
+
+.campanasAccion {
+  display: flex;
+  align-items: flex-end;
+}
+
+.campanasAccion button {
+  width: 100%;
+  border: none;
+  border-radius: 12px;
+  background: #1877f2;
+  padding: 10px;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.campanasAccion button:hover:not(:disabled) {
+  background: #166fe5;
+}
+
+.campanasAccion button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* PRODUCTO SELECCIONADO */
+
+.campanasProductoSeleccionado {
+  margin-top: 20px;
+  border: 1px solid #e7f3ff;
+  border-radius: 12px;
+  background: #f7fbff;
+  padding: 16px;
+}
+
+.campanasProductoInfo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.campanasProductoNombre {
+  margin-top: 4px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.campanasProductoCodigo {
+  color: #65676b;
+  font-size: 12px;
+}
+
+.campanasProductoPrecio {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* LISTADO */
+
+.campanasListadoEncabezado {
+  margin-bottom: 16px;
+}
+
+.campanasLista {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+/* TARJETA */
+
+.campanasTarjeta {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid #e4e6eb;
+  border-radius: 16px;
+  background: #ffffff;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.05);
+  transition: box-shadow 0.2s ease;
+}
+
+.campanasTarjeta:hover {
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.08);
+}
+
+.campanasTarjetaEncabezado {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.campanasTarjeta h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.campanasEstado {
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-size: 10px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.campanasEstadoActiva {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.campanasEstadoPausada {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+/* DETALLES */
+
+.campanasDetalles {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+  border-radius: 12px;
+  background: #f8f9fa;
+  padding: 12px;
+  font-size: 12px;
+}
+
+.campanasDetalles div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.campanasDetalles span {
+  color: #6b7280;
+}
+
+.campanasDetalles strong {
+  color: #1f2937;
+  text-align: right;
+}
+
+.campanasDetalles div:last-child strong {
+  color: #1877f2;
+}
+
+/* ACCIONES */
+
+.campanasAcciones {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  border-top: 1px solid #e4e6eb;
+  padding-top: 12px;
+}
+
+.campanasAcciones button {
+  border-radius: 12px;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.campanasAcciones button:first-child {
+  flex: 1;
+}
+
+.campanasBotonPausar {
+  border: 1px solid #fde68a;
+  background: #fffbeb;
+  color: #b45309;
+}
+
+.campanasBotonPausar:hover {
+  background: #fef3c7;
+}
+
+.campanasBotonActivar {
+  border: 1px solid #bbf7d0;
+  background: #f0fdf4;
+  color: #15803d;
+}
+
+.campanasBotonActivar:hover {
+  background: #dcfce7;
+}
+
+.campanasBotonEliminar {
+  border: 1px solid #fecaca;
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.campanasBotonEliminar:hover {
+  background: #fee2e2;
+}
+
+/* ESTADO VACÍO */
+
+.campanasEstadoVacio {
+  border: 1px solid #e4e6eb;
+  border-radius: 16px;
+  background: #ffffff;
+  padding: 40px;
+  text-align: center;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.05);
+}
+
+.campanasEstadoVacioIcono {
+  display: flex;
+  width: 56px;
+  height: 56px;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  border-radius: 16px;
+  background: #e7f3ff;
+  color: #1877f2;
+  font-size: 24px;
+}
+
+.campanasEstadoVacio h3 {
+  margin: 16px 0 0;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.campanasEstadoVacio p {
+  margin: 4px 0 0;
+  color: #65676b;
+  font-size: 14px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1200px) {
+  .campanasFormularioCampos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .campanasLista {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .campanasPage {
+    padding-left: 0;
+  }
+
+  .campanasContenido {
+    padding: 20px;
+  }
+
+  .campanasFormularioCampos {
+    grid-template-columns: 1fr;
+  }
+
+  .campanasLista {
+    grid-template-columns: 1fr;
+  }
+
+  .campanasProductoInfo {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

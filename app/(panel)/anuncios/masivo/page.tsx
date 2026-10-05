@@ -3,6 +3,7 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import styles from "./AnunciosMasivo.module.css";
 
 type Product = {
   id: string;
@@ -164,8 +165,8 @@ export default function AnunciosMasivoPage() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-[#f0f2f5] p-8 text-[#1c1e21]">
-        <div className="rounded-2xl bg-white p-8 shadow-sm">
+      <main className={styles.masivoLoadingPage}>
+        <div className={styles.masivoLoadingCard}>
           Cargando anuncios...
         </div>
       </main>
@@ -173,45 +174,29 @@ export default function AnunciosMasivoPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#f0f2f5] p-5 text-[#1c1e21] lg:p-8">
-      <div className="mx-auto max-w-7xl">
-
-        {/* ENCABEZADO */}
-        <div className="mb-6">
-          <div className="text-xs font-bold uppercase tracking-wider text-[#1877f2]">
-            MÍA ADS
-          </div>
-
-          <h1 className="mt-1 text-3xl font-bold">
-            Anuncios
-          </h1>
-
-          <p className="mt-2 text-sm text-[#65676b]">
-            Acá aparecen los anuncios generados desde el
-            Lanzador IA y guardados en tu cuenta.
-          </p>
-        </div>
+    <main className={styles.masivoPage}>
+      <div className={styles.masivoContainer}>
 
         {/* ERROR */}
         {error && (
-          <div className="mb-6 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-600">
+          <div className={styles.masivoError}>
             {error}
           </div>
         )}
 
         {/* FILTRO */}
-        <section className="mb-6 rounded-2xl border border-[#d8dadf] bg-white p-5 shadow-sm">
-          <div className="mb-2 text-xs font-bold uppercase tracking-wider text-[#65676b]">
+        <section className={styles.masivoFilterPanel}>
+          <div className={styles.masivoFilterLabel}>
             Filtrar anuncios
           </div>
 
-          <div className="flex flex-col gap-3 md:flex-row">
+          <div className={styles.masivoFilterControls}>
             <select
               value={productoId}
               onChange={(event) =>
                 cargarAnunciosProducto(event.target.value)
               }
-              className="w-full rounded-xl border border-[#ccd0d5] bg-white px-4 py-3 text-sm outline-none focus:border-[#1877f2] md:max-w-md"
+              className={styles.masivoProductSelect}
             >
               <option value="">
                 Todos los productos
@@ -229,30 +214,23 @@ export default function AnunciosMasivoPage() {
               ))}
             </select>
 
-            <button
-              type="button"
-              onClick={cargarDatos}
-              className="rounded-xl border border-[#ccd0d5] bg-white px-5 py-3 text-sm font-semibold hover:bg-[#f0f2f5]"
-            >
-              Actualizar
-            </button>
           </div>
         </section>
 
         {/* CABECERA LISTADO */}
-        <div className="mb-4 flex items-center justify-between">
+        <div className={styles.masivoListHeading}>
           <div>
-            <h2 className="text-lg font-bold">
+            <h2 className={styles.masivoHeadingTitle}>
               Anuncios generados
             </h2>
 
-            <p className="mt-1 text-xs text-[#65676b]">
+            <p className={styles.masivoSubtleText}>
               {anuncios.length} anuncios encontrados
             </p>
           </div>
 
           {loadingAds && (
-            <span className="text-xs text-[#65676b]">
+            <span className={styles.masivoSubtleText}>
               Cargando...
             </span>
           )}
@@ -260,16 +238,16 @@ export default function AnunciosMasivoPage() {
 
         {/* SIN ANUNCIOS */}
         {anuncios.length === 0 ? (
-          <section className="rounded-2xl border border-[#d8dadf] bg-white p-12 text-center shadow-sm">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[#e7f3ff] text-2xl text-[#1877f2]">
+          <section className={styles.masivoEmptyState}>
+            <div className={styles.masivoEmptyIcon}>
               ✦
             </div>
 
-            <h3 className="mt-5 text-lg font-bold">
+            <h3 className={styles.masivoEmptyTitle}>
               Todavía no hay anuncios guardados
             </h3>
 
-            <p className="mx-auto mt-2 max-w-md text-sm text-[#65676b]">
+            <p className={styles.masivoEmptyDescription}>
               Generá anuncios desde Lanzador IA y luego
               guardalos. Los anuncios aparecerán
               automáticamente en esta sección.
@@ -277,7 +255,7 @@ export default function AnunciosMasivoPage() {
           </section>
         ) : (
           /* LISTADO */
-          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+          <div className={styles.masivoAdGrid}>
             {anuncios.map((anuncio) => {
               const producto = obtenerProducto(
                 anuncio.product_id
@@ -286,68 +264,68 @@ export default function AnunciosMasivoPage() {
               return (
                 <article
                   key={anuncio.id}
-                  className="overflow-hidden rounded-2xl border border-[#d8dadf] bg-white shadow-sm"
+                  className={styles.masivoAdCard}
                 >
                   {/* PARTE SUPERIOR */}
-                  <div className="border-b border-[#e4e6eb] bg-[#f7f8fa] p-5">
-                    <div className="flex items-center justify-between gap-3">
-                      <span className="rounded-full bg-[#e7f3ff] px-3 py-1 text-[10px] font-bold text-[#1877f2]">
+                  <div className={styles.masivoAdCardHeader}>
+                    <div className={styles.masivoAdCardTitleRow}>
+                      <span className={styles.masivoProductCode}>
                         {producto?.codigo || "SIN CÓDIGO"}
                       </span>
 
                       <span
-                        className={`rounded-full px-3 py-1 text-[10px] font-bold ${
+                        className={`${styles.masivoStatusBadge} ${
                           anuncio.estado === "Activo"
-                            ? "bg-[#eaf7ed] text-[#31a24c]"
-                            : "bg-[#f0f2f5] text-[#65676b]"
+                            ? styles.masivoStatusActive
+                            : styles.masivoStatusPaused
                         }`}
                       >
                         {anuncio.estado}
                       </span>
                     </div>
 
-                    <h3 className="mt-4 text-base font-bold">
+                    <h3 className={styles.masivoAdName}>
                       {anuncio.nombre}
                     </h3>
 
                     {producto && (
-                      <p className="mt-1 text-xs text-[#65676b]">
+                      <p className={styles.masivoProductName}>
                         Producto: {producto.nombre}
                       </p>
                     )}
                   </div>
 
                   {/* CONTENIDO */}
-                  <div className="space-y-4 p-5">
+                  <div className={styles.masivoAdCardContent}>
                     <div>
-                      <div className="mb-1 text-[10px] font-bold uppercase tracking-wider text-[#65676b]">
+                      <div className={styles.masivoFieldLabel}>
                         Título
                       </div>
 
-                      <div className="rounded-xl bg-[#f7f8fa] p-3 text-sm font-semibold">
+                      <div className={styles.masivoAdTitle}>
                         {anuncio.titulo ||
                           "Sin título"}
                       </div>
                     </div>
 
                     <div>
-                      <div className="mb-1 text-[10px] font-bold uppercase tracking-wider text-[#65676b]">
+                      <div className={styles.masivoFieldLabel}>
                         Texto del anuncio
                       </div>
 
-                      <div className="whitespace-pre-line rounded-xl bg-[#f7f8fa] p-3 text-xs leading-5 text-[#65676b]">
+                      <div className={styles.masivoAdDescription}>
                         {anuncio.descripcion ||
                           "Sin descripción"}
                       </div>
                     </div>
 
                     {producto?.precio && (
-                      <div className="flex items-center justify-between rounded-xl border border-[#e4e6eb] p-3">
-                        <span className="text-xs text-[#65676b]">
+                      <div className={styles.masivoProductPrice}>
+                        <span className={styles.masivoSubtleText}>
                           Precio
                         </span>
 
-                        <strong className="text-sm text-[#1c1e21]">
+                        <strong className={styles.masivoPriceValue}>
                           $
                           {Number(
                             producto.precio
@@ -360,7 +338,7 @@ export default function AnunciosMasivoPage() {
                   </div>
 
                   {/* ACCIONES */}
-                  <div className="flex gap-2 border-t border-[#e4e6eb] p-4">
+                  <div className={styles.masivoAdActions}>
                     <button
                       type="button"
                       onClick={() =>
@@ -369,10 +347,10 @@ export default function AnunciosMasivoPage() {
                           anuncio.estado
                         )
                       }
-                      className={`flex-1 rounded-xl border px-3 py-2.5 text-xs font-bold ${
+                      className={`${styles.masivoStatusAction} ${
                         anuncio.estado === "Activo"
-                          ? "border-amber-200 bg-amber-50 text-amber-700 hover:bg-amber-100"
-                          : "border-green-200 bg-green-50 text-green-700 hover:bg-green-100"
+                          ? styles.masivoPauseAction
+                          : styles.masivoActivateAction
                       }`}
                     >
                       {anuncio.estado === "Activo"
@@ -385,7 +363,7 @@ export default function AnunciosMasivoPage() {
                       onClick={() =>
                         eliminarAnuncio(anuncio.id)
                       }
-                      className="rounded-xl border border-red-200 bg-red-50 px-4 py-2.5 text-xs font-bold text-red-600 hover:bg-red-100"
+                      className={styles.masivoDeleteAction}
                     >
                       Eliminar
                     </button>
@@ -397,12 +375,12 @@ export default function AnunciosMasivoPage() {
         )}
 
         {/* INFORMACIÓN */}
-        <section className="mt-8 rounded-2xl border border-[#d8dadf] bg-white p-5 shadow-sm">
-          <div className="text-xs font-bold uppercase tracking-wider text-[#1877f2]">
+        <section className={styles.masivoFlowPanel}>
+          <div className={styles.masivoFlowHeading}>
             Flujo de MÍA ADS
           </div>
 
-          <div className="mt-4 grid gap-3 md:grid-cols-4">
+          <div className={styles.masivoFlowGrid}>
             <Paso numero="01" texto="Producto" />
             <Paso numero="02" texto="Lanzador IA" />
             <Paso numero="03" texto="Anuncios" />
@@ -423,15 +401,14 @@ function Paso({
   texto: string;
 }) {
   return (
-    <div className="flex items-center gap-3 rounded-xl bg-[#f7f8fa] p-3">
-      <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#1877f2] text-[10px] font-bold text-white">
+    <div className={styles.masivoFlowStep}>
+      <span className={styles.masivoFlowNumber}>
         {numero}
       </span>
 
-      <span className="text-xs font-semibold">
+      <span className={styles.masivoFlowText}>
         {texto}
       </span>
     </div>
   );
 }
-

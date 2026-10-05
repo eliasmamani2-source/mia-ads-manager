@@ -1,0 +1,325 @@
+@reference "../../../globals.css";
+
+.productoDetalleFlexMinHScreenItemsCenterJustifyCenter {
+  @apply flex min-h-screen items-center justify-center bg-[#f5f6f8] text-[#1c1e21];
+}
+
+.productoDetalleRounded2xlBorderBorderE4e6ebBgWhite {
+  @apply rounded-2xl border border-[#e4e6eb] bg-white px-8 py-6 shadow-sm;
+}
+
+.productoDetalleTextSmText65676b {
+  @apply text-sm text-[#65676b];
+}
+
+.productoDetalleMinHScreenBgF5f6f8Text1c1e21 {
+  @apply min-h-screen bg-[#f5f6f8] text-[#1c1e21];
+}
+
+.productoDetalleFlexMinHScreen {
+  @apply flex min-h-screen;
+}
+
+.productoDetalleFlex1 {
+  @apply flex-1;
+}
+
+.productoDetalleP6P10 {
+  @apply p-6 lg:p-10;
+}
+
+.productoDetalleMb6Rounded2xlBorderBorderRed200 {
+  @apply mb-6 rounded-2xl border border-red-200 bg-red-50 p-5;
+}
+
+.productoDetalleFontSemiboldTextRed700 {
+  @apply font-semibold text-red-700;
+}
+
+.productoDetalleMt1TextSmTextRed600 {
+  @apply mt-1 text-sm text-red-600;
+}
+
+.productoDetalleRoundedXlBg1877f2Px5Py3 {
+  @apply rounded-xl bg-[#1877f2] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#166fe5];
+}
+
+.productoDetalleMinW0Flex1 {
+  @apply min-w-0 flex-1;
+}
+
+.productoDetalleMb6FlexJustifyEnd {
+  @apply mb-6 flex justify-end;
+}
+
+.productoDetalleMb6RoundedXlBorderBorderRed200 {
+  @apply mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700;
+}
+
+.productoDetalleGridGap6GridColsMinmax01fr360px {
+  @apply grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px];
+}
+
+.productoDetalleOverflowHiddenRounded2xlBorderBorderE4e6eb {
+  @apply overflow-hidden rounded-2xl border border-[#e4e6eb] bg-white shadow-sm;
+}
+
+.productoDetalleGridGap0GridCols2 {
+  @apply grid gap-0 lg:grid-cols-2;
+}
+
+.productoDetalleFlexMinH420pxItemsCenterJustifyCenter {
+  @apply flex min-h-[420px] items-center justify-center bg-[#f0f2f5] p-8;
+}
+
+.productoDetalleMaxH500pxWFullRoundedXlObjectContain {
+  @apply max-h-[500px] w-full rounded-xl object-contain;
+}
+
+.productoDetalleFlexMinH350pxWFullItemsCenter {
+  @apply flex min-h-[350px] w-full items-center justify-center rounded-xl border border-[#e4e6eb] bg-white;
+}
+
+.productoDetalleTextCenter {
+  @apply text-center;
+}
+
+.productoDetalleText6xlTextBcc0c4 {
+  @apply text-6xl text-[#bcc0c4];
+}
+
+.productoDetalleMt4TextSmText65676b {
+  @apply mt-4 text-sm text-[#65676b];
+}
+
+.productoDetalleP8 {
+  @apply p-8;
+}
+
+.productoDetalleMb5FlexFlexWrapItemsCenter {
+  @apply mb-5 flex flex-wrap items-center gap-3;
+}
+
+.productoDetalleRoundedLgBgE7f3ffPx3Py15 {
+  @apply rounded-lg bg-[#e7f3ff] px-3 py-1.5 font-mono text-xs font-bold text-[#1877f2];
+}
+
+.productoDetalleText3xlFontBoldLeadingTightText1c1e21 {
+  @apply text-3xl font-bold leading-tight text-[#1c1e21];
+}
+
+.productoDetalleMt3 {
+  @apply mt-3;
+}
+
+.productoDetalleRoundedLgBgF0f2f5Px3Py15 {
+  @apply rounded-lg bg-[#f0f2f5] px-3 py-1.5 text-xs font-semibold text-[#65676b];
+}
+
+.productoDetalleMt6 {
+  @apply mt-6;
+}
+
+.productoDetalleTextXsFontMediumUppercaseTrackingWide {
+  @apply text-xs font-medium uppercase tracking-wide text-[#65676b];
+}
+
+.productoDetalleMt1Text3xlFontBoldText1877f2 {
+  @apply mt-1 text-3xl font-bold text-[#1877f2];
+}
+
+.productoDetalleMy7BorderTBorderE4e6eb {
+  @apply my-7 border-t border-[#e4e6eb];
+}
+
+.productoDetalleMt3WhitespacePreWrapTextSmLeading7 {
+  @apply mt-3 whitespace-pre-wrap text-sm leading-7 text-[#4b4f56];
+}
+
+.productoDetalleMt8GridGridCols2Gap4 {
+  @apply mt-8 grid grid-cols-2 gap-4;
+}
+
+.productoDetalleSpaceY5 {
+  @apply space-y-5;
+}
+
+.productoDetalleRounded2xlBorderBorderE4e6ebBgWhite2 {
+  @apply rounded-2xl border border-[#e4e6eb] bg-white p-6 shadow-sm;
+}
+
+.productoDetalleTextSmFontBold {
+  @apply text-sm font-bold;
+}
+
+.productoDetalleMt4FlexItemsCenterJustifyBetween {
+  @apply mt-4 flex items-center justify-between rounded-xl bg-[#f5f6f8] p-4;
+}
+
+.productoDetalleTextSmFontSemibold {
+  @apply text-sm font-semibold;
+}
+
+.productoDetalleMt1TextXsText65676b {
+  @apply mt-1 text-xs text-[#65676b];
+}
+
+.productoDetalleMt4WFullRoundedXlBorder {
+  @apply mt-4 w-full rounded-xl border border-[#ccd0d5] bg-white px-4 py-3 text-sm font-semibold text-[#1c1e21] transition hover:bg-[#f0f2f5] disabled:opacity-50;
+}
+
+.productoDetalleMt5SpaceY4 {
+  @apply mt-5 space-y-4;
+}
+
+.productoDetalleMt4SpaceY2 {
+  @apply mt-4 space-y-2;
+}
+
+.productoDetalleWFullRoundedXlBg1877f2Px4 {
+  @apply w-full rounded-xl bg-[#1877f2] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#166fe5];
+}
+
+.productoDetalleWFullRoundedXlBorderBorderCcd0d5 {
+  @apply w-full rounded-xl border border-[#ccd0d5] bg-white px-4 py-3 text-sm font-semibold text-[#1c1e21] transition hover:bg-[#f0f2f5];
+}
+
+.productoDetalleWFullRoundedXlBorderBorderRed200 {
+  @apply w-full rounded-xl border border-red-200 bg-white px-4 py-3 text-sm font-semibold text-red-600 transition hover:bg-red-50;
+}
+
+.productoDetalleMt8Rounded2xlBorderBorderDbeafe {
+  @apply mt-8 rounded-2xl border border-[#dbeafe] bg-[#eff6ff] p-5;
+}
+
+.productoDetalleFlexGap3 {
+  @apply flex gap-3;
+}
+
+.productoDetalleTextXlText1877f2 {
+  @apply text-xl text-[#1877f2];
+}
+
+.productoDetalleFontSemiboldText1d4ed8 {
+  @apply font-semibold text-[#1d4ed8];
+}
+
+.productoDetalleMt1TextSmLeading6Text4b5563 {
+  @apply mt-1 text-sm leading-6 text-[#4b5563];
+}
+
+.productoDetallePy8TextCenterTextXsText8a8d91 {
+  @apply py-8 text-center text-xs text-[#8a8d91];
+}
+
+.productoDetalleHiddenW64FlexColBorderR {
+  @apply hidden w-64 flex-col border-r border-[#e4e6eb] bg-white lg:flex;
+}
+
+.productoDetalleBorderBBorderE4e6ebPx6Py6 {
+  @apply border-b border-[#e4e6eb] px-6 py-6;
+}
+
+.productoDetalleText2xlFontBlackTrackingTightText1c1e21 {
+  @apply text-2xl font-black tracking-tight text-[#1c1e21];
+}
+
+.productoDetalleText1877f2 {
+  @apply text-[#1877f2];
+}
+
+.productoDetalleMt1Text9pxUppercaseTracking035em {
+  @apply mt-1 text-[9px] uppercase tracking-[0.35em] text-[#65676b];
+}
+
+.productoDetalleFlex1P4 {
+  @apply flex-1 p-4;
+}
+
+.productoDetalleMy4BorderTBorderE4e6eb {
+  @apply my-4 border-t border-[#e4e6eb];
+}
+
+.productoDetalleBorderTBorderE4e6ebP4 {
+  @apply border-t border-[#e4e6eb] p-4;
+}
+
+.productoDetalleWFullRoundedXlPx4Py3 {
+  @apply w-full rounded-xl px-4 py-3 text-left text-sm text-[#65676b] transition hover:bg-[#f0f2f5] hover:text-[#1c1e21];
+}
+
+.productoDetalleRoundedXlBorderBorderE4e6ebBgF5f6f8 {
+  @apply rounded-xl border border-[#e4e6eb] bg-[#f5f6f8] p-4;
+}
+
+.productoDetalleText10pxFontSemiboldUppercaseTrackingWider {
+  @apply text-[10px] font-semibold uppercase tracking-wider text-[#65676b];
+}
+
+.productoDetalleFlexItemsCenterJustifyBetweenGap4 {
+  @apply flex items-center justify-between gap-4 border-b border-[#f0f2f5] pb-3 last:border-0 last:pb-0;
+}
+
+.productoDetalleTextXsText65676b {
+  @apply text-xs text-[#65676b];
+}
+
+.productoDetalleMaxW190pxTruncateTextRightTextXs {
+  @apply max-w-[190px] truncate text-right text-xs font-semibold text-[#1c1e21];
+}
+
+.productoDetalleEstadoBadge {
+  @apply rounded-full px-3 py-1.5 text-xs font-semibold;
+}
+
+.productoDetalleEstadoActivo {
+  @apply bg-[#e7f7ee] text-[#16834a];
+}
+
+.productoDetalleEstadoPausado {
+  @apply bg-[#f0f2f5] text-[#65676b];
+}
+
+.productoDetalleEstadoIndicador {
+  @apply h-3 w-3 rounded-full;
+}
+
+.productoDetalleIndicadorActivo {
+  @apply bg-[#31a24c];
+}
+
+.productoDetalleIndicadorPausado {
+  @apply bg-[#bcc0c4];
+}
+
+.productoDetalleNavItem {
+  @apply mb-1 block rounded-xl px-4 py-3 text-sm transition;
+}
+
+.productoDetalleNavItemActivo {
+  @apply bg-[#e7f3ff] font-semibold text-[#1877f2];
+}
+
+.productoDetalleNavItemInactivo {
+  @apply text-[#65676b] hover:bg-[#f0f2f5] hover:text-[#1c1e21];
+}
+
+.productoDetalleInfoValor {
+  @apply mt-2 text-lg font-bold;
+}
+
+.productoDetalleInfoValorNormal {
+  @apply text-[#1c1e21];
+}
+
+.productoDetalleInfoValorNegativo {
+  @apply text-red-600;
+}
+
+.productoDetalleInfoValorActivo {
+  @apply text-[#16834a];
+}
+
+.productoDetalleInfoValorInactivo {
+  @apply text-[#65676b];
+}

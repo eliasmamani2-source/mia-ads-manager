@@ -1,0 +1,164 @@
+.analiticaPage {
+  min-height: 100vh;
+  padding: 1.5rem;
+  color: #1c1e21;
+  background: #f5f6f8;
+}
+
+.analiticaContainer {
+  max-width: 80rem;
+  margin-inline: auto;
+}
+
+.analiticaKpiGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.analiticaKpiCard,
+.analiticaTableCard {
+  overflow: hidden;
+  border: 1px solid #e4e6eb;
+  border-radius: 1rem;
+  background: #fff;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+}
+
+.analiticaKpiCard {
+  padding: 1.25rem;
+}
+
+.analiticaKpiLabel {
+  color: #65676b;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1rem;
+}
+
+.analiticaKpiValue {
+  margin-top: 0.25rem;
+  color: #1c1e21;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 2rem;
+}
+
+.analiticaRevenueValue {
+  color: #16a34a;
+}
+
+.analiticaRoasValue {
+  color: #1877f2;
+}
+
+.analiticaTableHeading {
+  border-bottom: 1px solid #e4e6eb;
+  padding: 1rem;
+  color: #1c1e21;
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.25rem;
+}
+
+.analiticaTableScroll {
+  overflow-x: auto;
+}
+
+.analiticaTable {
+  width: 100%;
+  text-align: left;
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
+.analiticaTableHead {
+  background: #f0f2f5;
+  color: #65676b;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.analiticaTableBody tr + tr {
+  border-top: 1px solid #e4e6eb;
+}
+
+.analiticaTableRow {
+  transition: background-color 120ms ease;
+}
+
+.analiticaTableRow:hover {
+  background: #f9fafb;
+}
+
+.analiticaCell {
+  padding: 0.75rem;
+}
+
+.analiticaEmptyCell {
+  padding: 1.5rem;
+  color: #65676b;
+  text-align: center;
+}
+
+.analiticaAdName {
+  color: #1c1e21;
+  font-weight: 700;
+}
+
+.analiticaProductName {
+  color: #65676b;
+  font-size: 10px;
+}
+
+.analiticaMetricValue {
+  font-weight: 500;
+}
+
+.analiticaConversionValue {
+  color: #15803d;
+  font-weight: 600;
+}
+
+.analiticaSpendValue {
+  color: #1c1e21;
+  font-weight: 600;
+}
+
+.analiticaRoasBadge {
+  border-radius: 0.375rem;
+  padding: 0.125rem 0.5rem;
+  font-weight: 700;
+}
+
+.analiticaRoasGood {
+  color: #166534;
+  background: #dcfce7;
+}
+
+.analiticaRoasWarning {
+  color: #92400e;
+  background: #fef3c7;
+}
+
+.analiticaRoasPoor {
+  color: #991b1b;
+  background: #fee2e2;
+}
+
+@media (min-width: 640px) {
+  .analiticaKpiGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .analiticaPage {
+    padding: 2.5rem;
+  }
+
+  .analiticaKpiGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}

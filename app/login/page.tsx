@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
+import styles from "./LoginPage.module.css";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -94,26 +95,26 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col justify-between bg-[#f0f2f5] font-sans text-[#1c1e21]">
+    <div className={styles.loginPage}>
 
       {/* HEADER */}
-      <header className="border-b border-[#e4e6eb] bg-white shadow-sm">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+      <header className={styles.loginHeader}>
+        <div className={styles.loginHeaderInner}>
 
           <Link
             href="/"
-            className="flex items-center gap-3"
+            className={styles.loginBrand}
           >
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#1877f2] text-xl font-black text-white shadow-sm">
+            <div className={styles.loginBrandMark}>
               M
             </div>
 
             <div>
-              <span className="block text-base font-black leading-none tracking-tight text-[#1877f2]">
+              <span className={styles.loginBrandName}>
                 MÍA ADS
               </span>
 
-              <span className="text-[10px] font-bold uppercase tracking-wider text-[#65676b]">
+              <span className={styles.loginBrandDescriptor}>
                 Manager
               </span>
             </div>
@@ -121,7 +122,7 @@ export default function LoginPage() {
 
           <Link
             href="/"
-            className="text-xs font-bold text-[#1877f2] hover:underline"
+            className={styles.loginBackLink}
           >
             ← Volver al inicio
           </Link>
@@ -130,21 +131,21 @@ export default function LoginPage() {
       </header>
 
       {/* FORMULARIO */}
-      <main className="mx-auto flex w-full max-w-md flex-col px-6 py-12">
+      <main className={styles.loginMain}>
 
-        <div className="rounded-2xl border border-[#e4e6eb] bg-white p-8 shadow-sm">
+        <div className={styles.loginCard}>
 
-          <div className="mb-6 text-center">
+          <div className={styles.loginIntro}>
 
-            <span className="mb-2 inline-block rounded-full bg-[#e7f3ff] px-3 py-1 text-[11px] font-bold text-[#1877f2]">
+            <span className={styles.loginEyebrow}>
               Acceso al Sistema
             </span>
 
-            <h1 className="text-2xl font-black text-[#1c1e21]">
+            <h1 className={styles.loginTitle}>
               Iniciar sesión
             </h1>
 
-            <p className="mt-1 text-xs text-[#65676b]">
+            <p className={styles.loginDescription}>
               Ingresá tus datos para administrar tu negocio.
             </p>
 
@@ -152,26 +153,26 @@ export default function LoginPage() {
 
           {/* ERROR */}
           {error && (
-            <div className="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-xs font-medium text-red-600">
+            <div className={styles.loginError}>
               {error}
             </div>
           )}
 
           {/* ÉXITO */}
           {success && (
-            <div className="mb-5 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-xs font-medium text-green-700">
+            <div className={styles.loginSuccess}>
               {success}
             </div>
           )}
 
           <form
             onSubmit={handleLogin}
-            className="space-y-4"
+            className={styles.loginForm}
           >
 
             {/* EMAIL */}
             <div>
-              <label className="mb-1 block text-xs font-bold text-[#65676b]">
+              <label className={styles.loginLabel}>
                 Correo electrónico
               </label>
 
@@ -183,15 +184,15 @@ export default function LoginPage() {
                   setEmail(e.target.value)
                 }
                 placeholder="tu@correo.com"
-                className="w-full rounded-xl border border-[#ccd0d5] bg-[#f7f8fa] px-3.5 py-2.5 text-sm text-[#1c1e21] outline-none transition focus:border-[#1877f2] focus:bg-white"
+                className={styles.loginInput}
               />
             </div>
 
             {/* PASSWORD */}
             <div>
-              <div className="mb-1 flex items-center justify-between">
+              <div className={styles.loginPasswordHeading}>
 
-                <label className="block text-xs font-bold text-[#65676b]">
+                <label className={styles.loginLabel}>
                   Contraseña
                 </label>
 
@@ -199,7 +200,7 @@ export default function LoginPage() {
                   type="button"
                   onClick={handlePasswordRecovery}
                   disabled={recovering}
-                  className="text-[11px] font-bold text-[#1877f2] hover:underline disabled:opacity-60"
+                  className={styles.loginRecoveryButton}
                 >
                   {recovering
                     ? "Enviando..."
@@ -216,7 +217,7 @@ export default function LoginPage() {
                   setPassword(e.target.value)
                 }
                 placeholder="••••••••"
-                className="w-full rounded-xl border border-[#ccd0d5] bg-[#f7f8fa] px-3.5 py-2.5 text-sm text-[#1c1e21] outline-none transition focus:border-[#1877f2] focus:bg-white"
+                className={styles.loginInput}
               />
             </div>
 
@@ -224,7 +225,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="mt-2 w-full rounded-xl bg-[#1877f2] py-3 text-xs font-bold text-white shadow-sm transition hover:bg-[#166fe5] disabled:cursor-not-allowed disabled:opacity-60"
+              className={styles.loginSubmit}
             >
               {loading
                 ? "Ingresando..."
@@ -234,11 +235,11 @@ export default function LoginPage() {
           </form>
 
           {/* REGISTRO */}
-          <div className="mt-6 border-t border-[#e4e6eb] pt-4 text-center">
+          <div className={styles.loginAccountFooter}>
 
             <Link
               href="/registro"
-              className="text-xs font-bold text-[#1877f2] hover:underline"
+              className={styles.loginAccountLink}
             >
               ¿Todavía no tenés una cuenta? Registrarse gratis
             </Link>
@@ -250,7 +251,7 @@ export default function LoginPage() {
       </main>
 
       {/* FOOTER */}
-      <footer className="border-t border-[#e4e6eb] bg-white py-6 text-center text-xs text-[#65676b]">
+      <footer className={styles.loginFooter}>
 
         <p>
           © 2026 MÍA ADS MANAGER · Sistema de Gestión Publicitaria e Inventario
@@ -261,4 +262,3 @@ export default function LoginPage() {
     </div>
   );
 }
-

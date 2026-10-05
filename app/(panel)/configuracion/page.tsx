@@ -3,6 +3,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import styles from "./Configuracion.module.css";
 
 type Section = "cuenta" | "negocio" | "preferencias" | "seguridad";
 
@@ -20,77 +21,29 @@ export default function ConfiguracionPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#f0f2f5] text-[#1c1e21] pl-64">
-      <div className="min-h-screen">
+    <main className={styles.configuracionPagina}>
+      <div className={styles.configuracionContenedor}>
 
         {/* =====================================================
             CONTENIDO
         ===================================================== */}
 
-        <div className="mx-auto max-w-7xl px-6 py-8 lg:px-10">
-
-          {/* =====================================================
-              CABECERA
-          ===================================================== */}
-
-          <div className="mb-8 rounded-2xl border border-[#d8dadf] bg-white shadow-sm">
-
-            <div className="flex flex-col gap-5 px-7 py-6 lg:flex-row lg:items-center lg:justify-between">
-
-              {/* TITULO */}
-
-              <div>
-                <div className="mb-2 text-xs font-bold uppercase tracking-wider text-[#65676b]">
-                  Administración
-                </div>
-
-                <h1 className="text-3xl font-bold tracking-tight text-[#1c1e21]">
-                  Configuración
-                </h1>
-
-                <p className="mt-2 text-sm text-[#65676b]">
-                  Administrá tu cuenta, negocio y preferencias.
-                </p>
-              </div>
-
-              {/* ACCIONES */}
-
-              <div className="flex flex-wrap items-center gap-3">
-
-                <button
-                  type="button"
-                  onClick={() => router.push("/")}
-                  className="inline-flex items-center gap-2 rounded-xl border border-[#ccd0d5] bg-white px-4 py-2.5 text-sm font-semibold text-[#65676b] shadow-sm transition hover:border-[#1877f2] hover:bg-[#e7f3ff] hover:text-[#1877f2]"
-                >
-                  <span className="text-lg leading-none">←</span>
-                  Volver al inicio
-                </button>
-
-                <div className="flex items-center gap-2 rounded-xl bg-[#eaf7ed] px-4 py-2.5 text-xs font-bold text-[#31a24c]">
-                  <span className="h-2 w-2 rounded-full bg-[#31a24c]" />
-                  Sistema activo
-                </div>
-
-              </div>
-
-            </div>
-
-          </div>
+        <div className={styles.configuracionContenido}>
 
           {/* =====================================================
               ÁREA PRINCIPAL
           ===================================================== */}
 
-          <div className="grid gap-6 lg:grid-cols-[250px_minmax(0,1fr)]">
+          <div className={styles.configuracionDistribucion}>
 
             {/* =================================================
                 PANEL LATERAL DE CONFIGURACIÓN
             ================================================= */}
 
-            <aside className="h-fit rounded-2xl border border-[#d8dadf] bg-white p-3 shadow-sm">
+            <aside className={styles.configuracionNavegacion}>
 
-              <div className="px-3 pb-3 pt-2">
-                <div className="text-xs font-bold uppercase tracking-wider text-[#8a8d91]">
+              <div className={styles.configuracionNavegacionEncabezado}>
+                <div className={styles.configuracionNavegacionTitulo}>
                   Configuración
                 </div>
               </div>
@@ -129,7 +82,7 @@ export default function ConfiguracionPage() {
                 PANEL PRINCIPAL
             ================================================= */}
 
-            <section className="min-w-0">
+            <section className={styles.configuracionPaneles}>
 
               {/* CUENTA */}
 
@@ -139,7 +92,7 @@ export default function ConfiguracionPage() {
                   description="Datos asociados a tu cuenta de MÍA ADS."
                 >
 
-                  <div className="mx-auto max-w-3xl space-y-6">
+                  <div className={styles.configuracionFormulario}>
 
                     <Field
                       label="Correo electrónico"
@@ -169,10 +122,10 @@ export default function ConfiguracionPage() {
                   description="Configurá los datos principales de tu negocio."
                 >
 
-                  <div className="mx-auto max-w-3xl space-y-6">
+                  <div className={styles.configuracionFormulario}>
 
                     <div>
-                      <label className="mb-2 block text-xs font-bold text-[#65676b]">
+                      <label className={styles.configuracionEtiqueta}>
                         Nombre del negocio
                       </label>
 
@@ -182,16 +135,16 @@ export default function ConfiguracionPage() {
                         onChange={(event) =>
                           setBusinessName(event.target.value)
                         }
-                        className="w-full rounded-xl border border-[#ccd0d5] bg-white px-4 py-3 text-sm text-[#1c1e21] outline-none transition focus:border-[#1877f2] focus:ring-2 focus:ring-[#1877f2]/10"
+                        className={styles.configuracionCampo}
                         placeholder="Nombre del negocio"
                       />
                     </div>
 
-                    <div className="flex justify-end">
+                    <div className={styles.configuracionAccion}>
 
                       <button
                         type="button"
-                        className="rounded-xl bg-[#1877f2] px-6 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-[#166fe5]"
+                        className={styles.configuracionBotonGuardar}
                       >
                         Guardar cambios
                       </button>
@@ -211,7 +164,7 @@ export default function ConfiguracionPage() {
                   description="Personalizá el funcionamiento de MÍA ADS."
                 >
 
-                  <div className="mx-auto max-w-3xl divide-y divide-[#e4e6eb]">
+                  <div className={styles.configuracionPreferencias}>
 
                     <Toggle
                       title="Notificaciones"
@@ -253,7 +206,7 @@ export default function ConfiguracionPage() {
                   description="Información relacionada con el acceso a tu cuenta."
                 >
 
-                  <div className="mx-auto max-w-3xl space-y-4">
+                  <div className={styles.configuracionSeguridad}>
 
                     <SecurityItem
                       title="Sesión actual"
@@ -267,12 +220,12 @@ export default function ConfiguracionPage() {
                       status="Protegida"
                     />
 
-                    <div className="pt-3">
+                    <div className={styles.configuracionCierreSesion}>
 
                       <button
                         type="button"
                         onClick={logout}
-                        className="rounded-xl border border-[#ccd0d5] bg-white px-5 py-3 text-sm font-bold text-[#65676b] transition hover:border-red-200 hover:bg-red-50 hover:text-red-600"
+                        className={styles.configuracionBotonCerrarSesion}
                       >
                         Cerrar sesión
                       </button>
@@ -285,22 +238,6 @@ export default function ConfiguracionPage() {
               )}
 
             </section>
-
-          </div>
-
-          {/* =====================================================
-              PIE
-          ===================================================== */}
-
-          <div className="mt-8 flex flex-col gap-2 border-t border-[#dddfe2] pt-5 text-xs text-[#8a8d91] sm:flex-row sm:items-center sm:justify-between">
-
-            <span>
-              MÍA ADS Manager
-            </span>
-
-            <span>
-              Publicidad · Campañas · Anuncios · Productos
-            </span>
 
           </div>
 
@@ -331,24 +268,20 @@ function ConfigItem({
     <button
       type="button"
       onClick={onClick}
-      className={`mb-1 w-full rounded-xl p-4 text-left transition ${
-        active
-          ? "bg-[#e7f3ff]"
-          : "hover:bg-[#f7f8fa]"
+      className={`${styles.configuracionOpcion} ${
+        active ? styles.configuracionOpcionActiva : ""
       }`}
     >
 
       <div
-        className={`text-sm font-bold ${
-          active
-            ? "text-[#1877f2]"
-            : "text-[#1c1e21]"
+        className={`${styles.configuracionOpcionTitulo} ${
+          active ? styles.configuracionOpcionTituloActivo : ""
         }`}
       >
         {title}
       </div>
 
-      <div className="mt-1 text-[11px] text-[#8a8d91]">
+      <div className={styles.configuracionOpcionDescripcion}>
         {description}
       </div>
 
@@ -371,21 +304,21 @@ function Panel({
   children: React.ReactNode;
 }) {
   return (
-    <div className="overflow-hidden rounded-2xl border border-[#d8dadf] bg-white shadow-sm">
+    <div className={styles.configuracionTarjeta}>
 
-      <div className="border-b border-[#e4e6eb] px-7 py-6 text-center">
+      <div className={styles.configuracionTarjetaEncabezado}>
 
-        <h2 className="text-xl font-bold text-[#1c1e21]">
+        <h2 className={styles.configuracionTarjetaTitulo}>
           {title}
         </h2>
 
-        <p className="mt-2 text-sm text-[#65676b]">
+        <p className={styles.configuracionTarjetaDescripcion}>
           {description}
         </p>
 
       </div>
 
-      <div className="px-7 py-7">
+      <div className={styles.configuracionTarjetaContenido}>
         {children}
       </div>
 
@@ -408,7 +341,7 @@ function Field({
   return (
     <div>
 
-      <label className="mb-2 block text-xs font-bold text-[#65676b]">
+      <label className={styles.configuracionEtiqueta}>
         {label}
       </label>
 
@@ -416,7 +349,7 @@ function Field({
         type="text"
         value={value}
         readOnly
-        className="w-full rounded-xl border border-[#e4e6eb] bg-[#f0f2f5] px-4 py-3 text-sm text-[#65676b] outline-none"
+        className={styles.configuracionCampoSoloLectura}
       />
 
     </div>
@@ -440,15 +373,15 @@ function Toggle({
   onChange: () => void;
 }) {
   return (
-    <div className="flex items-center justify-between gap-5 py-6">
+    <div className={styles.configuracionPreferencia}>
 
       <div>
 
-        <div className="text-sm font-bold text-[#1c1e21]">
+        <div className={styles.configuracionPreferenciaTitulo}>
           {title}
         </div>
 
-        <div className="mt-1 text-xs text-[#65676b]">
+        <div className={styles.configuracionPreferenciaDescripcion}>
           {description}
         </div>
 
@@ -458,18 +391,14 @@ function Toggle({
         type="button"
         onClick={onChange}
         aria-pressed={enabled}
-        className={`relative h-6 w-11 shrink-0 rounded-full transition-colors ${
-          enabled
-            ? "bg-[#1877f2]"
-            : "bg-[#ccd0d5]"
+        className={`${styles.configuracionInterruptor} ${
+          enabled ? styles.configuracionInterruptorActivo : ""
         }`}
       >
 
         <span
-          className={`absolute top-1 h-4 w-4 rounded-full bg-white shadow transition-all ${
-            enabled
-              ? "left-6"
-              : "left-1"
+          className={`${styles.configuracionInterruptorControl} ${
+            enabled ? styles.configuracionInterruptorControlActivo : ""
           }`}
         />
 
@@ -494,21 +423,21 @@ function SecurityItem({
   status: string;
 }) {
   return (
-    <div className="flex items-center justify-between gap-5 rounded-xl border border-[#e4e6eb] bg-[#f7f8fa] p-5">
+    <div className={styles.configuracionEstadoSeguridad}>
 
       <div>
 
-        <div className="text-sm font-bold text-[#1c1e21]">
+        <div className={styles.configuracionPreferenciaTitulo}>
           {title}
         </div>
 
-        <div className="mt-1 text-xs text-[#65676b]">
+        <div className={styles.configuracionPreferenciaDescripcion}>
           {description}
         </div>
 
       </div>
 
-      <span className="shrink-0 rounded-full bg-[#eaf7ed] px-3 py-1 text-xs font-bold text-[#31a24c]">
+      <span className={styles.configuracionEstadoSeguridadEtiqueta}>
         {status}
       </span>
 
@@ -529,21 +458,21 @@ function InfoBox({
   text: string;
 }) {
   return (
-    <div className="rounded-xl border border-[#1877f2]/20 bg-[#e7f3ff] p-5">
+    <div className={styles.configuracionInformacion}>
 
-      <div className="flex gap-4">
+      <div className={styles.configuracionInformacionContenido}>
 
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#1877f2] text-sm font-bold text-white">
+        <div className={styles.configuracionInformacionIcono}>
           i
         </div>
 
         <div>
 
-          <div className="text-sm font-bold text-[#1877f2]">
+          <div className={styles.configuracionInformacionTitulo}>
             {title}
           </div>
 
-          <p className="mt-1 text-xs leading-5 text-[#65676b]">
+          <p className={styles.configuracionInformacionTexto}>
             {text}
           </p>
 
@@ -554,4 +483,3 @@ function InfoBox({
     </div>
   );
 }
-
